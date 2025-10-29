@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Defs>
+
+  <!-- Bumber_UmbrellaMakeableBase -->
+  <ThingDef Name="Bumber_UmbrellaMakeableBase" ParentName="ApparelMakeableBase" Abstract="True">
+    <thingCategories>
+      <li>Apparel</li>
+    </thingCategories>
+    <stuffCategories>
+      <li>Fabric</li>
+      <li>Leathery</li>
+    </stuffCategories>
+    <recipeMaker>
+      <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
+      <workSkill>Crafting</workSkill>
+      <defaultIngredientFilter>
+        <categories>
+          <li>Root</li>
+        </categories>
+        <disallowedThingDefs>
+          <li>WoolAlpaca</li>
+          <li>WoolBison</li>
+          <li>WoolMegasloth</li>
+          <li>WoolMuffalo</li>
+          <li>WoolSheep</li>
+          <li MayRequire="Ludeon.RimWorld.Odyssey">WoolMastodon</li>
+          <li MayRequire="Ludeon.RimWorld.Odyssey">WoolMuskox</li>
+        </disallowedThingDefs>
+      </defaultIngredientFilter>
+    </recipeMaker>
+    <apparel>
+      <developmentalStageFilter>Child, Adult</developmentalStageFilter>
+      <bodyPartGroups>
+        <li>Hands</li>
+      </bodyPartGroups>
+      <layers>
+        <li>Overhead</li>
+      </layers>
+      <defaultOutfitTags>
+        <li>Worker</li>
+      </defaultOutfitTags>
+    </apparel>
+    <colorGenerator Class="ColorGenerator_StandardApparel"/>
+    <graphicData>
+      <graphicClass>Graphic_Single</graphicClass>
+    </graphicData>
+  </ThingDef>
+
+  <!-- Bumber_Parasol -->
+  <ThingDef ParentName="Bumber_UmbrellaMakeableBase">
+    <defName>Bumber_Parasol</defName>
+    <label>parasol</label>
+    <description>A wood-framed parasol for blocking light precipitation and sunlight.</description>
+    <relicChance>1</relicChance>
+    <techLevel>Neolithic</techLevel>
+    <recipeMaker>
+      <researchPrerequisite>Devilstrand</researchPrerequisite>
+      <recipeUsers>
+        <li>CraftingSpot</li>
+      </recipeUsers>
+      <skillRequirements>
+        <Crafting>4</Crafting>
+      </skillRequirements>
+    </recipeMaker>
+    <costStuffCount>25</costStuffCount>
+    <costList>
+      <WoodLog>15</WoodLog>
+    </costList>
+    <statBases>
+      <WorkToMake>4000</WorkToMake>
+      <MarketValue>75</MarketValue>
+      <Mass>1</Mass>
+      <EquipDelay>1</EquipDelay>
+    </statBases>
+    <apparel>
+      <wornGraphicPath>Parasol/Parasol</wornGraphicPath>
+      <tags>
+        <li>Neolithic</li>
+      </tags>
+    </apparel>
+    <graphicData>
+      <texPath>Parasol/Parasol</texPath>
+    </graphicData>
+  </ThingDef>
+
+  <!-- Bumber_Umbrella -->
+  <ThingDef ParentName="Bumber_UmbrellaMakeableBase">
+    <defName>Bumber_Umbrella</defName>
+    <label>umbrella</label>
+    <description>A steel-framed umbrella for blocking precipitation and sunlight.</description>
+    <techLevel>Medieval</techLevel>
+    <recipeMaker>
+      <researchPrerequisite>ComplexClothing</researchPrerequisite>
+      <researchPrerequisite>Smithing</researchPrerequisite>
+      <recipeUsers>
+        <li>ElectricSmithy</li>
+        <li>FueledSmithy</li>
+      </recipeUsers>
+      <skillRequirements>
+        <Crafting>5</Crafting>
+      </skillRequirements>
+    </recipeMaker>
+    <costStuffCount>30</costStuffCount>
+    <costList>
+      <Steel>15</Steel>
+    </costList>
+    <statBases>
+      <WorkToMake>8000</WorkToMake>
+      <MarketValue>125</MarketValue>
+      <Mass>1.5</Mass>
+      <EquipDelay>1</EquipDelay>
+    </statBases>
+    <apparel>
+      <wornGraphicPath>Umbrella/Umbrella</wornGraphicPath>
+    </apparel>
+    <graphicData>
+      <texPath>Umbrella/Umbrella</texPath>
+    </graphicData>
+  </ThingDef>
+
+  <!-- Bumber_GolfUmbrella -->
+  <ThingDef ParentName="Bumber_UmbrellaMakeableBase">
+    <defName>Bumber_GolfUmbrella</defName>
+    <label>golf umbrella</label>
+    <description>A large, steel-framed umbrella for blocking precipitation, sunlight, and some weather effects.</description>
+    <recipeMaker>
+      <researchPrerequisite>ComplexClothing</researchPrerequisite>
+      <researchPrerequisite>Machining</researchPrerequisite>
+      <recipeUsers>
+        <li>TableMachining</li>
+      </recipeUsers>
+      <skillRequirements>
+        <Crafting>6</Crafting>
+      </skillRequirements>
+    </recipeMaker>
+    <costStuffCount>40</costStuffCount>
+    <costList>
+      <Steel>20</Steel>
+    </costList>
+    <statBases>
+      <WorkToMake>12000</WorkToMake>
+      <MarketValue>175</MarketValue>
+      <Mass>2</Mass>
+      <EquipDelay>1.5</EquipDelay>
+    </statBases>
+    <apparel>
+      <wornGraphicPath>GolfUmbrella/GolfUmbrella</wornGraphicPath>
+      <tags>
+        <li>IndustrialAdvanced</li>
+      </tags>
+    </apparel>
+    <graphicData>
+      <texPath>GolfUmbrella/GolfUmbrella</texPath>
+    </graphicData>
+  </ThingDef>
+
+  <!-- Bumber_FashionUmbrella -->
+  <ThingDef ParentName="Bumber_UmbrellaMakeableBase">
+    <defName>Bumber_FashionUmbrella</defName>
+    <label>fashionable umbrella</label>
+    <description>A fashionable, large, steel-framed umbrella for blocking precipitation, sunlight, and some weather effects.</description>
+    <recipeMaker>
+      <researchPrerequisite>ComplexClothing</researchPrerequisite>
+      <researchPrerequisite>CarpetMaking</researchPrerequisite>
+      <recipeUsers>
+        <li>HandTailoringBench</li>
+        <li>ElectricTailoringBench</li>
+      </recipeUsers>
+      <skillRequirements>
+        <Artistic>6</Artistic>
+        <Crafting>6</Crafting>
+      </skillRequirements>
+    </recipeMaker>
+    <equippedStatOffsets>
+      <SocialImpact>0.15</SocialImpact>
+    </equippedStatOffsets>
+    <comps>
+      <li Class="CompProperties_Art">
+        <nameMaker>NamerArtFurniture</nameMaker>
+        <descriptionMaker>ArtDescription_Furniture</descriptionMaker>
+        <minQualityForArtistic>Excellent</minQualityForArtistic>
+      </li>
+    </comps>
+    <costStuffCount>40</costStuffCount>
+    <costList>
+      <Bumber_GolfUmbrella>1</Bumber_GolfUmbrella>
+    </costList>
+    <statBases>
+      <WorkToMake>12000</WorkToMake>
+      <MarketValue>225</MarketValue>
+      <Mass>2</Mass>
+      <EquipDelay>1.5</EquipDelay>
+    </statBases>
+    <apparel>
+      <wornGraphicPath>FashionUmbrella/FashionUmbrella</wornGraphicPath>
+      <tags>
+        <li>IndustrialAdvanced</li>
+      </tags>
+    </apparel>
+    <graphicData>
+      <texPath>FashionUmbrella/FashionUmbrella</texPath>
+    </graphicData>
+  </ThingDef>
+
+</Defs>

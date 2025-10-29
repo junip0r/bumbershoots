@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+    <Bumber_Parasol.label>parasol</Bumber_Parasol.label>
+    <Bumber_Parasol.description>A wood-framed parasol for blocking light precipitation and sunlight.</Bumber_Parasol.description>
+
+    <Bumber_Umbrella.label>umbrella</Bumber_Umbrella.label>
+    <Bumber_Umbrella.description>A steel-framed umbrella for blocking precipitation and sunlight.</Bumber_Umbrella.description>
+
+    <Bumber_GolfUmbrella.label>golf umbrella</Bumber_GolfUmbrella.label>
+    <Bumber_GolfUmbrella.description>A large, steel-framed umbrella for blocking precipitation, sunlight, and some weather effects.</Bumber_GolfUmbrella.description>
+
+    <Bumber_FashionUmbrella.label>fashion umbrella</Bumber_FashionUmbrella.label>
+    <Bumber_FashionUmbrella.description>A fashionable, large, steel-framed umbrella for blocking precipitation, sunlight, and some weather effects.</Bumber_FashionUmbrella.description>
+</LanguageData>

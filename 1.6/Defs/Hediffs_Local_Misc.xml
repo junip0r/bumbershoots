@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+    <!-- Bumber_UmbrellaEncumbranceCombat -->
+    <HediffDef>
+        <defName>Bumber_UmbrellaEncumbranceCombat</defName>
+        <label>umbrella combat encumbrance</label>
+        <labelNoun>umbrella combat encumbrance</labelNoun>
+        <description>worse accuracy and aiming speed while using an umbrella</description>
+        <defaultLabelColor>(0.9, 1.0, 0.35)</defaultLabelColor>
+        <stages>
+            <li>
+                <label>inactive</label>
+                <becomeVisible>false</becomeVisible>
+            </li>
+            <li>
+                <label>active</label>
+                <becomeVisible>false</becomeVisible>
+                <statFactors>
+                    <ShootingAccuracyPawn>0.85</ShootingAccuracyPawn>
+                    <AimingDelayFactor>1.15</AimingDelayFactor>
+                </statFactors>
+                <minSeverity>0.01</minSeverity>
+            </li>
+        </stages>
+    </HediffDef>
+
+    <!-- Bumber_UmbrellaEncumbranceWork -->
+    <HediffDef>
+        <defName>Bumber_UmbrellaEncumbranceWork</defName>
+        <label>umbrella work encumbrance</label>
+        <labelNoun>umbrella work encumbrance</labelNoun>
+        <description>reduced work speed while using an umbrella</description>
+        <defaultLabelColor>(0.9, 1.0, 0.35)</defaultLabelColor>
+        <stages>
+            <li>
+                <label>inactive</label>
+                <becomeVisible>false</becomeVisible>
+            </li>
+            <li>
+                <label>active</label>
+                <becomeVisible>false</becomeVisible>
+                <statFactors>
+                    <WorkSpeedGlobal>0.85</WorkSpeedGlobal>
+                </statFactors>
+                <minSeverity>0.01</minSeverity>
+            </li>
+        </stages>
+    </HediffDef>
+
+</Defs>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData>
+
+    <!-- Bumber_UmbrellaEncumbranceCombat -->
+    <Bumber_UmbrellaEncumbranceCombat.label>umbrella combat encumbrance</Bumber_UmbrellaEncumbranceCombat.label>
+    <Bumber_UmbrellaEncumbranceCombat.labelNoun>umbrella combat encumbrance</Bumber_UmbrellaEncumbranceCombat.labelNoun>
+    <Bumber_UmbrellaEncumbranceCombat.description>worse accuracy and aiming speed while using an umbrella</Bumber_UmbrellaEncumbranceCombat.description>
+
+    <!-- Bumber_UmbrellaEncumbranceWork -->
+    <Bumber_UmbrellaEncumbranceWork.label>umbrella work encumbrance</Bumber_UmbrellaEncumbranceWork.label>
+    <Bumber_UmbrellaEncumbranceWork.labelNoun>umbrella work encumbrance</Bumber_UmbrellaEncumbranceWork.labelNoun>
+    <Bumber_UmbrellaEncumbranceWork.description>reduced work speed while using an umbrella</Bumber_UmbrellaEncumbranceWork.description>
+
+</LanguageData>
