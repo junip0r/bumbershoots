@@ -13,13 +13,13 @@ public class MapComponent : Verse.MapComponent
 
     public MapComponent(Map map) : base(map)
     {
-        static IReactor Periodic(IReactor r) => new PeriodicReactor(r, period);
-
         mapState = new(map);
         mapReactors = [
-            Periodic(new SettingsMapReactor(mapState)),
-            Periodic(new SunlightMapReactor(mapState)),
-            Periodic(new WeatherMapReactor(mapState)),
+            new PeriodicReactor(period, [
+                new SettingsMapReactor(mapState),
+                new SunlightMapReactor(mapState),
+                new WeatherMapReactor(mapState),
+            ]),
             new PositionMapReactor(mapState),
             new PawnStateMapReactor(mapState),
         ];
@@ -27,5 +27,5 @@ public class MapComponent : Verse.MapComponent
 
     public override void MapComponentTick() => mapReactors.Tick(GenTicks.TicksGame);
 
-    public override void MapRemoved() => mapState.MapRemoved();
+    public override void MapRemoved() => mapState.OnMapRemoved();
 }

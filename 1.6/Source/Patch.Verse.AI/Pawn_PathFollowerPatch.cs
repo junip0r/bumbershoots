@@ -15,16 +15,16 @@ internal static class Pawn_PathFollowerPatch
     [HarmonyPatch("TryEnterNextPathCell")]
     private static void TryEnterNextPathCell(Pawn_PathFollower __instance)
     {
-        var p = new Traverse(__instance).Field("pawn").GetValue<Pawn>();
+        var p = __instance.Pawn();
         if (p.AnimalOrWildMan()) return;
-        if (PawnState.For(p) is not PawnState s) return;
-        var m = p.Map;
+        if (PawnState.For(p) is not PawnState ps) return;
+        var m = ps.Map;
         var last = __instance.LastCellLazy();
         var next = __instance.nextCell;
         var dirty = m.weatherManager.IsUmbrellaWeather()
             && last.Value.Roofed(m) != next.Roofed(m);
         dirty = dirty || m.skyManager.IsUmbrellaSunlight()
             && last.Value.InSunlight(m) != next.InSunlight(m);
-        if (dirty) s.Dirty();
+        if (dirty) ps.Dirty();
     }
 }

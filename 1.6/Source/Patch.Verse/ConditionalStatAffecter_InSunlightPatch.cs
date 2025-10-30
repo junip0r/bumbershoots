@@ -1,3 +1,4 @@
+using Bumbershoots.Ext.Verse;
 using HarmonyLib;
 using RimWorld;
 using Verse;
@@ -13,7 +14,7 @@ internal static class ConditionalStatAffecter_InSunlightPatch
     {
         if (__result
             && req.Thing is Pawn p
-            && PawnState.IsBlockingSunlight(p))
+            && p.IsBlockingSunlight())
         {
             __result = false;
         }

@@ -73,6 +73,7 @@ public static class ThingDefExt
         return IsUmbrella(t) || IsUmbrellaHat(t);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool IsUmbrellaOrHatFor(this ThingDef t, WeatherDef weather)
     {
         if (weather.IsLightRain()) return IsUmbrellaOrHat(t);

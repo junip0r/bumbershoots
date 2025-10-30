@@ -9,14 +9,14 @@ namespace Bumbershoots.Patch.RimWorld;
 [HarmonyPatch(typeof(Pawn_ApparelTracker))]
 internal static class Pawn_ApparelTrackerPatch
 {
-
     [HarmonyPostfix]
     [HarmonyPatch(nameof(Pawn_ApparelTracker.Notify_ApparelAdded))]
     private static void Notify_ApparelAdded(Pawn_ApparelTracker __instance, Apparel apparel)
     {
         if (!apparel.def.IsUmbrellaOrHat()) return;
         var p = __instance.pawn;
-        if (p.IsWildMan() || p.MapHeld is null) return;
+        if (p.IsWildMan()) return;
+        if (p.MapHeld is null) return;
         PawnState.Add(p);
     }
 

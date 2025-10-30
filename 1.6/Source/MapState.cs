@@ -29,7 +29,7 @@ internal class MapState
         get => map;
     }
 
-    internal bool AllDirty
+    internal bool AllPawnStatesDirty
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => dirtyPawnStates.Count == pawnStates.Count;
@@ -49,18 +49,12 @@ internal class MapState
 
     internal PawnState this[Pawn p]
     {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
         {
             if (pawnStates.TryGetValue(p, out var value))
                 return value;
             return null;
-        }
-        set
-        {
-            Exceptions.ThrowIfArgumentNull("value", value);
-            if (pawnStates.ContainsKey(p)) return;
-            pawnStates[p] = value;
-            dirtyPawnStates.Add(value);
         }
     }
 
@@ -68,26 +62,26 @@ internal class MapState
     {
         this.map = map;
         mapStates[map] = this;
-        map.events.RoofChanged += RoofChanged;
-        map.events.ThingSpawned += ThingSpawned;
-        map.events.ThingDespawned += ThingDespawned;
+        map.events.RoofChanged += OnRoofChanged;
+        map.events.ThingSpawned += OnThingSpawned;
+        map.events.ThingDespawned += OnThingDespawned;
     }
 
-    private void RoofChanged(IntVec3 pos)
+    private void OnRoofChanged(IntVec3 pos)
     {
-        if (AllDirty) return;
+        if (AllPawnStatesDirty) return;
         dirtyPositions.Add(pos);
     }
 
-    private void ThingSpawned(Thing t)
+    private void OnThingSpawned(Thing t)
     {
         if (t is not Pawn p) return;
         if (p.AnimalOrWildMan()) return;
         if (!p.apparel.HasUmbrellaOrHat()) return;
-        pawnStates[p] = new PawnState(this, p);
+        pawnStates[p] = new(this, p);
     }
 
-    private void ThingDespawned(Thing t)
+    private void OnThingDespawned(Thing t)
     {
         if (t is not Pawn p) return;
         if (p.AnimalOrWildMan()) return;
@@ -95,11 +89,22 @@ internal class MapState
         pawnStates.Remove(p);
     }
 
-    internal void MapRemoved()
+    internal void OnMapRemoved()
     {
         mapStates.Remove(map);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    internal void Add(PawnState ps)
+    {
+        var p = ps.Pawn;
+        Exceptions.ThrowIfArgumentNull("ps", ps);
+        if (pawnStates.ContainsKey(p)) return;
+        pawnStates[p] = ps;
+        dirtyPawnStates.Add(ps);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal void Remove(Pawn p)
     {
         if (pawnStates.TryGetValue(p, out var ps))
@@ -109,32 +114,38 @@ internal class MapState
         }
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal List<PawnState> TakeDirtyPawnStates()
     {
-        if (dirtyPawnStates.Count == 0) return [];
         List<PawnState> result = [.. dirtyPawnStates];
         dirtyPawnStates.Clear();
         return result;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal List<IntVec3> TakeDirtyPositions()
     {
-        if (dirtyPositions.Count == 0) return [];
+        if (AllPawnStatesDirty)
+        {
+            dirtyPositions.Clear();
+            return [];
+        }
         List<IntVec3> result = [.. dirtyPositions];
         dirtyPositions.Clear();
         return result;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal void Dirty()
     {
-        dirtyPositions.Clear();
-        if (AllDirty) return;
+        if (AllPawnStatesDirty) return;
         States.ForEach(dirtyPawnStates.Add);
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal void Dirty(PawnState ps)
     {
-        if (AllDirty) return;
+        if (AllPawnStatesDirty) return;
         dirtyPawnStates.Add(ps);
     }
 }

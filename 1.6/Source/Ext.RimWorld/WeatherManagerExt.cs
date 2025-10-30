@@ -7,7 +7,7 @@ namespace Bumbershoots.Ext.RimWorld;
 
 internal static class WeatherManagerExt
 {
-    private static readonly float rainRateDry = 0.1f;
+    internal static float RainRateDry = 0.1f;
 
     internal static WeatherDef UmbrellaWeatherDef(this WeatherManager w)
     {
@@ -22,6 +22,6 @@ internal static class WeatherManagerExt
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal static bool IsUmbrellaWeather(this WeatherManager w)
     {
-        return w.RainRate > rainRateDry;
+        return w.RainRate > RainRateDry;
     }
 }

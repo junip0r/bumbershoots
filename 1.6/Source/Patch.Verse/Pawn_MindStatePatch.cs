@@ -1,7 +1,7 @@
+using Bumbershoots.Ext.Verse;
 using HarmonyLib;
 using RimWorld;
 using Verse.AI;
-using Verse;
 
 namespace Bumbershoots.Patch.Verse;
 
@@ -12,10 +12,9 @@ internal static class Pawn_MindStatePatch
     [HarmonyPatch("CanGainGainThoughtNow")]
     private static void CanGainGainThoughtNow(ref bool __result, Pawn_MindState __instance, ThoughtDef thought)
     {
-        var p = __instance.pawn;
         if (__result
             && thought == ThoughtDefOf.SoakingWet
-            && PawnState.IsBlockingWeather(p))
+            && __instance.pawn.IsBlockingWeather())
         {
             __result = false;
         }

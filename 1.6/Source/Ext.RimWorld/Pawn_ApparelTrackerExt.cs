@@ -62,6 +62,7 @@ internal static class Pawn_ApparelTrackerExt
         return WornApparelDefs(t).FirstOrDefault(def => def.IsUmbrellaOrHat());
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal static void UpdateUmbrellaState(this Pawn_ApparelTracker t)
     {
         t.Notify_ApparelChanged();

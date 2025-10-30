@@ -4,7 +4,7 @@ internal class SettingsMapReactor(MapState mapState) : MapReactorBase(mapState)
 {
     private Settings prev, cur = null;
 
-    protected override void DoTick(int _)
+    protected override void OnTick(int _)
     {
         prev = cur;
         cur = Mod.Settings.Copy();
@@ -12,5 +12,5 @@ internal class SettingsMapReactor(MapState mapState) : MapReactorBase(mapState)
         if (!cur.Equals(prev)) mapState.Dirty();
     }
 
-    protected override void DoReset() => prev = cur = null;
+    protected override void OnReset() => prev = cur = null;
 }

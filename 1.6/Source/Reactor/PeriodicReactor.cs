@@ -1,17 +1,18 @@
+using System.Collections.Generic;
+
 namespace Bumbershoots.Reactor;
 
-internal class PeriodicReactor(IReactor inner, int period) : IReactor
+internal class PeriodicReactor(int period, List<IReactor> reactors) : IReactor
 {
-    private readonly IReactor inner = inner;
-    protected readonly int period = period;
-
+    private readonly int period = period;
+    private readonly List<IReactor> reactors = reactors;
     private int prevTick = 0;
 
     public void Tick(int gameTick)
     {
         if (gameTick - prevTick >= period)
         {
-            inner.Tick(gameTick);
+            reactors.Tick(gameTick);
             prevTick = gameTick;
         }
     }
@@ -19,6 +20,6 @@ internal class PeriodicReactor(IReactor inner, int period) : IReactor
     public void Reset()
     {
         prevTick = 0;
-        inner.Reset();
+        reactors.Reset();
     }
 }

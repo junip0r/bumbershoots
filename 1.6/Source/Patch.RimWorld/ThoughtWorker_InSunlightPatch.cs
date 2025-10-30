@@ -1,3 +1,4 @@
+using Bumbershoots.Ext.Verse;
 using HarmonyLib;
 using RimWorld;
 using Verse;
@@ -14,7 +15,7 @@ internal static class ThoughtWorker_InSunlightPatch
     private static void CurrentStateInternal(ref ThoughtState __result, Pawn p)
     {
         if (__result.StageIndex != InactiveIndex
-            && PawnState.IsBlockingSunlight(p))
+            && p.IsBlockingSunlight())
         {
             __result = ThoughtState.Inactive;
         }

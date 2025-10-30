@@ -8,10 +8,10 @@ namespace Bumbershoots.Ext.Verse;
 internal static class SkyManagerExt
 {
     // see RimWorld.SanguophageUtility.InSunlight()
-    private static float skyGlowDarkness = 0.1f;
+    internal static float SkyGlowDark = 0.1f;
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static bool IsSunlit(this SkyManager s) => s.CurSkyGlow > skyGlowDarkness;
+    private static bool IsSunlit(this SkyManager s) => s.CurSkyGlow > SkyGlowDark;
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal static bool IsUmbrellaSunlight(this SkyManager s)

@@ -21,8 +21,8 @@ internal static class Settings
         internal Proxy()
         {
             if (AccessTools.TypeByName("TKKN_NPS.Settings") is not Type type) return;
-            var f = new Traverse(type).Field("allowPawnsToGetWet");
-            if (f.IsField) allowPawnsToGetWet = f;
+            var field = new Traverse(type).Field("allowPawnsToGetWet");
+            if (field.IsField) allowPawnsToGetWet = field;
         }
     }
 

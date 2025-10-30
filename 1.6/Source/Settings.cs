@@ -53,7 +53,6 @@ public class Settings : ModSettings
         };
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public override int GetHashCode()
     {
         return (
@@ -65,7 +64,6 @@ public class Settings : ModSettings
         ).GetHashCode();
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public override bool Equals(object o)
     {
         return o is Settings && o.GetHashCode() == GetHashCode();

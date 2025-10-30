@@ -5,12 +5,12 @@ namespace Bumbershoots.Reactor.Map;
 
 internal class PositionMapReactor(MapState mapState) : MapReactorBase(mapState)
 {
-    protected override void DoTick(int _)
+    protected override void OnTick(int _)
     {
         var pos = mapState.TakeDirtyPositions();
-        if (pos.Count == 0 || mapState.AllDirty) return;
+        if (pos.Count == 0) return;
         mapState.States
             .Where(ps => pos.Contains(ps.Pawn.Position))
-            .ForEach(mapState.Dirty);
+            .ForEach(ps => ps.Dirty());
     }
 }

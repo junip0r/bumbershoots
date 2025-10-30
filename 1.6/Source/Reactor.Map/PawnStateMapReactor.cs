@@ -2,7 +2,7 @@ namespace Bumbershoots.Reactor.Map;
 
 internal class PawnStateMapReactor(MapState mapState) : MapReactorBase(mapState)
 {
-    protected override void DoTick(int _)
+    protected override void OnTick(int _)
     {
         mapState
             .TakeDirtyPawnStates()

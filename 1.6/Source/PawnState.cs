@@ -1,6 +1,7 @@
-using System.Runtime.CompilerServices;
 using Bumbershoots.Ext.RimWorld;
 using Bumbershoots.Ext.Verse;
+using System;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace Bumbershoots;
@@ -13,12 +14,14 @@ internal class PawnState(MapState mapState, Pawn pawn)
         return MapState.For(p.MapHeld)[p];
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal static void Add(Pawn p)
     {
         if (MapState.For(p.MapHeld) is not MapState ms) return;
-        ms[p] = new PawnState(ms, p);
+        ms.Add(new(ms, p));
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal static void Remove(Pawn p)
     {
         if (MapState.For(p.MapHeld) is not MapState ms) return;
@@ -57,32 +60,29 @@ internal class PawnState(MapState mapState, Pawn pawn)
         get => pawn;
     }
 
+    internal Map Map
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => mapState.Map;
+    }
+
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal void Dirty() => mapState.Dirty(this);
-
-    private bool IsBlockingSunlight(Map map)
-    {
-        return Mod.Settings.UmbrellasBlockSun
-            && map.skyManager.IsUmbrellaSunlight(pawn)
-            && !pawn.Position.Roofed(map)
-            && pawn.apparel.HasUmbrella();
-    }
-
-    private bool IsBlockingWeather(Map map)
-    {
-        var w = map.weatherManager;
-        return w.IsUmbrellaWeather()
-            && !pawn.Position.Roofed(map)
-            && pawn.apparel.HasUmbrellaOrHatFor(w.UmbrellaWeatherDef());
-    }
 
     internal void Update()
     {
         if (pawn.Dead) return;
         var prev = (blockingSunlight, blockingWeather);
         var map = mapState.Map;
-        blockingSunlight = IsBlockingSunlight(map);
-        blockingWeather = IsBlockingWeather(map);
+        var wm = map.weatherManager;
+        var roofed = new Lazy<bool>(() => pawn.Position.Roofed(map));
+        blockingSunlight = Mod.Settings.UmbrellasBlockSun
+            && map.skyManager.IsUmbrellaSunlight(pawn)
+            && !roofed.Value
+            && pawn.apparel.HasUmbrella();
+        blockingWeather = wm.IsUmbrellaWeather()
+            && !roofed.Value
+            && pawn.apparel.HasUmbrellaOrHatFor(wm.UmbrellaWeatherDef());
         var cur = (blockingSunlight, blockingWeather);
         if (prev == cur) return;
         pawn.UpdateUmbrellaState();

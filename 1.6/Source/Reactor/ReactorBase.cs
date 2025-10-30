@@ -4,13 +4,13 @@ namespace Bumbershoots.Reactor;
 
 internal abstract class ReactorBase : IReactor
 {
-    protected abstract void DoTick(int gameTick);
+    protected abstract void OnTick(int gameTick);
 
     public void Tick(int gameTick)
     {
         try
         {
-            DoTick(gameTick);
+            OnTick(gameTick);
         }
         catch (Exception e)
         {
@@ -18,7 +18,7 @@ internal abstract class ReactorBase : IReactor
         }
     }
 
-    protected virtual void DoReset()
+    protected virtual void OnReset()
     {
     }
 
@@ -26,7 +26,7 @@ internal abstract class ReactorBase : IReactor
     {
         try
         {
-            DoReset();
+            OnReset();
         }
         catch (Exception e)
         {

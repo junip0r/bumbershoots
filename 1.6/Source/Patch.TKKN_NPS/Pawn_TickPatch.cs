@@ -15,15 +15,6 @@ internal static class Pawn_TickPatch
     private const string TKKN_Wet = "TKKN_Wet";
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static bool WetFromWeather(Map m, Pawn p, IntVec3 pos) =>
-        m.weatherManager.IsUmbrellaWeather()
-            && !pos.Roofed(m)
-            && !PawnState.IsBlockingWeather(p);
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static bool WetFromTerrain(Map m, IntVec3 pos) =>
-        GridsUtility.GetTerrain(pos, m).HasTag(TKKN_Wet);
-
     private static void ApplyWet(Pawn pawn)
     {
         if (TKKN_Wetness.Def is not HediffDef def) return;
@@ -32,6 +23,16 @@ internal static class Pawn_TickPatch
         h.Severity = 0f;
         pawn.health.AddHediff(h);
     }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static bool WetFromWeather(Map m, Pawn p, IntVec3 pos) =>
+        m.weatherManager.IsUmbrellaWeather()
+            && !pos.Roofed(m)
+            && !PawnState.IsBlockingWeather(p);
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static bool WetFromTerrain(Map m, IntVec3 pos) =>
+        GridsUtility.GetTerrain(pos, m).HasTag(TKKN_Wet);
 
     private static bool MakeWet(Pawn pawn)
     {

@@ -30,11 +30,13 @@ internal static class Pawn_HealthTrackerExt
         }
         else
         {
-            var index = present.FindIndex(h => h.def.defName == defName);
-            if (index >= 0)
+            bool match(Hediff h) => h.def.defName == defName;
+            for (var i = present.FindIndex(match);
+                 i >= 0;
+                 i = present.FindIndex(match))
             {
-                t.RemoveHediff(present[index]);
-                present.RemoveAt(index);
+                t.RemoveHediff(present[i]);
+                present.RemoveAt(i);
             }
         }
     }
@@ -44,10 +46,11 @@ internal static class Pawn_HealthTrackerExt
         if (HediffDefExt.UmbrellaEncumbrances.Count == 0) return;
         var present = CollectEncumbrances(t);
         HediffDefExt.UmbrellaEncumbrances
-            .Zip(HediffDefExt.UmbrellaEncumbrancePredicates, (d, p) => (d, p))
-            .ForEach(_ => AddEncumbrance(t, present, _.d, _.p));
+            .Zip(HediffDefExt.UmbrellaEncumbranceEnabled, (n, e) => (n, e))
+            .ForEach(_ => AddEncumbrance(t, present, _.n, _.e));
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static void RemoveEncumbrances(Pawn_HealthTracker t)
     {
         CollectEncumbrances(t).ForEach(t.RemoveHediff);
@@ -59,6 +62,7 @@ internal static class Pawn_HealthTrackerExt
         return t.hediffSet.hediffs.Any(h => h.def.IsUmbrellaProsthetic());
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal static void UpdateUmbrellaState(this Pawn_HealthTracker t)
     {
         if (PawnState.IsUmbrellaDeployed(t.hediffSet.pawn))

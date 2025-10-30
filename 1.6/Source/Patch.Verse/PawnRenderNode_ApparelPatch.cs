@@ -1,4 +1,3 @@
-using Bumbershoots.Ext.RimWorld;
 using Bumbershoots.Ext.Verse;
 using HarmonyLib;
 using System.Collections.Generic;
@@ -16,11 +15,10 @@ internal static class PawnRenderNode_ApparelPatch
         PawnRenderNode_Apparel __instance,
         Pawn pawn
     ) {
-        if (!__instance.apparel.def.IsUmbrella()
-            || PawnState.IsUmbrellaDeployed(pawn))
+        if (__instance.apparel.def.IsUmbrella()
+            && !pawn.IsUmbrellaDeployed())
         {
-            return;
+            __result = [];
         }
-        __result = [];
     }
 }
