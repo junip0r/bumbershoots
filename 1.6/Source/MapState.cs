@@ -71,11 +71,13 @@ internal partial class MapState : MapComponent
     {
         LogComp(nameof(MapGenerated), "map generated");
     }
+#endif
 
     public override void MapRemoved()
     {
+#if DEBUG_MAPSTATE
         LogComp(nameof(MapRemoved), "map removed");
+#endif
         DataHelper.Unregister(map);
     }
-#endif
 }

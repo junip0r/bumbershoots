@@ -1,5 +1,6 @@
 using Bumbershoots.Ext.RimWorld;
 using Bumbershoots.Ext.Verse;
+using System;
 using System.Runtime.CompilerServices;
 using Verse;
 
@@ -60,13 +61,13 @@ public partial class PawnState : ThingComp
             if (pawn.Dead) return;
             var map = mapState.map;
             var wm = map.weatherManager;
-            var roofed = pawn.Position.Roofed(map);
+            var roofed = new Lazy<bool>(() => pawn.Position.Roofed(map));
             blockingSunlight = Mod.Settings.UmbrellasBlockSun
                 && map.skyManager.IsUmbrellaSunlight(pawn)
-                && !roofed
+                && !roofed.Value
                 && pawn.apparel.IsWearingUmbrella();
             blockingWeather = wm.IsUmbrellaWeather()
-                && !roofed
+                && !roofed.Value
                 && wm.UmbrellaWeatherDef() is WeatherDef weather
                 && pawn.apparel.IsWearingUmbrellaOrHatFor(weather);
             curState = State(map);

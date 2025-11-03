@@ -43,7 +43,7 @@ internal static class Pawn_HealthTrackerExt
             if (defEnabled())
             {
                 if (defIndex != -1) continue;
-                var def = DefDatabase<HediffDef>.GetNamed(defName);
+                if (DefDatabase<HediffDef>.GetNamed(defName) is not HediffDef def) continue;
                 var h = HediffMaker.MakeHediff(def, t.hediffSet.pawn);
                 h.Severity = 1;
                 h.canBeThreateningToPart = false;
