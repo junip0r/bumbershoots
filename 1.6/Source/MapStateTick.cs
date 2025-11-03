@@ -95,6 +95,7 @@ internal partial class MapState : MapComponent
             {
                 try
                 {
+                    if (p.health.Dead) continue;
                     if (p.AnimalOrWildMan()) continue;
                     if (!p.apparel.IsWearingUmbrellaOrHat()) continue;
                     StartTrackingPawn(p);
@@ -104,6 +105,10 @@ internal partial class MapState : MapComponent
                     exceptions.Add((nameof(TickThingsSpawned), e));
                 }
             }
+        }
+        catch (Exception e)
+        {
+            exceptions.Add((nameof(TickThingsSpawned), e));
         }
         finally
         {
@@ -130,6 +135,10 @@ internal partial class MapState : MapComponent
                     exceptions.Add((nameof(TickThingsDespawned), e));
                 }
             }
+        }
+        catch (Exception e)
+        {
+            exceptions.Add((nameof(TickThingsDespawned), e));
         }
         finally
         {
@@ -158,6 +167,10 @@ internal partial class MapState : MapComponent
                     exceptions.Add((nameof(TickApparelAdded), e));
                 }
             }
+        }
+        catch (Exception e)
+        {
+            exceptions.Add((nameof(TickApparelAdded), e));
         }
         finally
         {
@@ -188,6 +201,10 @@ internal partial class MapState : MapComponent
                 }
             }
         }
+        catch (Exception e)
+        {
+            exceptions.Add((nameof(TickApparelRemoved), e));
+        }
         finally
         {
             apparelRemoved.Clear();
@@ -214,6 +231,10 @@ internal partial class MapState : MapComponent
                     exceptions.Add((nameof(TickPositionsDirty), e));
                 }
             }
+        }
+        catch (Exception e)
+        {
+            exceptions.Add((nameof(TickPositionsDirty), e));
         }
         finally
         {
@@ -284,13 +305,17 @@ internal partial class MapState : MapComponent
             {
                 try
                 {
-                    p.GetComp<PawnState>().Update(this);
+                    p.PawnState().Update(this);
                 }
                 catch (Exception e)
                 {
                     exceptions.Add((nameof(TickPawnsDirty), e));
                 }
             }
+        }
+        catch (Exception e)
+        {
+            exceptions.Add((nameof(TickPawnsDirty), e));
         }
         finally
         {

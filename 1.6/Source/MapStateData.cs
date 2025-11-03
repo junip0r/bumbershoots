@@ -20,8 +20,6 @@ internal partial class MapState : MapComponent
     private int periodicTickDebugPrev = 0;
 #endif
 
-    private const int period = GenTicks.TicksPerRealSecond / 4;
-    private int periodicTickPrev = 0;
     private int? settingsPrev = null;
     private bool? sunlightPrev = null;
     private bool? weatherPrev = null;

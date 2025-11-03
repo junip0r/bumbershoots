@@ -16,7 +16,6 @@ internal partial class MapState : MapComponent
 #if DEBUG_MAPSTATE
             LogEvent(nameof(OnThingSpawned), $"pawn spawned: {p}");
 #endif
-            if (p.Dead) return;
             thingsSpawned.Add(p);
         }
         catch (Exception e)

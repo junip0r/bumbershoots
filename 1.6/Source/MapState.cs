@@ -45,14 +45,9 @@ internal partial class MapState : MapComponent
 #endif
         TickThingsDespawned();
         TickApparelRemoved();
-        var tick = GenTicks.TicksGame;
-        if (tick - periodicTickPrev >= period)
-        {
-            periodicTickPrev = tick;
-            TickSettingsChanged();
-            TickSunlightChanged();
-            TickWeatherChanged();
-        }
+        TickSettingsChanged();
+        TickSunlightChanged();
+        TickWeatherChanged();
         TickPositionsDirty();
         TickPawnSteps();
         TickThingsSpawned();
