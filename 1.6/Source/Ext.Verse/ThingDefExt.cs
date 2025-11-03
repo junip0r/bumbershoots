@@ -44,12 +44,6 @@ public static class ThingDefExt
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool IsLightUmbrella(this ThingDef t)
-    {
-        return LightUmbrellas.Contains(t.defName);
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool IsHeavyUmbrella(this ThingDef t)
     {
         return HeavyUmbrellas.Contains(t.defName);

@@ -4,6 +4,7 @@
     <AssemblyName>Bumbershoots</AssemblyName>
     <TargetFramework>net48</TargetFramework>
     <LangVersion>latest</LangVersion>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
   <ItemGroup>

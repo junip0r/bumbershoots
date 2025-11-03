@@ -31,8 +31,8 @@ public static class HediffDefExt
 
     public static readonly List<Func<bool>> UmbrellaEncumbranceEnabled =
     [
-        () => Mod.Settings.EncumberCombat,
-        () => Mod.Settings.EncumberWork,
+        static () => Mod.Settings.EncumberCombat,
+        static () => Mod.Settings.EncumberWork,
     ];
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

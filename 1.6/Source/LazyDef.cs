@@ -8,7 +8,7 @@ internal class LazyDef<T> where T : Def
 {
     private readonly string defName;
 
-    private readonly Lazy<T> def;
+    private readonly Lazy<T> value;
 
     internal string DefName
     {
@@ -16,16 +16,22 @@ internal class LazyDef<T> where T : Def
         get => defName;
     }
 
-    internal T Def
+    internal T Value
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => def.Value;
+        get => value.Value;
+    }
+
+    internal bool Present
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => value.Value is not null;
     }
 
     internal LazyDef(string defName)
     {
         this.defName = defName;
-        def = new Lazy<T>(Lookup);
+        value = new Lazy<T>(Lookup);
     }
 
     private T Lookup()

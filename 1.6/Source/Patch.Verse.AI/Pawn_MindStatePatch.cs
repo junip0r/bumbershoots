@@ -3,7 +3,7 @@ using HarmonyLib;
 using RimWorld;
 using Verse.AI;
 
-namespace Bumbershoots.Patch.Verse;
+namespace Bumbershoots.Patch.Verse.AI;
 
 [HarmonyPatch(typeof(Pawn_MindState))]
 internal static class Pawn_MindStatePatch

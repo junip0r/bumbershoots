@@ -4,9 +4,9 @@ using HarmonyLib;
 using System;
 using System.Runtime.CompilerServices;
 
-namespace Bumbershoots.Ext.TKKN_NPS;
+namespace Bumbershoots.Patch.Mod.Nps;
 
-internal static class Settings
+internal static class NpsSettings
 {
     private class Proxy
     {

@@ -1,4 +1,3 @@
-using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
@@ -17,40 +16,32 @@ public class Settings : ModSettings
     public override void ExposeData()
     {
         base.ExposeData();
-        Scribe_Values.Look(ref ShowUmbrellas, "ShowUmbrellas", true);
-        Scribe_Values.Look(ref UmbrellasBlockSun, "UmbrellasBlockSun", true);
-        Scribe_Values.Look(ref UmbrellaHats, "UmbrellaHats", true);
-        Scribe_Values.Look(ref EncumberWork, "EncumberWork", true);
-        Scribe_Values.Look(ref EncumberCombat, "EncumberCombat", true);
+        Scribe_Values.Look(ref ShowUmbrellas, nameof(ShowUmbrellas), true);
+        Scribe_Values.Look(ref UmbrellasBlockSun, nameof(UmbrellasBlockSun), true);
+        Scribe_Values.Look(ref UmbrellaHats, nameof(UmbrellaHats), true);
+        Scribe_Values.Look(ref EncumberWork, nameof(EncumberWork), true);
+        Scribe_Values.Look(ref EncumberCombat, nameof(EncumberCombat), true);
     }
 
     internal void DoWindowContents(Rect rect)
     {
+        static void Checkbox(Listing_Standard l, string name, ref bool value)
+        {
+            l.CheckboxLabeled(name.Translate(), ref value, $"{name}Help".Translate());
+        }
+
         rect.width = 500f;
         var l = new Listing_Standard();
         l.Begin(rect);
-        l.CheckboxLabeled("ShowUmbrellas".Translate(), ref ShowUmbrellas, "ShowUmbrellasHelp".Translate());
+        Checkbox(l, nameof(ShowUmbrellas), ref ShowUmbrellas);
         if (ModsConfig.BiotechActive)
         {
-            l.CheckboxLabeled("UmbrellasBlockSun".Translate(), ref UmbrellasBlockSun, "UmbrellasBlockSunHelp".Translate());
+            Checkbox(l, nameof(UmbrellasBlockSun), ref UmbrellasBlockSun);
         }
-        l.CheckboxLabeled("UmbrellaHats".Translate(), ref UmbrellaHats, "UmbrellaHatsHelp".Translate());
-        l.CheckboxLabeled("EncumberWork".Translate(), ref EncumberWork, "EncumberWorkHelp".Translate());
-        l.CheckboxLabeled("EncumberCombat".Translate(), ref EncumberCombat, "EncumberCombatHelp".Translate());
+        Checkbox(l, nameof(UmbrellaHats), ref UmbrellaHats);
+        Checkbox(l, nameof(EncumberWork), ref EncumberWork);
+        Checkbox(l, nameof(EncumberCombat), ref EncumberCombat);
         l.End();
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    internal Settings Copy()
-    {
-        return new Settings()
-        {
-            ShowUmbrellas = ShowUmbrellas,
-            UmbrellasBlockSun = UmbrellasBlockSun,
-            UmbrellaHats = UmbrellaHats,
-            EncumberWork = EncumberWork,
-            EncumberCombat = EncumberCombat,
-        };
     }
 
     public override int GetHashCode()

@@ -7,7 +7,7 @@ namespace Bumbershoots;
 internal class LazyModMetaData
 {
     private readonly string packageId;
-    private readonly Lazy<ModMetaData> modMetaData;
+    private readonly Lazy<ModMetaData> value;
 
     internal string PackageId
     {
@@ -15,22 +15,28 @@ internal class LazyModMetaData
         get => packageId;
     }
 
-    internal ModMetaData ModMetaData
+    internal ModMetaData Value
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => modMetaData.Value;
+        get => value.Value;
     }
 
     internal bool Present
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => ModMetaData is not null;
+        get => value.Value is not null;
+    }
+
+    internal bool Active
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => Present && value.Value.Active;
     }
 
     internal LazyModMetaData(string packageId)
     {
         this.packageId = packageId;
-        modMetaData = new Lazy<ModMetaData>(Lookup);
+        value = new Lazy<ModMetaData>(Lookup);
     }
 
     private ModMetaData Lookup()

@@ -1,151 +1,81 @@
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using Bumbershoots.Ext.RimWorld;
-using Bumbershoots.Ext.System.Collections.Generic;
 using Verse;
 
 namespace Bumbershoots;
 
-internal class MapState
+internal partial class MapState : MapComponent
 {
-    private static readonly Dictionary<Map, MapState> mapStates = new(8);
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    internal static MapState For(Map m)
+    public MapState(Map map) : base(map)
     {
-        if (mapStates.TryGetValue(m, out var value))
-            return value;
-        return null;
-    }
-
-    private readonly Map map;
-    private readonly Dictionary<Pawn, PawnState> pawnStates = new(64);
-    private readonly HashSet<PawnState> dirtyPawnStates = new(64);
-    private readonly List<IntVec3> dirtyPositions = new(8);
-
-    internal Map Map
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => map;
-    }
-
-    internal bool AllPawnStatesDirty
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => dirtyPawnStates.Count == pawnStates.Count;
-    }
-
-    internal IEnumerable<Pawn> Pawns
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => pawnStates.Keys;
-    }
-
-    internal IEnumerable<PawnState> States
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => pawnStates.Values;
-    }
-
-    internal PawnState this[Pawn p]
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get
-        {
-            if (pawnStates.TryGetValue(p, out var value))
-                return value;
-            return null;
-        }
-    }
-
-    internal MapState(Map map)
-    {
-        this.map = map;
-        mapStates[map] = this;
-        map.events.RoofChanged += OnRoofChanged;
+#if DEBUG_MAPSTATE
+        LogComp(nameof(MapState), "new");
+#endif
+        DataHelper.Register(map);
         map.events.ThingSpawned += OnThingSpawned;
         map.events.ThingDespawned += OnThingDespawned;
+        map.events.RoofChanged += OnRoofChanged;
     }
 
-    private void OnRoofChanged(IntVec3 pos)
+    public override void MapComponentTick()
     {
-        if (AllPawnStatesDirty) return;
-        dirtyPositions.Add(pos);
-    }
-
-    private void OnThingSpawned(Thing t)
-    {
-        if (t is not Pawn p) return;
-        if (p.AnimalOrWildMan()) return;
-        if (!p.apparel.HasUmbrellaOrHat()) return;
-        pawnStates[p] = new(this, p);
-    }
-
-    private void OnThingDespawned(Thing t)
-    {
-        if (t is not Pawn p) return;
-        if (p.AnimalOrWildMan()) return;
-        if (!p.apparel.HasUmbrellaOrHat()) return;
-        pawnStates.Remove(p);
-    }
-
-    internal void OnMapRemoved()
-    {
-        mapStates.Remove(map);
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    internal void Add(PawnState ps)
-    {
-        var p = ps.Pawn;
-        Exceptions.ThrowIfArgumentNull("ps", ps);
-        if (pawnStates.ContainsKey(p)) return;
-        pawnStates[p] = ps;
-        dirtyPawnStates.Add(ps);
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    internal void Remove(Pawn p)
-    {
-        if (pawnStates.TryGetValue(p, out var ps))
+        if (pawns.Count == 0)
         {
-            pawnStates.Remove(p);
-            dirtyPawnStates.Remove(ps);
+            TickIdle();
+        }
+        else
+        {
+            TickBusy();
         }
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    internal List<PawnState> TakeDirtyPawnStates()
+    private void TickIdle()
     {
-        List<PawnState> result = [.. dirtyPawnStates];
-        dirtyPawnStates.Clear();
-        return result;
+#if DEBUG_MAPSTATE
+        TickDebug();
+#endif
+        TickThingsSpawned();
+        TickApparelAdded();
+        TickPawnsDirty();
+        TickExceptions();
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    internal List<IntVec3> TakeDirtyPositions()
+    private void TickBusy()
     {
-        if (AllPawnStatesDirty)
+#if DEBUG_MAPSTATE
+        TickDebug();
+#endif
+        TickThingsDespawned();
+        TickApparelRemoved();
+        var tick = GenTicks.TicksGame;
+        if (tick - periodicTickPrev >= period)
         {
-            dirtyPositions.Clear();
-            return [];
+            periodicTickPrev = tick;
+            TickSettingsChanged();
+            TickSunlightChanged();
+            TickWeatherChanged();
         }
-        List<IntVec3> result = [.. dirtyPositions];
-        dirtyPositions.Clear();
-        return result;
+        TickPositionsDirty();
+        TickPawnSteps();
+        TickThingsSpawned();
+        TickApparelAdded();
+        TickPawnsDirty();
+        TickExceptions();
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    internal void Dirty()
+#if DEBUG_MAPSTATE
+    public override void FinalizeInit()
     {
-        if (AllPawnStatesDirty) return;
-        States.ForEach(dirtyPawnStates.Add);
+        LogComp(nameof(FinalizeInit), "init");
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    internal void Dirty(PawnState ps)
+    public override void MapGenerated()
     {
-        if (AllPawnStatesDirty) return;
-        dirtyPawnStates.Add(ps);
+        LogComp(nameof(MapGenerated), "map generated");
     }
+
+    public override void MapRemoved()
+    {
+        LogComp(nameof(MapRemoved), "map removed");
+        DataHelper.Unregister(map);
+    }
+#endif
 }

@@ -10,13 +10,9 @@ internal static class PawnRenderNode_ApparelPatch
 {
     [HarmonyPostfix]
     [HarmonyPatch("GraphicsFor")]
-    private static void GraphicsFor(
-        ref IEnumerable<Graphic> __result,
-        PawnRenderNode_Apparel __instance,
-        Pawn pawn
-    ) {
-        if (__instance.apparel.def.IsUmbrella()
-            && !pawn.IsUmbrellaDeployed())
+    private static void GraphicsFor(ref IEnumerable<Graphic> __result, PawnRenderNode_Apparel __instance, Pawn pawn)
+    {
+        if (__instance.apparel.def.IsUmbrella() && !pawn.IsUmbrellaDeployed())
         {
             __result = [];
         }

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <Defs>
 
   <!-- Bumber_UmbrellaMakeableBase -->
@@ -96,6 +97,7 @@
         <li>ElectricSmithy</li>
         <li>FueledSmithy</li>
       </recipeUsers>
+      <effectWorking>Smith</effectWorking>
       <skillRequirements>
         <Crafting>5</Crafting>
       </skillRequirements>
@@ -129,6 +131,7 @@
       <recipeUsers>
         <li>TableMachining</li>
       </recipeUsers>
+      <effectWorking>Smith</effectWorking>
       <skillRequirements>
         <Crafting>6</Crafting>
       </skillRequirements>
@@ -166,6 +169,7 @@
         <li>HandTailoringBench</li>
         <li>ElectricTailoringBench</li>
       </recipeUsers>
+      <effectWorking>Tailor</effectWorking>
       <skillRequirements>
         <Artistic>6</Artistic>
         <Crafting>6</Crafting>

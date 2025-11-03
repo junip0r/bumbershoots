@@ -1,7 +1,4 @@
-using Bumbershoots.Ext.System.Collections.Generic;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using Verse;
 
@@ -9,65 +6,86 @@ namespace Bumbershoots.Ext.Verse;
 
 internal static class Pawn_HealthTrackerExt
 {
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static List<Hediff> CollectEncumbrances(Pawn_HealthTracker t)
     {
-        return [.. t.hediffSet.hediffs.Where(h => h.def.IsUmbrellaEncumbrance())];
-    }
-
-    private static void AddEncumbrance(
-        Pawn_HealthTracker t,
-        List<Hediff> present,
-        string defName,
-        Func<bool> defEnabled
-    ) {
-        if (defEnabled())
+        List<Hediff> present = [];
+        for (var i = 0; i < t.hediffSet.hediffs.Count; i++)
         {
-            if (!present.Any(h => h.def.defName == defName))
+            var h = t.hediffSet.hediffs[i];
+            if (h.def.IsUmbrellaEncumbrance())
             {
-                t.AddHediff(DefDatabase<HediffDef>.GetNamed(defName));
+                present.Add(h);
             }
         }
-        else
-        {
-            bool match(Hediff h) => h.def.defName == defName;
-            for (var i = present.FindIndex(match);
-                 i >= 0;
-                 i = present.FindIndex(match))
-            {
-                t.RemoveHediff(present[i]);
-                present.RemoveAt(i);
-            }
-        }
+        return present;
     }
 
     private static void AddEncumbrances(Pawn_HealthTracker t)
     {
-        if (HediffDefExt.UmbrellaEncumbrances.Count == 0) return;
+        static int FindIndex(List<Hediff> hediffs, string defName)
+        {
+            for (var i = 0; i < hediffs.Count; i++)
+            {
+                if (hediffs[i].def.defName == defName)
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
         var present = CollectEncumbrances(t);
-        HediffDefExt.UmbrellaEncumbrances
-            .Zip(HediffDefExt.UmbrellaEncumbranceEnabled, (n, e) => (n, e))
-            .ForEach(_ => AddEncumbrance(t, present, _.n, _.e));
+        for (var i = 0; i < HediffDefExt.UmbrellaEncumbrances.Count; i++)
+        {
+            var defName = HediffDefExt.UmbrellaEncumbrances[i];
+            var defEnabled = HediffDefExt.UmbrellaEncumbranceEnabled[i];
+            var defIndex = FindIndex(present, defName);
+            if (defEnabled())
+            {
+                if (defIndex != -1) continue;
+                var def = DefDatabase<HediffDef>.GetNamed(defName);
+                var h = HediffMaker.MakeHediff(def, t.hediffSet.pawn);
+                h.Severity = 1;
+                h.canBeThreateningToPart = false;
+                t.AddHediff(h);
+            }
+            else if (defIndex != -1)
+            {
+                t.RemoveHediff(present[defIndex]);
+                present.RemoveAt(defIndex);
+            }
+        }
+    }
+
+    private static void RemoveEncumbrances(Pawn_HealthTracker t)
+    {
+        var present = CollectEncumbrances(t);
+        for (var i = 0; i < present.Count; i++)
+        {
+            t.RemoveHediff(present[i]);
+        }
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static void RemoveEncumbrances(Pawn_HealthTracker t)
+    internal static void UpdateUmbrellaHediffs(this Pawn_HealthTracker t)
     {
-        CollectEncumbrances(t).ForEach(t.RemoveHediff);
+        if (t.hediffSet.pawn.IsUmbrellaDeployed())
+        {
+            AddEncumbrances(t);
+        }
+        else
+        {
+            RemoveEncumbrances(t);
+        }
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal static bool HasUmbrellaProsthetic(this Pawn_HealthTracker t)
     {
-        return t.hediffSet.hediffs.Any(h => h.def.IsUmbrellaProsthetic());
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    internal static void UpdateUmbrellaState(this Pawn_HealthTracker t)
-    {
-        if (PawnState.IsUmbrellaDeployed(t.hediffSet.pawn))
-            AddEncumbrances(t);
-        else
-            RemoveEncumbrances(t);
+        for (var i = 0; i < t.hediffSet.hediffs.Count; i++)
+        {
+            if (t.hediffSet.hediffs[i].def.IsUmbrellaProsthetic()) return true;
+        }
+        return false;
     }
 }

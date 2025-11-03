@@ -11,12 +11,12 @@ internal static class GeneDefOfExt
     internal static GeneDef UVSensitivity_Mild
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => uvSensitivity_Mild.Def;
+        get => uvSensitivity_Mild.Value;
     }
 
     internal static GeneDef UVSensitivity_Intense
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => uvSensitivity_Intense.Def;
+        get => uvSensitivity_Intense.Value;
     }
 }
