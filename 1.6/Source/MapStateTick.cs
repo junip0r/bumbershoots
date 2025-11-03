@@ -3,9 +3,12 @@ using Bumbershoots.Ext.Verse;
 using Bumbershoots.Ext.Verse.AI;
 using RimWorld;
 using System;
-using System.Text;
 using System.Collections.Generic;
 using Verse;
+
+#if DEBUG_MAPSTATE
+using System.Text;
+#endif
 
 namespace Bumbershoots;
 
@@ -95,8 +98,8 @@ internal partial class MapState : MapComponent
             {
                 try
                 {
-                    if (p.health.Dead) continue;
                     if (p.AnimalOrWildMan()) continue;
+                    if (p.health.Dead) continue;
                     if (!p.apparel.IsWearingUmbrellaOrHat()) continue;
                     StartTrackingPawn(p);
                 }
@@ -158,8 +161,8 @@ internal partial class MapState : MapComponent
             {
                 try
                 {
-                    if (p.IsWildMan()) continue;
                     if (!apparel.IsUmbrellaOrHat()) continue;
+                    if (p.IsWildMan()) continue;
                     StartTrackingPawn(p);
                 }
                 catch (Exception e)
