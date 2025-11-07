@@ -6,8 +6,8 @@ namespace Bumbershoots.Ext.Verse;
 internal static class MapExt
 {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    internal static MapState MapState(this Map map)
+    internal static MapState MapState(this Map @this)
     {
-        return map.GetComponent<MapState>();
+        return @this.GetComponent<MapState>();
     }
 }

@@ -38,40 +38,40 @@ public static class ThingDefExt
     ];
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool IsUmbrella(this ThingDef t)
+    public static bool IsUmbrella(this ThingDef @this)
     {
-        return Umbrellas.Contains(t.defName);
+        return Umbrellas.Contains(@this.defName);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool IsHeavyUmbrella(this ThingDef t)
+    public static bool IsHeavyUmbrella(this ThingDef @this)
     {
-        return HeavyUmbrellas.Contains(t.defName);
+        return HeavyUmbrellas.Contains(@this.defName);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool IsSpecialUmbrella(this ThingDef t)
+    public static bool IsSpecialUmbrella(this ThingDef @this)
     {
-        return SpecialUmbrellas.Contains(t.defName);
+        return SpecialUmbrellas.Contains(@this.defName);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool IsUmbrellaHat(this ThingDef t)
+    public static bool IsUmbrellaHat(this ThingDef @this)
     {
-        return Mod.Settings.UmbrellaHats && UmbrellaHats.Contains(t.defName);
+        return Mod.Settings.UmbrellaHats && UmbrellaHats.Contains(@this.defName);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool IsUmbrellaOrHat(this ThingDef t)
+    public static bool IsUmbrellaOrHat(this ThingDef @this)
     {
-        return IsUmbrella(t) || IsUmbrellaHat(t);
+        return @this.IsUmbrella() || @this.IsUmbrellaHat();
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool IsUmbrellaOrHatFor(this ThingDef t, WeatherDef weather)
+    public static bool IsUmbrellaOrHatFor(this ThingDef @this, WeatherDef weather)
     {
-        if (weather.IsLightRain()) return IsUmbrellaOrHat(t);
-        if (weather.IsHeavyRain()) return IsHeavyUmbrella(t);
+        if (weather.IsLightRain()) return @this.IsUmbrellaOrHat();
+        if (weather.IsHeavyRain()) return @this.IsHeavyUmbrella();
         return false;
     }
 }

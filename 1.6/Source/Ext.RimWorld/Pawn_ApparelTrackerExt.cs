@@ -1,7 +1,6 @@
 using Bumbershoots.Ext.Verse;
 using RimWorld;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using Verse;
 
@@ -10,37 +9,37 @@ namespace Bumbershoots.Ext.RimWorld;
 internal static class Pawn_ApparelTrackerExt
 {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static IEnumerable<ThingDef> WornApparelDefs(Pawn_ApparelTracker t)
+    private static IEnumerable<ThingDef> WornApparelDefs(this Pawn_ApparelTracker @this)
     {
-        foreach (var a in t.WornApparel)
+        foreach (var a in @this.WornApparel)
         {
             yield return a.def;
         }
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    internal static bool IsWearingUmbrella(this Pawn_ApparelTracker t)
+    internal static bool IsWearingUmbrella(this Pawn_ApparelTracker @this)
     {
-        return GetUmbrella(t) is not null;
+        return @this.GetUmbrella() is not null;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    internal static bool IsWearingUmbrellaOrHat(this Pawn_ApparelTracker t)
+    internal static bool IsWearingUmbrellaOrHat(this Pawn_ApparelTracker @this)
     {
-        return GetUmbrellaOrHat(t) is not null;
+        return @this.GetUmbrellaOrHat() is not null;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    internal static bool IsWearingUmbrellaOrHatFor(this Pawn_ApparelTracker t, WeatherDef weather)
+    internal static bool IsWearingUmbrellaOrHatFor(this Pawn_ApparelTracker @this, WeatherDef weather)
     {
-        var u = GetUmbrellaOrHat(t);
+        var u = @this.GetUmbrellaOrHat();
         return u is not null && u.IsUmbrellaOrHatFor(weather);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    internal static ThingDef GetUmbrella(this Pawn_ApparelTracker t)
+    internal static ThingDef GetUmbrella(this Pawn_ApparelTracker @this)
     {
-        foreach (var def in WornApparelDefs(t))
+        foreach (var def in @this.WornApparelDefs())
         {
             if (def.IsUmbrella())
             {
@@ -51,9 +50,9 @@ internal static class Pawn_ApparelTrackerExt
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    internal static ThingDef GetUmbrellaOrHat(this Pawn_ApparelTracker t)
+    internal static ThingDef GetUmbrellaOrHat(this Pawn_ApparelTracker @this)
     {
-        foreach (var def in WornApparelDefs(t))
+        foreach (var def in @this.WornApparelDefs())
         {
             if (def.IsUmbrellaOrHat())
             {
@@ -64,9 +63,9 @@ internal static class Pawn_ApparelTrackerExt
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    internal static void UpdateUmbrellaGraphics(this Pawn_ApparelTracker t)
+    internal static void UpdateUmbrellaGraphics(this Pawn_ApparelTracker @this)
     {
-        t.Notify_ApparelChanged();
-        PortraitsCache.SetDirty(t.pawn);
+        @this.Notify_ApparelChanged();
+        PortraitsCache.SetDirty(@this.pawn);
     }
 }

@@ -36,15 +36,19 @@ public static class HediffDefExt
     ];
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool IsUmbrellaProsthetic(this HediffDef def)
+    public static bool IsUmbrellaProsthetic(this HediffDef @this)
     {
-        return UmbrellaProsthetics.Contains(def.defName);
+        return UmbrellaProsthetics.Contains(@this.defName);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool IsUmbrellaEncumbrance(this HediffDef h)
+    public static bool IsUmbrellaEncumbrance(this HediffDef @this)
     {
-        return UmbrellaEncumbrances.Contains(h.defName);
+        for (var i = 0; i < UmbrellaEncumbrances.Count; i++)
+        {
+            if (@this.defName == UmbrellaEncumbrances[i]) return true;
+        }
+        return false;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

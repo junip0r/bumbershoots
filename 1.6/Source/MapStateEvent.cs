@@ -92,7 +92,7 @@ internal partial class MapState : MapComponent
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    internal void OnPawnStep(Pawn_PathFollower p)
+    internal void OnPawnStep(Pawn p)
     {
         try
         {

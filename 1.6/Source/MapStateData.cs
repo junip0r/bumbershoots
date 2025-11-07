@@ -28,7 +28,7 @@ internal partial class MapState : MapComponent
     private readonly List<(Pawn, ThingDef)> apparelAdded = new(CapSmall);
     private readonly List<(Pawn, ThingDef)> apparelRemoved = new(CapSmall);
     private readonly List<IntVec3> positionsDirty = new(CapSmall);
-    private readonly List<Pawn_PathFollower> pawnSteps = new(CapSmall);
+    private readonly List<Pawn> pawnSteps = new(CapSmall);
     private readonly HashSet<Pawn> pawns = new(CapLarge);
     private readonly List<Pawn> pawnsDirty = new(CapSmall);
     private bool pawnsAllDirty = false;

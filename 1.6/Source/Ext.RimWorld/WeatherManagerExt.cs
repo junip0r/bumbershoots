@@ -9,19 +9,19 @@ internal static class WeatherManagerExt
 {
     internal static float RainRateDry = 0.1f;
 
-    internal static WeatherDef UmbrellaWeatherDef(this WeatherManager w)
+    internal static WeatherDef UmbrellaWeatherDef(this WeatherManager @this)
     {
-        var curIsRain = w.curWeather.IsRain();
-        var lastIsRain = w.lastWeather.IsRain();
-        if (curIsRain && lastIsRain) return w.CurWeatherLerped;
-        else if (curIsRain) return w.curWeather;
-        else if (lastIsRain) return w.lastWeather;
+        var curIsRain = @this.curWeather.IsRain();
+        var lastIsRain = @this.lastWeather.IsRain();
+        if (curIsRain && lastIsRain) return @this.CurWeatherLerped;
+        else if (curIsRain) return @this.curWeather;
+        else if (lastIsRain) return @this.lastWeather;
         return null;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    internal static bool IsUmbrellaWeather(this WeatherManager w)
+    internal static bool IsUmbrellaWeather(this WeatherManager @this)
     {
-        return w.RainRate > RainRateDry;
+        return @this.RainRate > RainRateDry;
     }
 }

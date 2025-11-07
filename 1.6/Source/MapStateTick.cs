@@ -255,11 +255,10 @@ internal partial class MapState : MapComponent
 #endif
             if (pawnsAllDirty) return;
             var isUmbrellaWeather = map.weatherManager.IsUmbrellaWeather();
-            foreach (var pather in pawnSteps)
+            foreach (var p in pawnSteps)
             {
                 try
                 {
-                    if (pather.Pawn() is not Pawn p) continue;
                     if (!pawns.Contains(p)) continue;
                     var last = new Lazy<IntVec3>(p.pather.LastCell);
                     var next = p.pather.nextCell;

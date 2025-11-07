@@ -11,17 +11,17 @@ internal static class SkyManagerExt
     internal static float SkyGlowDark = 0.1f;
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static bool IsSunlit(this SkyManager s) => s.CurSkyGlow > SkyGlowDark;
+    private static bool IsSunlit(this SkyManager @this) => @this.CurSkyGlow > SkyGlowDark;
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    internal static bool IsUmbrellaSunlight(this SkyManager s)
+    internal static bool IsUmbrellaSunlight(this SkyManager @this)
     {
-        return Mod.Settings.UmbrellasBlockSun && IsSunlit(s);
+        return Mod.Settings.UmbrellasBlockSun && @this.IsSunlit();
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    internal static bool IsUmbrellaSunlight(this SkyManager s, Pawn p)
+    internal static bool IsUmbrellaSunlight(this SkyManager @this, Pawn p)
     {
-        return IsUmbrellaSunlight(s) && p.HasSunlightSensitivity();
+        return @this.IsUmbrellaSunlight() && p.HasSunlightSensitivity();
     }
 }

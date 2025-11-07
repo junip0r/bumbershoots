@@ -24,20 +24,20 @@ public static class WeatherDefExt
     ];
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool IsLightRain(this WeatherDef def)
+    public static bool IsLightRain(this WeatherDef @this)
     {
-        return LightRain.Any(def.defName.Equals);
+        return LightRain.Any(@this.defName.Equals);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool IsHeavyRain(this WeatherDef def)
+    public static bool IsHeavyRain(this WeatherDef @this)
     {
-        return HeavyRain.Any(def.defName.Equals);
+        return HeavyRain.Any(@this.defName.Equals);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool IsRain(this WeatherDef def)
+    public static bool IsRain(this WeatherDef @this)
     {
-        return IsLightRain(def) || IsHeavyRain(def);
+        return @this.IsLightRain() || @this.IsHeavyRain();
     }
 }

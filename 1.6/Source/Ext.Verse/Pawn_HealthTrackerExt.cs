@@ -6,21 +6,22 @@ namespace Bumbershoots.Ext.Verse;
 
 internal static class Pawn_HealthTrackerExt
 {
-    private static List<Hediff> CollectEncumbrances(Pawn_HealthTracker t)
+    private static readonly List<Hediff> present = [];
+
+    private static void CollectActiveEncumbrances(this Pawn_HealthTracker @this)
     {
-        List<Hediff> present = [];
-        for (var i = 0; i < t.hediffSet.hediffs.Count; i++)
+        present.Clear();
+        for (var i = 0; i < @this.hediffSet.hediffs.Count; i++)
         {
-            var h = t.hediffSet.hediffs[i];
+            var h = @this.hediffSet.hediffs[i];
             if (h.def.IsUmbrellaEncumbrance())
             {
                 present.Add(h);
             }
         }
-        return present;
     }
 
-    private static void AddEncumbrances(Pawn_HealthTracker t)
+    private static void AddEncumbrances(this Pawn_HealthTracker @this)
     {
         static int FindIndex(List<Hediff> hediffs, string defName)
         {
@@ -34,7 +35,7 @@ internal static class Pawn_HealthTrackerExt
             return -1;
         }
 
-        var present = CollectEncumbrances(t);
+        @this.CollectActiveEncumbrances();
         for (var i = 0; i < HediffDefExt.UmbrellaEncumbrances.Count; i++)
         {
             var defName = HediffDefExt.UmbrellaEncumbrances[i];
@@ -43,48 +44,47 @@ internal static class Pawn_HealthTrackerExt
             if (defEnabled())
             {
                 if (defIndex != -1) continue;
-                if (DefDatabase<HediffDef>.GetNamed(defName) is not HediffDef def) continue;
-                var h = HediffMaker.MakeHediff(def, t.hediffSet.pawn);
+                if (DefDatabase<HediffDef>.GetNamedSilentFail(defName) is not HediffDef def) continue;
+                var h = HediffMaker.MakeHediff(def, @this.hediffSet.pawn);
                 h.Severity = 1;
                 h.canBeThreateningToPart = false;
-                t.AddHediff(h);
+                @this.AddHediff(h);
             }
             else if (defIndex != -1)
             {
-                t.RemoveHediff(present[defIndex]);
-                present.RemoveAt(defIndex);
+                @this.RemoveHediff(present[defIndex]);
             }
         }
     }
 
-    private static void RemoveEncumbrances(Pawn_HealthTracker t)
+    private static void RemoveEncumbrances(this Pawn_HealthTracker @this)
     {
-        var present = CollectEncumbrances(t);
+        @this.CollectActiveEncumbrances();
         for (var i = 0; i < present.Count; i++)
         {
-            t.RemoveHediff(present[i]);
+            @this.RemoveHediff(present[i]);
         }
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    internal static void UpdateUmbrellaHediffs(this Pawn_HealthTracker t)
+    internal static void UpdateUmbrellaHediffs(this Pawn_HealthTracker @this)
     {
-        if (t.hediffSet.pawn.IsUmbrellaDeployed())
+        if (@this.hediffSet.pawn.IsUmbrellaDeployed())
         {
-            AddEncumbrances(t);
+            @this.AddEncumbrances();
         }
         else
         {
-            RemoveEncumbrances(t);
+            @this.RemoveEncumbrances();
         }
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    internal static bool HasUmbrellaProsthetic(this Pawn_HealthTracker t)
+    internal static bool HasUmbrellaProsthetic(this Pawn_HealthTracker @this)
     {
-        for (var i = 0; i < t.hediffSet.hediffs.Count; i++)
+        for (var i = 0; i < @this.hediffSet.hediffs.Count; i++)
         {
-            if (t.hediffSet.hediffs[i].def.IsUmbrellaProsthetic()) return true;
+            if (@this.hediffSet.hediffs[i].def.IsUmbrellaProsthetic()) return true;
         }
         return false;
     }

@@ -36,7 +36,7 @@ internal class LazyDef<T> where T : Def
 
     private T Lookup()
     {
-        return DefDatabase<T>.GetNamed(defName);
+        return DefDatabase<T>.GetNamedSilentFail(defName);
     }
 
     public override int GetHashCode()

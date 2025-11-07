@@ -9,7 +9,6 @@ internal partial class MapState : MapComponent
 #if DEBUG_MAPSTATE
         LogComp(nameof(MapState), "new");
 #endif
-        DataHelper.Register(map);
         map.events.ThingSpawned += OnThingSpawned;
         map.events.ThingDespawned += OnThingDespawned;
         map.events.RoofChanged += OnRoofChanged;
@@ -68,11 +67,10 @@ internal partial class MapState : MapComponent
     }
 #endif
 
+#if DEBUG_MAPSTATE
     public override void MapRemoved()
     {
-#if DEBUG_MAPSTATE
         LogComp(nameof(MapRemoved), "map removed");
-#endif
-        DataHelper.Unregister(map);
     }
+#endif
 }
