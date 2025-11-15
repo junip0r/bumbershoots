@@ -4,6 +4,7 @@
   <description>Provides umbrellas for blocking precipitation, sunlight, and certain special weather conditions.</description>
   <author>junip0r</author>
   <packageId>junip0r.bumbershoots</packageId>
+  <modVersion>1.0</modVersion>
   <supportedVersions>
     <li>1.6</li>
   </supportedVersions>
