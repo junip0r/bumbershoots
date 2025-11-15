@@ -12,12 +12,10 @@ internal static class ConditionalStatAffecter_InSunlightPatch
     [HarmonyPatch("Applies")]
     private static void Applies(ref bool __result, StatRequest req)
     {
-        if (__result
-            && req.Thing is Pawn p
-            && p.UmbrellaComp() is UmbrellaComp umbrellaComp
-            && umbrellaComp.BlockingSunlight)
-        {
-            __result = false;
-        }
+        if (!__result) return;
+        if (req.Thing is not Pawn p) return;
+        if (p.UmbrellaComp() is not UmbrellaComp umbrellaComp) return;
+        if (!umbrellaComp.BlockingSunlight) return;
+        __result = false;
     }
 }

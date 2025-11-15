@@ -14,11 +14,9 @@ internal static class ThoughtWorker_InSunlightPatch
     [HarmonyPatch("CurrentStateInternal")]
     private static void CurrentStateInternal(ref ThoughtState __result, Pawn p)
     {
-        if (__result.StageIndex != InactiveIndex
-            && p.UmbrellaComp() is UmbrellaComp umbrellaComp
-            && umbrellaComp.BlockingSunlight)
-        {
-            __result = ThoughtState.Inactive;
-        }
+        if (__result.StageIndex == InactiveIndex) return;
+        if (p.UmbrellaComp() is not UmbrellaComp umbrellaComp) return;
+        if (!umbrellaComp.BlockingSunlight) return;
+        __result = ThoughtState.Inactive;
     }
 }
