@@ -2,7 +2,6 @@
 
 <Defs>
 
-    <!-- Bumber_UmbrellaEncumbranceCombat -->
     <HediffDef>
         <defName>Bumber_UmbrellaEncumbranceCombat</defName>
         <label>umbrella combat encumbrance</label>
@@ -26,7 +25,6 @@
         </stages>
     </HediffDef>
 
-    <!-- Bumber_UmbrellaEncumbranceWork -->
     <HediffDef>
         <defName>Bumber_UmbrellaEncumbranceWork</defName>
         <label>umbrella work encumbrance</label>

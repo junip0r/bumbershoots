@@ -1,5 +1,5 @@
+using Bumbershoots.Patch.Mod;
 using HarmonyLib;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 using Verse;
 
@@ -8,17 +8,11 @@ namespace Bumbershoots;
 public class Mod : Verse.Mod
 {
     private const string ID = "junip0r.bumbershoots";
-    private static Settings settings;
-
-    public static Settings Settings
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => settings;
-    }
+    internal static Settings Settings;
 
     public Mod(ModContentPack pack) : base(pack)
     {
-        settings = GetSettings<Settings>();
+        Settings = GetSettings<Settings>();
         ApplyPatches();
     }
 
@@ -33,6 +27,6 @@ public class Mod : Verse.Mod
 
     public override void DoSettingsWindowContents(Rect rect)
     {
-        settings.DoWindowContents(rect);
+        Settings.DoWindowContents(rect);
     }
 }

@@ -1,14 +1,13 @@
-using Bumbershoots.Patch.Mod;
 using System;
 using HarmonyLib;
 
-namespace Bumbershoots;
+namespace Bumbershoots.Patch.Mod;
 
 internal static class ModPatches
 {
     private static readonly Type[] modPatchTypes =
     [
-        typeof(Patch.Mod.Nps.NpsPatch),
+        typeof(Nps.NpsPatch),
     ];
 
     internal static void PatchAll(Harmony harmony)

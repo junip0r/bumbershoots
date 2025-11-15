@@ -1,6 +1,5 @@
-using Verse;
 
-namespace Bumbershoots;
+namespace Bumbershoots.Util;
 
 internal static class Mods
 {

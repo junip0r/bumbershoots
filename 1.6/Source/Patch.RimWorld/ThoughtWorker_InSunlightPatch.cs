@@ -15,7 +15,8 @@ internal static class ThoughtWorker_InSunlightPatch
     private static void CurrentStateInternal(ref ThoughtState __result, Pawn p)
     {
         if (__result.StageIndex != InactiveIndex
-            && p.IsBlockingSunlight())
+            && p.UmbrellaComp() is UmbrellaComp umbrellaComp
+            && umbrellaComp.BlockingSunlight)
         {
             __result = ThoughtState.Inactive;
         }

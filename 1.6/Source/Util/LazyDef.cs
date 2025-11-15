@@ -2,33 +2,33 @@ using System;
 using System.Runtime.CompilerServices;
 using Verse;
 
-namespace Bumbershoots;
+namespace Bumbershoots.Util;
 
-internal class LazyDef<T> where T : Def
+public class LazyDef<T> where T : Def
 {
     private readonly string defName;
 
     private readonly Lazy<T> value;
 
-    internal string DefName
+    public string DefName
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => defName;
     }
 
-    internal T Value
+    public T Value
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => value.Value;
     }
 
-    internal bool Present
+    public bool Present
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => value.Value is not null;
     }
 
-    internal LazyDef(string defName)
+    public LazyDef(string defName)
     {
         this.defName = defName;
         value = new Lazy<T>(Lookup);

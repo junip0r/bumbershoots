@@ -1,7 +1,7 @@
 using System.Runtime.CompilerServices;
 using Verse;
 
-namespace Bumbershoots;
+namespace Bumbershoots.Util;
 
 internal static class Log
 {

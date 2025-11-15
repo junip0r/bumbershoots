@@ -5,10 +5,12 @@ using Verse;
 
 namespace Bumbershoots.Ext.Verse;
 
-public static class HediffDefExt
+internal static class HediffDefExt
 {
-    public static readonly HashSet<string> UmbrellaProsthetics =
+    internal static readonly HashSet<string> UmbrellaProsthetics =
     [
+        // FIXME figure out which mods provide these hediffs
+
         "AdvancedBionicArm",
         "AdvancedPowerArm",
         "ArchotechArm",
@@ -23,38 +25,10 @@ public static class HediffDefExt
         "SteelArm",
     ];
 
-    public static readonly List<string> UmbrellaEncumbrances =
-    [
-        "Bumber_UmbrellaEncumbranceCombat",
-        "Bumber_UmbrellaEncumbranceWork",
-    ];
-
-    public static readonly List<Func<bool>> UmbrellaEncumbranceEnabled =
-    [
-        static () => Mod.Settings.EncumberCombat,
-        static () => Mod.Settings.EncumberWork,
-    ];
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool IsUmbrellaProsthetic(this HediffDef @this)
+    internal static bool IsUmbrellaProsthetic(this HediffDef @this)
     {
         return UmbrellaProsthetics.Contains(@this.defName);
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool IsUmbrellaEncumbrance(this HediffDef @this)
-    {
-        for (var i = 0; i < UmbrellaEncumbrances.Count; i++)
-        {
-            if (@this.defName == UmbrellaEncumbrances[i]) return true;
-        }
-        return false;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static void AddUmbrellaEncumbrance(string defName, Func<bool> enabledPredicate)
-    {
-        UmbrellaEncumbrances.Add(defName);
-        UmbrellaEncumbranceEnabled.Add(enabledPredicate);
     }
 }

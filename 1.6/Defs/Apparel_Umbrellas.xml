@@ -11,6 +11,7 @@
       <li>Fabric</li>
       <li>Leathery</li>
     </stuffCategories>
+    <tickerType>Normal</tickerType>
     <recipeMaker>
       <workSpeedStat>GeneralLaborSpeed</workSpeedStat>
       <workSkill>Crafting</workSkill>
@@ -82,6 +83,21 @@
     <graphicData>
       <texPath>Parasol/Parasol</texPath>
     </graphicData>
+    <comps>
+      <li Class="Bumbershoots.UmbrellaProps">
+        <compClass>Bumbershoots.UmbrellaComp</compClass>
+        <blocksSunlight>true</blocksSunlight>
+        <blocksWeather>
+          <li>Rain</li>
+          <li>FoggyRain</li>
+        </blocksWeather>
+        <encumbrances>
+          <li>Bumber_UmbrellaEncumbranceCombat</li>
+          <li>Bumber_UmbrellaEncumbranceWork</li>
+        </encumbrances>
+        <hide>true</hide>
+      </li>
+    </comps>
   </ThingDef>
 
   <!-- Bumber_Umbrella -->
@@ -118,6 +134,23 @@
     <graphicData>
       <texPath>Umbrella/Umbrella</texPath>
     </graphicData>
+    <comps>
+      <li Class="Bumbershoots.UmbrellaProps">
+        <compClass>Bumbershoots.UmbrellaComp</compClass>
+        <blocksSunlight>true</blocksSunlight>
+        <blocksWeather>
+          <li>Rain</li>
+          <li>FoggyRain</li>
+          <li>RainyThunderstorm</li>
+        </blocksWeather>
+        <clothing>false</clothing>
+        <encumbrances>
+          <li>Bumber_UmbrellaEncumbranceCombat</li>
+          <li>Bumber_UmbrellaEncumbranceWork</li>
+        </encumbrances>
+        <hide>true</hide>
+      </li>
+    </comps>
   </ThingDef>
 
   <!-- Bumber_GolfUmbrella -->
@@ -155,6 +188,26 @@
     <graphicData>
       <texPath>GolfUmbrella/GolfUmbrella</texPath>
     </graphicData>
+    <comps>
+      <li Class="Bumbershoots.UmbrellaProps">
+        <compClass>Bumbershoots.UmbrellaComp</compClass>
+        <blocksSunlight>true</blocksSunlight>
+        <blocksWeather>
+          <li>Rain</li>
+          <li>FoggyRain</li>
+          <li>RainyThunderstorm</li>
+          <li MayRequire="Ludeon.RimWorld.Anomaly">BloodRain</li>
+          <li MayRequire="Ludeon.RimWorld.Odyssey">ToxRain</li>
+          <li MayRequire="Ludeon.RimWorld.Odyssey">TorrentialRain</li>
+        </blocksWeather>
+        <clothing>false</clothing>
+        <encumbrances>
+          <li>Bumber_UmbrellaEncumbranceCombat</li>
+          <li>Bumber_UmbrellaEncumbranceWork</li>
+        </encumbrances>
+        <hide>true</hide>
+      </li>
+    </comps>
   </ThingDef>
 
   <!-- Bumber_FashionUmbrella -->
@@ -178,13 +231,6 @@
     <equippedStatOffsets>
       <SocialImpact>0.15</SocialImpact>
     </equippedStatOffsets>
-    <comps>
-      <li Class="CompProperties_Art">
-        <nameMaker>NamerArtFurniture</nameMaker>
-        <descriptionMaker>ArtDescription_Furniture</descriptionMaker>
-        <minQualityForArtistic>Excellent</minQualityForArtistic>
-      </li>
-    </comps>
     <costStuffCount>40</costStuffCount>
     <costList>
       <Bumber_GolfUmbrella>1</Bumber_GolfUmbrella>
@@ -204,6 +250,30 @@
     <graphicData>
       <texPath>FashionUmbrella/FashionUmbrella</texPath>
     </graphicData>
+    <comps>
+      <li Class="Bumbershoots.UmbrellaProps">
+        <compClass>Bumbershoots.UmbrellaComp</compClass>
+        <blocksSunlight>true</blocksSunlight>
+        <blocksWeather>
+          <li>Rain</li>
+          <li>FoggyRain</li>
+          <li>RainyThunderstorm</li>
+          <li MayRequire="Ludeon.RimWorld.Anomaly">BloodRain</li>
+          <li MayRequire="Ludeon.RimWorld.Odyssey">ToxRain</li>
+          <li MayRequire="Ludeon.RimWorld.Odyssey">TorrentialRain</li>
+        </blocksWeather>
+        <clothing>false</clothing>
+        <encumbrances>
+          <li>Bumber_UmbrellaEncumbranceCombat</li>
+          <li>Bumber_UmbrellaEncumbranceWork</li>
+        </encumbrances>
+        <hide>true</hide>
+      </li>
+      <li Class="CompProperties_Art">
+        <nameMaker>NamerArtFurniture</nameMaker>
+        <descriptionMaker>ArtDescription_Furniture</descriptionMaker>
+        <minQualityForArtistic>Excellent</minQualityForArtistic>
+      </li>
+    </comps>
   </ThingDef>
-
 </Defs>

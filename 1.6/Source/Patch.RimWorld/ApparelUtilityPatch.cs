@@ -13,7 +13,7 @@ internal static class ApparelUtilityPatch
     private static void HasPartsToWear(ref bool __result, Pawn p, ThingDef apparel)
     {
         if (!__result
-            && apparel.IsUmbrella()
+            && ThingDefExt.Umbrellas.Contains(apparel.defName)
             && p.health.HasUmbrellaProsthetic())
         {
             __result = true;

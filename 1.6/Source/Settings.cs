@@ -5,20 +5,31 @@ namespace Bumbershoots;
 
 public class Settings : ModSettings
 {
-    public static string Category => "ModName".Translate();
+    public static string Category => "Mod".Translate();
 
-    public bool ShowUmbrellas = true;
-    public bool UmbrellasBlockSun = true;
-    public bool UmbrellaHats = true;
-    public bool EncumberWork = true;
-    public bool EncumberCombat = true;
+    public static bool ShowUmbrellas = true;
+    public static bool UmbrellasBlockSun = true;
+    public static bool UmbrellaClothing = true;
+    public static bool EncumberWork = true;
+    public static bool EncumberCombat = true;
+
+    internal static int SettingsHashCode()
+    {
+        return (
+            ShowUmbrellas,
+            UmbrellasBlockSun,
+            UmbrellaClothing,
+            EncumberWork,
+            EncumberCombat
+        ).GetHashCode();
+    }
 
     public override void ExposeData()
     {
         base.ExposeData();
         Scribe_Values.Look(ref ShowUmbrellas, nameof(ShowUmbrellas), true);
         Scribe_Values.Look(ref UmbrellasBlockSun, nameof(UmbrellasBlockSun), true);
-        Scribe_Values.Look(ref UmbrellaHats, nameof(UmbrellaHats), true);
+        Scribe_Values.Look(ref UmbrellaClothing, nameof(UmbrellaClothing), true);
         Scribe_Values.Look(ref EncumberWork, nameof(EncumberWork), true);
         Scribe_Values.Look(ref EncumberCombat, nameof(EncumberCombat), true);
     }
@@ -38,25 +49,11 @@ public class Settings : ModSettings
         {
             Checkbox(l, nameof(UmbrellasBlockSun), ref UmbrellasBlockSun);
         }
-        Checkbox(l, nameof(UmbrellaHats), ref UmbrellaHats);
+        Checkbox(l, nameof(UmbrellaClothing), ref UmbrellaClothing);
         Checkbox(l, nameof(EncumberWork), ref EncumberWork);
         Checkbox(l, nameof(EncumberCombat), ref EncumberCombat);
         l.End();
-    }
-
-    public override int GetHashCode()
-    {
-        return (
-            ShowUmbrellas,
-            UmbrellasBlockSun,
-            UmbrellaHats,
-            EncumberWork,
-            EncumberCombat
-        ).GetHashCode();
-    }
-
-    public override bool Equals(object o)
-    {
-        return o is Settings && o.GetHashCode() == GetHashCode();
+        if (Current.ProgramState != ProgramState.Playing) return;
+        GameComp.SettingsHashCode = SettingsHashCode();
     }
 }

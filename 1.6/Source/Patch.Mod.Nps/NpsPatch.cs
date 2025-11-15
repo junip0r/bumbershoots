@@ -1,5 +1,5 @@
-using Bumbershoots.Ext.RimWorld;
 using Bumbershoots.Ext.Verse;
+using Bumbershoots.Util;
 using System;
 using System.Reflection;
 using Verse;
@@ -35,9 +35,11 @@ internal class NpsPatch : ModPatch
                 if (pawn.health.hediffSet.HasHediff(wetness)) return false;
                 if (pawn.Map is not Map m) return false;
                 var pos = pawn.Position;
-                var makeWet = m.weatherManager.IsUmbrellaWeather()
+                var makeWet = m.weatherManager.CurWeatherLerped.IsRain()
                     && !pos.Roofed(m)
-                    && !pawn.IsBlockingWeather();
+                    && (pawn.PawnComp() is not PawnComp pawnComp
+                        || pawnComp.UmbrellaComp is not UmbrellaComp umbrellaComp
+                        || !umbrellaComp.BlockingWeather);
                 makeWet = makeWet || GridsUtility.GetTerrain(pos, m).HasTag(TKKN_Wet);
                 if (!makeWet) return false;
                 var h = HediffMaker.MakeHediff(TKKN_Wetness.Value, pawn);

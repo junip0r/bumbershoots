@@ -1,43 +1,16 @@
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
 using Verse;
 
 namespace Bumbershoots.Ext.Verse;
 
-public static class WeatherDefExt
+internal static class WeatherDefExt
 {
-    public static readonly HashSet<string> LightRain =
-    [
-        // Vanilla
-        "Rain",
-        "FoggyRain",
-    ];
-
-    public static readonly HashSet<string> HeavyRain =
-    [
-        // Vanilla
-        "RainyThunderstorm",
-
-        // Odyssey
-        "TorrentialRain",
-    ];
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool IsLightRain(this WeatherDef @this)
+    internal static bool IsSnow(this WeatherDef @this)
     {
-        return LightRain.Any(@this.defName.Equals);
+        return @this.defName.Contains("Snow");
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool IsHeavyRain(this WeatherDef @this)
+    internal static bool IsRain(this WeatherDef @this)
     {
-        return HeavyRain.Any(@this.defName.Equals);
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool IsRain(this WeatherDef @this)
-    {
-        return @this.IsLightRain() || @this.IsHeavyRain();
+        return @this.rainRate > 0 && !@this.IsSnow();
     }
 }

@@ -1,4 +1,4 @@
-using Bumbershoots.Ext.Verse;
+using Bumbershoots.Ext.RimWorld;
 using HarmonyLib;
 using System.Collections.Generic;
 using Verse;
@@ -10,11 +10,11 @@ internal static class PawnRenderNode_ApparelPatch
 {
     [HarmonyPostfix]
     [HarmonyPatch("GraphicsFor")]
-    private static void GraphicsFor(ref IEnumerable<Graphic> __result, PawnRenderNode_Apparel __instance, Pawn pawn)
+    private static void GraphicsFor(ref IEnumerable<Graphic> __result, PawnRenderNode_Apparel __instance)
     {
-        if (__instance.apparel.def.IsUmbrella() && !pawn.IsUmbrellaDeployed())
-        {
-            __result = [];
-        }
+        if (__instance.apparel.UmbrellaComp() is not UmbrellaComp umbrellaComp) return;
+        if (!umbrellaComp.umbrellaProps.hide) return;
+        if (Settings.ShowUmbrellas && umbrellaComp.Activated) return;
+        __result = [];
     }
 }

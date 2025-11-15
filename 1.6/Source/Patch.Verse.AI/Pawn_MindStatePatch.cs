@@ -12,11 +12,10 @@ internal static class Pawn_MindStatePatch
     [HarmonyPatch("CanGainGainThoughtNow")]
     private static void CanGainGainThoughtNow(ref bool __result, Pawn_MindState __instance, ThoughtDef thought)
     {
-        if (__result
-            && thought == ThoughtDefOf.SoakingWet
-            && __instance.pawn.IsBlockingWeather())
-        {
-            __result = false;
-        }
+        if (!__result) return;
+        if (thought != __instance.pawn.Map.weatherManager.CurWeatherLerped.weatherThought) return;
+        if (__instance.pawn.UmbrellaComp() is not UmbrellaComp umbrellaComp) return;
+        if (!umbrellaComp.BlockingWeather) return;
+        __result = false;
     }
 }

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<Patch>
+  <Operation Class="PatchOperationConditional">
+    <xpath>Defs/ThingDef[defName="Apparel_CowboyHat"]/comps</xpath>
+    <nomatch Class="PatchOperationAdd">
+      <xpath>Defs/ThingDef[defName="Apparel_CowboyHat"]</xpath>
+      <value><comps /></value>
+    </nomatch>
+  </Operation>
+
+  <Operation Class="PatchOperationAdd">
+    <xpath>Defs/ThingDef[defName="Apparel_CowboyHat"]/comps</xpath>
+    <value>
+      <li Class="Bumbershoots.UmbrellaProps">
+        <compClass>Bumbershoots.UmbrellaComp</compClass>
+        <blocksSunlight>false</blocksSunlight>
+        <blocksWeather>
+          <li>Rain</li>
+          <li>FoggyRain</li>
+        </blocksWeather>
+        <clothing>true</clothing>
+        <defName>Apparel_CowboyHat</defName>
+      </li>
+    </value>
+  </Operation>
+
+  <Operation Class="PatchOperationConditional">
+    <xpath>Defs/ThingDef[defName="Apparel_CowboyHat"]/tickerType</xpath>
+    <nomatch Class="PatchOperationAdd">
+      <xpath>Defs/ThingDef[defName="Apparel_CowboyHat"]</xpath>
+      <value><tickerType>Normal</tickerType></value>
+    </nomatch>
+    <match Class="PatchOperationReplace">
+      <xpath>Defs/ThingDef[defName="Apparel_CowboyHat"]/tickerType</xpath>
+      <value><tickerType>Normal</tickerType></value>
+    </match>
+  </Operation>
+</Patch>

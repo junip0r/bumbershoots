@@ -14,7 +14,8 @@ internal static class ConditionalStatAffecter_InSunlightPatch
     {
         if (__result
             && req.Thing is Pawn p
-            && p.IsBlockingSunlight())
+            && p.UmbrellaComp() is UmbrellaComp umbrellaComp
+            && umbrellaComp.BlockingSunlight)
         {
             __result = false;
         }

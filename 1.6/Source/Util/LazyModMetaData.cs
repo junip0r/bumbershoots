@@ -2,38 +2,38 @@ using System;
 using System.Runtime.CompilerServices;
 using Verse;
 
-namespace Bumbershoots;
+namespace Bumbershoots.Util;
 
-internal class LazyModMetaData
+public class LazyModMetaData
 {
     private readonly string packageId;
     private readonly Lazy<ModMetaData> value;
 
-    internal string PackageId
+    public string PackageId
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => packageId;
     }
 
-    internal ModMetaData Value
+    public ModMetaData Value
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => value.Value;
     }
 
-    internal bool Present
+    public bool Present
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => value.Value is not null;
     }
 
-    internal bool Active
+    public bool Active
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get => Present && value.Value.Active;
     }
 
-    internal LazyModMetaData(string packageId)
+    public LazyModMetaData(string packageId)
     {
         this.packageId = packageId;
         value = new Lazy<ModMetaData>(Lookup);
