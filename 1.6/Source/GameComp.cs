@@ -29,8 +29,7 @@ public class GameComp(Game _) : GameComponent()
         static void Notify(Pawn pawn)
         {
             if (pawn.AnimalOrWildMan()) return;
-            if (pawn.PawnComp() is not PawnComp pawnComp) return;
-            if (pawnComp.UmbrellaComp is not UmbrellaComp umbrellaComp) return;
+            if (pawn.UmbrellaComp() is not UmbrellaComp umbrellaComp) return;
             umbrellaComp.Notify_SettingsChanged();
         }
 

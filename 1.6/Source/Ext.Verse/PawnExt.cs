@@ -13,7 +13,7 @@ internal static class PawnExt
     internal static UmbrellaComp UmbrellaComp(this Pawn @this)
     {
         if (@this.PawnComp() is not PawnComp pawnComp) return null;
-        return pawnComp.UmbrellaComp;
+        return pawnComp.umbrellaComp;
     }
 
     internal static bool DislikesSunlight(this Pawn @this)

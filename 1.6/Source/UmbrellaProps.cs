@@ -17,7 +17,7 @@ public class UmbrellaProps() : CompProperties()
     // List of WeatherDef names to be blocked by the thing. Weather-blocking clothing
     // should generally not block weather heavier than light rain. Maybe a rain coat
     // or other such purpose-made apparel are exceptions.
-    public HashSet<string> blocksWeather;
+    public List<string> blocksWeather;
 
     // List of HediffDef names to apply to a pawn while the thing is being used to block
     // weather and/or sunlight. Weather-blocking clothing should generally not encumber.

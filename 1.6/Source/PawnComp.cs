@@ -23,8 +23,11 @@ public class PawnComp : ThingComp
     // Absence of a PawnComp means the pawn can't use an umbrella, i.e. wild men,
     // non-humanlikes.
 
-    internal MapComp MapComp;
-    internal UmbrellaComp UmbrellaComp;
+    internal MapComp mapComp;
+    internal UmbrellaComp umbrellaComp;
+
+    public MapComp MapComp => mapComp;
+    public UmbrellaComp UmbrellaComp => umbrellaComp;
 
     public override void Initialize(CompProperties props)
     {
@@ -38,12 +41,12 @@ public class PawnComp : ThingComp
 
     public override void PostSpawnSetup(bool respawningAfterLoad)
     {
-        MapComp = (parent as Pawn).MapHeld.MapComp();
+        mapComp = (parent as Pawn).MapHeld.MapComp();
     }
 
     public override void PostDeSpawn(Map map, DestroyMode mode = DestroyMode.Vanish)
     {
-        MapComp = null;
+        mapComp = null;
     }
 
     private bool ShouldDisable()

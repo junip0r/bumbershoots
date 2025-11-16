@@ -113,7 +113,7 @@ public class UmbrellaComp : ThingComp
         if (pawn.PawnComp() is not PawnComp pawnComp) return;
         this.pawn = pawn;
         this.pawnComp = pawnComp;
-        pawnComp.UmbrellaComp = this;
+        pawnComp.umbrellaComp = this;
         PrepareEncumbrances();
     }
 
@@ -121,7 +121,7 @@ public class UmbrellaComp : ThingComp
     {
         if (pawn is null) return;
         if (activated) Deactivate();
-        pawnComp.UmbrellaComp = null;
+        pawnComp.umbrellaComp = null;
         pawn = null;
         pawnComp = null;
         encumbrances.Clear();
@@ -130,7 +130,7 @@ public class UmbrellaComp : ThingComp
     private void Reattach(bool updateGraphics)
     {
         pawnComp ??= pawn.PawnComp();
-        pawnComp.UmbrellaComp = this;
+        pawnComp.umbrellaComp = this;
         var activated = this.activated;
         if (activated) Deactivate(false);
         encumbrances.Clear();
@@ -174,7 +174,7 @@ public class UmbrellaComp : ThingComp
         //
         // :)
 
-        if (pawnComp?.MapComp is not MapComp mapComp) return;
+        if (pawnComp?.mapComp is not MapComp mapComp) return;
         Update(mapComp);
         if (ShouldActivate())
         {
