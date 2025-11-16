@@ -17,7 +17,7 @@ public class UmbrellaProps() : CompProperties()
     // List of WeatherDef names to be blocked by the thing. Weather-blocking clothing
     // should generally not block weather heavier than light rain. Maybe a rain coat
     // or other such purpose-made apparel are exceptions.
-    public List<string> blocksWeather;
+    public HashSet<string> blocksWeather;
 
     // List of HediffDef names to apply to a pawn while the thing is being used to block
     // weather and/or sunlight. Weather-blocking clothing should generally not encumber.
@@ -39,7 +39,7 @@ public class UmbrellaProps() : CompProperties()
     // Defaults to false, so may be omitted for apparel that does not hide.
     public bool hideable;
 
-    // Use of inheritance within apparel ThingDefs can break UmbrellaComp.
+    // Use of inheritance among apparel ThingDefs can break UmbrellaComp.
     //
     // Take the cowboy hat for example. We attach UmbrellaComp to Apparel_CowboyHat
     // so that it blocks light rain. Great, that works. But Apparel_BowlerHat uses
@@ -47,16 +47,17 @@ public class UmbrellaProps() : CompProperties()
     // which is not what we want.
     //
     // This property is the workaround. If this field is not empty, then UmbrellaComp
-    // will remove itself from the thing's comps list if the thing's .def.defName
-    // does not match the value of this property.
+    // will remove itself from a thing's comps list if the thing's .def.defName does
+    // not match the value of this property.
     //
     // So if we set this property to "Apparel_CowboyHat", then when a bowler spawns
     // and gets an UmbrellaComp, the comp has a way to notice that a bowler is not
     // a cowboy hat, and delete itself from the bowler's comps list.
     //
-    // Maybe there's a better way to compensate for inheritance, but every approach
-    // I can think of has tradeoffs. This approach seems best for compatibility, and
-    // has basically zero runtime cost.
+    // There's probably a better way to account for the parent/child relationship,
+    // but every approach I can think of has tradeoffs. This approach seems good
+    // for compatibility in that the solution doesn't involve patching more things,
+    // and this approach has almost zero runtime cost.
     //
     // If the ThingDef will never be used as a parent for another def, then it is
     // safe to omit this property.
