@@ -95,7 +95,7 @@
           <li>Bumber_UmbrellaEncumbranceCombat</li>
           <li>Bumber_UmbrellaEncumbranceWork</li>
         </encumbrances>
-        <hide>true</hide>
+        <hideable>true</hideable>
       </li>
     </comps>
   </ThingDef>
@@ -143,12 +143,11 @@
           <li>FoggyRain</li>
           <li>RainyThunderstorm</li>
         </blocksWeather>
-        <clothing>false</clothing>
         <encumbrances>
           <li>Bumber_UmbrellaEncumbranceCombat</li>
           <li>Bumber_UmbrellaEncumbranceWork</li>
         </encumbrances>
-        <hide>true</hide>
+        <hideable>true</hideable>
       </li>
     </comps>
   </ThingDef>
@@ -200,12 +199,11 @@
           <li MayRequire="Ludeon.RimWorld.Odyssey">ToxRain</li>
           <li MayRequire="Ludeon.RimWorld.Odyssey">TorrentialRain</li>
         </blocksWeather>
-        <clothing>false</clothing>
         <encumbrances>
           <li>Bumber_UmbrellaEncumbranceCombat</li>
           <li>Bumber_UmbrellaEncumbranceWork</li>
         </encumbrances>
-        <hide>true</hide>
+        <hideable>true</hideable>
       </li>
     </comps>
   </ThingDef>
@@ -262,12 +260,11 @@
           <li MayRequire="Ludeon.RimWorld.Odyssey">ToxRain</li>
           <li MayRequire="Ludeon.RimWorld.Odyssey">TorrentialRain</li>
         </blocksWeather>
-        <clothing>false</clothing>
         <encumbrances>
           <li>Bumber_UmbrellaEncumbranceCombat</li>
           <li>Bumber_UmbrellaEncumbranceWork</li>
         </encumbrances>
-        <hide>true</hide>
+        <hideable>true</hideable>
       </li>
       <li Class="CompProperties_Art">
         <nameMaker>NamerArtFurniture</nameMaker>

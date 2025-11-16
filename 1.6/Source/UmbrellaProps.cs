@@ -37,7 +37,7 @@ public class UmbrellaProps() : CompProperties()
     // clothing that blocks weather and/or sunlight, like hats or rain coats.
     //
     // Defaults to false, so may be omitted for apparel that does not hide.
-    public bool hide;
+    public bool hideable;
 
     // Use of inheritance within apparel ThingDefs can break UmbrellaComp.
     //

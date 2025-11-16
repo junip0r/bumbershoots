@@ -13,7 +13,7 @@ internal static class PawnRenderNode_ApparelPatch
     private static void GraphicsFor(ref IEnumerable<Graphic> __result, PawnRenderNode_Apparel __instance)
     {
         if (__instance.apparel.UmbrellaComp() is not UmbrellaComp umbrellaComp) return;
-        if (!umbrellaComp.umbrellaProps.hide) return;
+        if (!umbrellaComp.umbrellaProps.hideable) return;
         if (Settings.ShowUmbrellas && umbrellaComp.Activated) return;
         __result = [];
     }
