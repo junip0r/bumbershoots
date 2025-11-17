@@ -2,9 +2,6 @@
 
 set -e
 
-# Profile: PROFILE_MAPSTATE
-#   Debug: DEBUG_MAPSTATE DEBUG_PAWNSTATE
-
 case "$1" in
     debug|'')
         dotnet build --configuration Debug "-p:DefineConstants=\"$DEFINE\""

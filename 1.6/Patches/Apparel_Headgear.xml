@@ -13,8 +13,6 @@
     <xpath>Defs/ThingDef[defName="Apparel_CowboyHat"]/comps</xpath>
     <value>
       <li Class="Bumbershoots.UmbrellaProps">
-        <compClass>Bumbershoots.UmbrellaComp</compClass>
-        <blocksSunlight>false</blocksSunlight>
         <blocksWeather>
           <li>Rain</li>
           <li>FoggyRain</li>

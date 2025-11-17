@@ -85,7 +85,6 @@
     </graphicData>
     <comps>
       <li Class="Bumbershoots.UmbrellaProps">
-        <compClass>Bumbershoots.UmbrellaComp</compClass>
         <blocksSunlight>true</blocksSunlight>
         <blocksWeather>
           <li>Rain</li>
@@ -136,7 +135,6 @@
     </graphicData>
     <comps>
       <li Class="Bumbershoots.UmbrellaProps">
-        <compClass>Bumbershoots.UmbrellaComp</compClass>
         <blocksSunlight>true</blocksSunlight>
         <blocksWeather>
           <li>Rain</li>
@@ -189,7 +187,6 @@
     </graphicData>
     <comps>
       <li Class="Bumbershoots.UmbrellaProps">
-        <compClass>Bumbershoots.UmbrellaComp</compClass>
         <blocksSunlight>true</blocksSunlight>
         <blocksWeather>
           <li>Rain</li>
@@ -250,7 +247,6 @@
     </graphicData>
     <comps>
       <li Class="Bumbershoots.UmbrellaProps">
-        <compClass>Bumbershoots.UmbrellaComp</compClass>
         <blocksSunlight>true</blocksSunlight>
         <blocksWeather>
           <li>Rain</li>

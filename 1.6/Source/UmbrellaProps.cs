@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Verse;
 
@@ -8,8 +9,12 @@ namespace Bumbershoots;
 // - Defs/Apparel_Umbrellas.xml
 // - Patches/Apparel_Headgear.xml
 
-public class UmbrellaProps() : CompProperties()
+public class UmbrellaProps : CompProperties
 {
+    public UmbrellaProps() : base(typeof(UmbrellaComp)) {}
+
+    public UmbrellaProps(Type compClass) : base(compClass) {}
+
     // Set to true if the thing blocks sunlight. Weather-blocking clothing should
     // generally not block sunlight.
     public bool blocksSunlight;
@@ -64,5 +69,4 @@ public class UmbrellaProps() : CompProperties()
     // If the ThingDef will never be used as a parent for another def, then it is
     // safe to omit this property.
     public string defName;
-
 }

@@ -11,30 +11,22 @@ public class UmbrellaComp : ThingComp
     internal UmbrellaProps umbrellaProps;
     internal Pawn pawn;
     internal PawnComp pawnComp;
-    internal bool activated;
+    private bool activated;
     private bool blockingSunlight;
     private bool blockingWeather;
-    private bool hasEncumbrances;
-    private readonly HashSet<string> hediffDefNames = [];
+    private bool hasHediffs;
+    private ICollection<string> hediffDefNames;
     private readonly List<HediffDef> hediffDefs = [];
     private readonly List<Hediff> hediffs = [];
 
-    public UmbrellaProps UmbrellaProps
-    {
-        get => umbrellaProps;
-    }
-
+    public UmbrellaProps UmbrellaProps => umbrellaProps;
     public Pawn Pawn => Pawn;
-
     public PawnComp PawnComp => pawnComp;
-
     public bool Activated => activated;
-
     public bool BlockingSunlight => activated && blockingSunlight;
-
     public bool BlockingWeather => activated && blockingWeather;
 
-public override void Initialize(CompProperties props)
+    public override void Initialize(CompProperties props)
     {
         umbrellaProps = (UmbrellaProps)props;
         if (ShouldDisable())
@@ -43,7 +35,6 @@ public override void Initialize(CompProperties props)
             return;
         }
         base.Initialize(props);
-        hasEncumbrances = umbrellaProps.HasEncumbrances;
         PrepareHediffDefs();
     }
 
@@ -59,20 +50,9 @@ public override void Initialize(CompProperties props)
         }
     }
 
-    public override void Notify_Equipped(Pawn pawn)
-    {
-        Attach(pawn);
-    }
-
-    public override void Notify_Unequipped(Pawn pawn)
-    {
-        Detach();
-    }
-
-    public void Notify_SettingsChanged()
-    {
-        Reattach(true);
-    }
+    public override void Notify_Equipped(Pawn pawn) => Attach(pawn);
+    public override void Notify_Unequipped(Pawn pawn) => Detach();
+    public void Notify_SettingsChanged() => Reattach(true);
 
     private bool ShouldDisable()
     {
@@ -83,14 +63,20 @@ public override void Initialize(CompProperties props)
 
     private void PrepareHediffDefs()
     {
-        if (!hasEncumbrances) return;
-        for (var i = 0; i < umbrellaProps.encumbrances.Count; i++)
+        hasHediffs = umbrellaProps.HasEncumbrances;
+        if (!hasHediffs) return;
+        int count = umbrellaProps.encumbrances.Count;
+        hediffDefNames = count < 4 ? new List<string>(count) : new HashSet<string>();
+        hediffDefs.Capacity = count;
+        hediffs.Capacity = count;
+        for (var i = 0; i < count; i++)
         {
             var defName = umbrellaProps.encumbrances[i];
             if (DefDatabase<HediffDef>.GetNamed(defName) is not HediffDef def) continue;
-            hediffDefNames.Add(def.defName);
+            hediffDefNames.Add(defName);
             hediffDefs.Add(def);
         }
+        hasHediffs = hediffDefs.Count > 0;
     }
 
     private void Attach(Pawn pawn)
@@ -114,14 +100,15 @@ public override void Initialize(CompProperties props)
     {
         pawnComp ??= pawn.PawnComp();
         pawnComp.umbrellaComp = this;
-        var activated = this.activated;
-        if (activated) Deactivate(false);
-        if (activated) Activate(updateGraphics);
+        if (!activated) return;
+        Deactivate(false);
+        Activate(updateGraphics);
     }
 
     public override void CompTick()
     {
-        if (pawnComp?.mapComp is not MapComp mapComp) return;
+        if (pawn is null) return;
+        if (pawnComp.mapComp is not MapComp mapComp) return;
         Update(mapComp);
         if (ShouldActivate())
         {
@@ -174,7 +161,7 @@ public override void Initialize(CompProperties props)
     private void Deactivate(bool updateGraphics = true)
     {
         activated = false;
-        if (!hasEncumbrances) return;
+        if (!hasHediffs) return;
         if (hediffs.Count == 0)
         {
             for (var i = 0; i < pawn.health.hediffSet.hediffs.Count; i++)

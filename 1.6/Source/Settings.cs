@@ -13,15 +13,18 @@ public class Settings : ModSettings
     public static bool EncumberWork = true;
     public static bool EncumberCombat = true;
 
-    internal static int SettingsHashCode()
+    internal static int HashCode
     {
-        return (
-            ShowUmbrellas,
-            UmbrellasBlockSun,
-            UmbrellaClothing,
-            EncumberWork,
-            EncumberCombat
-        ).GetHashCode();
+        get
+        {
+            return (
+                ShowUmbrellas,
+                UmbrellasBlockSun,
+                UmbrellaClothing,
+                EncumberWork,
+                EncumberCombat
+            ).GetHashCode();
+        }
     }
 
     public override void ExposeData()
@@ -53,7 +56,9 @@ public class Settings : ModSettings
         Checkbox(l, nameof(EncumberWork), ref EncumberWork);
         Checkbox(l, nameof(EncumberCombat), ref EncumberCombat);
         l.End();
-        if (Current.ProgramState != ProgramState.Playing) return;
-        GameComp.SettingsHashCode = SettingsHashCode();
+        if (Current.ProgramState == ProgramState.Playing)
+        {
+            GameComp.SettingsHashCode = HashCode;
+        }
     }
 }

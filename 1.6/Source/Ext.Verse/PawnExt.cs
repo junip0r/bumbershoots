@@ -16,6 +16,14 @@ internal static class PawnExt
         return pawnComp.umbrellaComp;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    internal static void Notify_SettingsChanged(this Pawn @this)
+    {
+        if (@this.AnimalOrWildMan()) return;
+        if (@this.UmbrellaComp() is not UmbrellaComp umbrellaComp) return;
+        umbrellaComp.Notify_SettingsChanged();
+    }
+
     internal static bool DislikesSunlight(this Pawn @this)
     {
         return @this.genes.HasUVSensitivity();

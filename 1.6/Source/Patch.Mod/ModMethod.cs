@@ -4,8 +4,6 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using Verse;
 
-using Log = Bumbershoots.Util.Log;
-
 namespace Bumbershoots.Patch.Mod;
 
 internal abstract class ModMethod

@@ -10,10 +10,6 @@
         <defaultLabelColor>(0.9, 1.0, 0.35)</defaultLabelColor>
         <stages>
             <li>
-                <label>inactive</label>
-                <becomeVisible>false</becomeVisible>
-            </li>
-            <li>
                 <label>active</label>
                 <becomeVisible>false</becomeVisible>
                 <statFactors>
@@ -32,10 +28,6 @@
         <description>reduced work speed while using an umbrella</description>
         <defaultLabelColor>(0.9, 1.0, 0.35)</defaultLabelColor>
         <stages>
-            <li>
-                <label>inactive</label>
-                <becomeVisible>false</becomeVisible>
-            </li>
             <li>
                 <label>active</label>
                 <becomeVisible>false</becomeVisible>
