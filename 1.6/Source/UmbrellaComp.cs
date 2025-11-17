@@ -14,39 +14,27 @@ public class UmbrellaComp : ThingComp
     internal bool activated;
     private bool blockingSunlight;
     private bool blockingWeather;
-    private List<Hediff> encumbrances = [];
+    private bool hasEncumbrances;
+    private readonly HashSet<string> hediffDefNames = [];
+    private readonly List<HediffDef> hediffDefs = [];
+    private readonly List<Hediff> hediffs = [];
 
     public UmbrellaProps UmbrellaProps
     {
         get => umbrellaProps;
     }
 
-    public Pawn Pawn
-    {
-        get => pawn;
-    }
+    public Pawn Pawn => Pawn;
 
-    public PawnComp PawnComp
-    {
-        get => pawnComp;
-    }
+    public PawnComp PawnComp => pawnComp;
 
-    public bool Activated
-    {
-        get => activated;
-    }
+    public bool Activated => activated;
 
-    public bool BlockingSunlight
-    {
-        get => activated && blockingSunlight;
-    }
+    public bool BlockingSunlight => activated && blockingSunlight;
 
-    public bool BlockingWeather
-    {
-        get => activated && blockingWeather;
-    }
+    public bool BlockingWeather => activated && blockingWeather;
 
-    public override void Initialize(CompProperties props)
+public override void Initialize(CompProperties props)
     {
         umbrellaProps = (UmbrellaProps)props;
         if (ShouldDisable())
@@ -55,6 +43,8 @@ public class UmbrellaComp : ThingComp
             return;
         }
         base.Initialize(props);
+        hasEncumbrances = umbrellaProps.HasEncumbrances;
+        PrepareHediffDefs();
     }
 
     public override void PostExposeData()
@@ -63,10 +53,8 @@ public class UmbrellaComp : ThingComp
         Scribe_Values.Look(ref activated, nameof(activated));
         Scribe_Values.Look(ref blockingSunlight, nameof(blockingSunlight));
         Scribe_Values.Look(ref blockingWeather, nameof(blockingWeather));
-        Scribe_Collections.Look(ref encumbrances, nameof(encumbrances), LookMode.Reference);
         if (Scribe.mode == LoadSaveMode.PostLoadInit)
         {
-            encumbrances ??= [];
             if (pawn != null) Reattach(false);
         }
     }
@@ -93,18 +81,15 @@ public class UmbrellaComp : ThingComp
         return defName != parent.def.defName;
     }
 
-    private void PrepareEncumbrances()
+    private void PrepareHediffDefs()
     {
-        if (umbrellaProps.encumbrances is null) return;
+        if (!hasEncumbrances) return;
         for (var i = 0; i < umbrellaProps.encumbrances.Count; i++)
         {
             var defName = umbrellaProps.encumbrances[i];
-            if (!IsEncumbranceEnabled(defName)) continue;
             if (DefDatabase<HediffDef>.GetNamed(defName) is not HediffDef def) continue;
-            var h = HediffMaker.MakeHediff(def, pawn);
-            h.Severity = 1;
-            h.canBeThreateningToPart = false;
-            encumbrances.Add(h);
+            hediffDefNames.Add(def.defName);
+            hediffDefs.Add(def);
         }
     }
 
@@ -114,7 +99,6 @@ public class UmbrellaComp : ThingComp
         this.pawn = pawn;
         this.pawnComp = pawnComp;
         pawnComp.umbrellaComp = this;
-        PrepareEncumbrances();
     }
 
     private void Detach()
@@ -124,7 +108,6 @@ public class UmbrellaComp : ThingComp
         pawnComp.umbrellaComp = null;
         pawn = null;
         pawnComp = null;
-        encumbrances.Clear();
     }
 
     private void Reattach(bool updateGraphics)
@@ -133,47 +116,11 @@ public class UmbrellaComp : ThingComp
         pawnComp.umbrellaComp = this;
         var activated = this.activated;
         if (activated) Deactivate(false);
-        encumbrances.Clear();
-        PrepareEncumbrances();
         if (activated) Activate(updateGraphics);
     }
 
     public override void CompTick()
     {
-        // Update(), Activate() and Deactivate() are about as optimized as I can
-        // make them. Update() seems to be very fast. Activate() and Deactivate()
-        // are comparatively slow, but the vast majority of their time is spent
-        // in vanilla code adding/removing hediffs or dirtying pawn graphics, so
-        // there's not much I can do.
-        //
-        // Testing a release build with no other mods, 25 umbrella-wearing pawns,
-        // a few umbrellas laying on the ground, with alternating roofed and
-        // unroofed sections:
-        //
-        // On a clear day, Dub's clocks this CompTick() at 3-5us average (8-10us
-        // max) per tick, 0.07us per call average.
-        //
-        // With rainy weather, we get 10us average (127us max) per tick, 0.24us
-        // per call average. The 127us max happens when Activate() or Deactivate()
-        // are called, when a pawn transitions between roofed and unroofed. Dub's
-        // graph shows spikes when a pawn walks outside or inside. As we've scrubbed
-        // everything else from those two methods, it's the hediff add/remove and
-        // the dirtying of pawn/portrait graphics using all the time.
-        //
-        // When a map transitions from clear to rainy, or vice versa, every outdoor
-        // pawn will call either Activate() or Deactivate() at the same time. Dub's
-        // clocks this event as an anywhere from 1ms to 3ms max per tick, probably
-        // depending on the number of pawns who happen to be outside when the event
-        // occurs.
-        //
-        // I don't think there's anything I can do about these spikes, though they
-        // are not bad in practice, and likely happen to all mods that dirty pawn
-        // graphics.
-        //
-        // Broadly, these times are excellent, and I'm quite happy with the results.
-        //
-        // :)
-
         if (pawnComp?.mapComp is not MapComp mapComp) return;
         Update(mapComp);
         if (ShouldActivate())
@@ -212,9 +159,14 @@ public class UmbrellaComp : ThingComp
     private void Activate(bool updateGraphics = true)
     {
         activated = true;
-        for (var i = 0; i < encumbrances.Count; i++)
+        for (var i = 0; i < hediffDefs.Count; i++)
         {
-            pawn.health.AddHediff(encumbrances[i]);
+            if (!IsEncumbranceEnabled(hediffDefs[i].defName)) continue;
+            var hediff = HediffMaker.MakeHediff(hediffDefs[i], pawn);
+            hediff.Severity = 1;
+            hediff.canBeThreateningToPart = false;
+            pawn.health.AddHediff(hediff);
+            hediffs.Add(hediff);
         }
         if (updateGraphics && umbrellaProps.hideable) pawn.apparel.UpdateUmbrellaGraphics();
     }
@@ -222,10 +174,23 @@ public class UmbrellaComp : ThingComp
     private void Deactivate(bool updateGraphics = true)
     {
         activated = false;
-        for (var i = 0; i < encumbrances.Count; i++)
+        if (!hasEncumbrances) return;
+        if (hediffs.Count == 0)
         {
-            pawn.health.RemoveHediff(encumbrances[i]);
+            for (var i = 0; i < pawn.health.hediffSet.hediffs.Count; i++)
+            {
+                var hediff = pawn.health.hediffSet.hediffs[i];
+                if (hediffDefNames.Contains(hediff.def.defName))
+                {
+                    hediffs.Add(hediff);
+                }
+            }
         }
+        for (var i = 0; i < hediffs.Count; i++)
+        {
+            pawn.health.RemoveHediff(hediffs[i]);
+        }
+        hediffs.Clear();
         if (updateGraphics && umbrellaProps.hideable) pawn.apparel.UpdateUmbrellaGraphics();
     }
 

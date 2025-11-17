@@ -28,6 +28,8 @@ public class UmbrellaProps() : CompProperties()
     // - Bumber_UmbrellaEncumbranceWork
     public List<string> encumbrances;
 
+    public bool HasEncumbrances => encumbrances != null && encumbrances.Count > 0;
+
     // Set to true if this is clothing, not an umbrella. Players can toggle whether
     // clothing blocks sunlight and/or weather.
     public bool clothing;
@@ -62,4 +64,5 @@ public class UmbrellaProps() : CompProperties()
     // If the ThingDef will never be used as a parent for another def, then it is
     // safe to omit this property.
     public string defName;
+
 }

@@ -1,3 +1,4 @@
+- Blocking sunlight prevents Darklight_Preferred_BlindingLight ThoughtDef
 - Prevent blood rain from affecting pawns wearing umbrellas.
 - Prevent Psychic Rain (Vanilla Events Expanded) from affecting pawns
   wearing umbrellas.
