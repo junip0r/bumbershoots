@@ -46,13 +46,13 @@ public class UmbrellaComp : ThingComp
         Scribe_Values.Look(ref blockingWeather, nameof(blockingWeather));
         if (Scribe.mode == LoadSaveMode.PostLoadInit)
         {
-            if (pawn != null) Reattach(false);
+            if (pawn != null) Reattach();
         }
     }
 
     public override void Notify_Equipped(Pawn pawn) => Attach(pawn);
     public override void Notify_Unequipped(Pawn pawn) => Detach();
-    public void Notify_SettingsChanged() => Reattach(true);
+    public void Notify_SettingsChanged() => Reactivate(true);
 
     private bool ShouldDisable()
     {
@@ -96,13 +96,11 @@ public class UmbrellaComp : ThingComp
         pawnComp = null;
     }
 
-    private void Reattach(bool updateGraphics)
+    private void Reattach()
     {
         pawnComp ??= pawn.PawnComp();
         pawnComp.umbrellaComp = this;
-        if (!activated) return;
-        Deactivate(false);
-        Activate(updateGraphics);
+        Reactivate(false);
     }
 
     public override void CompTick()
@@ -124,14 +122,15 @@ public class UmbrellaComp : ThingComp
     private void Update(MapComp mapComp)
     {
         if (umbrellaProps.clothing && !Settings.UmbrellaClothing) goto Off;
+        var map = mapComp.map;
         var cell = pawn.Position;
-        if (cell.Roofed(mapComp.map)) goto Off;
+        if (cell.Roofed(map)) goto Off;
         blockingSunlight = mapComp.IsUmbrellaSunlight
             && umbrellaProps.blocksSunlight
-            && pawn.DislikesSunlight()
-            && cell.InSunlight(mapComp.map);
+            && pawn.HasSunlightSensitivity()
+            && cell.InSunlight(map);
         blockingWeather = mapComp.IsUmbrellaWeather
-            && umbrellaProps.blocksWeather.Contains(mapComp.map.weatherManager.CurWeatherLerped.defName);
+            && umbrellaProps.blocksWeather.Contains(map.weatherManager.CurWeatherLerped.defName);
         return;
     Off:
         blockingSunlight = false;
@@ -179,6 +178,13 @@ public class UmbrellaComp : ThingComp
         }
         hediffs.Clear();
         if (updateGraphics && umbrellaProps.hideable) pawn.apparel.UpdateUmbrellaGraphics();
+    }
+
+    private void Reactivate(bool updateGraphics)
+    {
+        if (!activated) return;
+        Deactivate(false);
+        Activate(updateGraphics);
     }
 
     private bool IsEncumbranceEnabled(string defName)

@@ -1,9 +1,11 @@
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace Bumbershoots.Ext.Verse;
 
 internal static partial class Pawn_HealthTrackerExt
 {
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal static bool HasUmbrellaProsthetic(this Pawn_HealthTracker @this)
     {
         for (var i = 0; i < @this.hediffSet.hediffs.Count; i++)

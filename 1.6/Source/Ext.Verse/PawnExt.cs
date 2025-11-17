@@ -24,7 +24,7 @@ internal static class PawnExt
         umbrellaComp.Notify_SettingsChanged();
     }
 
-    internal static bool DislikesSunlight(this Pawn @this)
+    internal static bool HasSunlightSensitivity(this Pawn @this)
     {
         return @this.genes.HasUVSensitivity();
     }
