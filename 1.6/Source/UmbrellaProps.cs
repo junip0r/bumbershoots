@@ -25,15 +25,17 @@ public class UmbrellaProps : CompProperties
     public List<string> blocksWeather;
 
     // List of HediffDef names to apply to a pawn while the thing is being used to block
-    // weather and/or sunlight. Weather-blocking clothing should generally not encumber.
+    // weather and/or sunlight. Clothing items have no hediffs by default. Umbrellas
+    // have two debuffs by default, though these can be disabled in the settings:
     //
-    // The defaults for umbrellas are:
+    // - Bumber_DebuffCombat
+    // - Bumber_DebuffWork
     //
-    // - Bumber_UmbrellaEncumbranceCombat
-    // - Bumber_UmbrellaEncumbranceWork
-    public List<string> encumbrances;
+    // When instantiating Hediffs from these HediffDefs, the Severity will be set to
+    // the minSeverity of the 0th stage.
+    public List<string> hediffs;
 
-    public bool HasEncumbrances => encumbrances != null && encumbrances.Count > 0;
+    public bool HasHediffs => hediffs != null && hediffs.Count > 0;
 
     // Set to true if this is clothing, not an umbrella. Players can toggle whether
     // clothing blocks sunlight and/or weather.
@@ -69,4 +71,6 @@ public class UmbrellaProps : CompProperties
     // If the ThingDef will never be used as a parent for another def, then it is
     // safe to omit this property.
     public string defName;
+
+    public bool HasDefName => !string.IsNullOrWhiteSpace(defName);
 }

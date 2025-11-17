@@ -15,7 +15,7 @@ internal static class Pawn_MindStatePatch
         if (!__result) return;
         if (thought != __instance.pawn.Map.weatherManager.CurWeatherLerped.weatherThought) return;
         if (__instance.pawn.UmbrellaComp() is not UmbrellaComp umbrellaComp) return;
-        if (!umbrellaComp.BlockingWeather) return;
+        if (!umbrellaComp.blockingWeather) return;
         __result = false;
     }
 }

@@ -59,6 +59,8 @@
       <researchPrerequisite>Devilstrand</researchPrerequisite>
       <recipeUsers>
         <li>CraftingSpot</li>
+        <li>HandTailoringBench</li>
+        <li>ElectricTailoringBench</li>
       </recipeUsers>
       <skillRequirements>
         <Crafting>4</Crafting>
@@ -70,7 +72,7 @@
     </costList>
     <statBases>
       <WorkToMake>4000</WorkToMake>
-      <MarketValue>75</MarketValue>
+      <MarketValue>115</MarketValue>
       <Mass>1</Mass>
       <EquipDelay>1</EquipDelay>
     </statBases>
@@ -90,10 +92,10 @@
           <li>Rain</li>
           <li>FoggyRain</li>
         </blocksWeather>
-        <encumbrances>
-          <li>Bumber_UmbrellaEncumbranceCombat</li>
-          <li>Bumber_UmbrellaEncumbranceWork</li>
-        </encumbrances>
+        <hediffs>
+          <li>Bumber_DebuffCombat</li>
+          <li>Bumber_DebuffWork</li>
+        </hediffs>
         <hideable>true</hideable>
       </li>
     </comps>
@@ -109,10 +111,10 @@
       <researchPrerequisite>ComplexClothing</researchPrerequisite>
       <researchPrerequisite>Smithing</researchPrerequisite>
       <recipeUsers>
-        <li>ElectricSmithy</li>
-        <li>FueledSmithy</li>
+        <li>HandTailoringBench</li>
+        <li>ElectricTailoringBench</li>
       </recipeUsers>
-      <effectWorking>Smith</effectWorking>
+      <effectWorking>Tailor</effectWorking>
       <skillRequirements>
         <Crafting>5</Crafting>
       </skillRequirements>
@@ -123,7 +125,7 @@
     </costList>
     <statBases>
       <WorkToMake>8000</WorkToMake>
-      <MarketValue>125</MarketValue>
+      <MarketValue>150</MarketValue>
       <Mass>1.5</Mass>
       <EquipDelay>1</EquipDelay>
     </statBases>
@@ -141,10 +143,10 @@
           <li>FoggyRain</li>
           <li>RainyThunderstorm</li>
         </blocksWeather>
-        <encumbrances>
-          <li>Bumber_UmbrellaEncumbranceCombat</li>
-          <li>Bumber_UmbrellaEncumbranceWork</li>
-        </encumbrances>
+        <hediffs>
+          <li>Bumber_DebuffCombat</li>
+          <li>Bumber_DebuffWork</li>
+        </hediffs>
         <hideable>true</hideable>
       </li>
     </comps>
@@ -159,9 +161,10 @@
       <researchPrerequisite>ComplexClothing</researchPrerequisite>
       <researchPrerequisite>Machining</researchPrerequisite>
       <recipeUsers>
-        <li>TableMachining</li>
+        <li>HandTailoringBench</li>
+        <li>ElectricTailoringBench</li>
       </recipeUsers>
-      <effectWorking>Smith</effectWorking>
+      <effectWorking>Tailor</effectWorking>
       <skillRequirements>
         <Crafting>6</Crafting>
       </skillRequirements>
@@ -172,7 +175,7 @@
     </costList>
     <statBases>
       <WorkToMake>12000</WorkToMake>
-      <MarketValue>175</MarketValue>
+      <MarketValue>200</MarketValue>
       <Mass>2</Mass>
       <EquipDelay>1.5</EquipDelay>
     </statBases>
@@ -196,10 +199,10 @@
           <li MayRequire="Ludeon.RimWorld.Odyssey">ToxRain</li>
           <li MayRequire="Ludeon.RimWorld.Odyssey">TorrentialRain</li>
         </blocksWeather>
-        <encumbrances>
-          <li>Bumber_UmbrellaEncumbranceCombat</li>
-          <li>Bumber_UmbrellaEncumbranceWork</li>
-        </encumbrances>
+        <hediffs>
+          <li>Bumber_DebuffCombat</li>
+          <li>Bumber_DebuffWork</li>
+        </hediffs>
         <hideable>true</hideable>
       </li>
     </comps>
@@ -232,7 +235,7 @@
     </costList>
     <statBases>
       <WorkToMake>12000</WorkToMake>
-      <MarketValue>225</MarketValue>
+      <MarketValue>320</MarketValue>
       <Mass>2</Mass>
       <EquipDelay>1.5</EquipDelay>
     </statBases>
@@ -256,10 +259,10 @@
           <li MayRequire="Ludeon.RimWorld.Odyssey">ToxRain</li>
           <li MayRequire="Ludeon.RimWorld.Odyssey">TorrentialRain</li>
         </blocksWeather>
-        <encumbrances>
-          <li>Bumber_UmbrellaEncumbranceCombat</li>
-          <li>Bumber_UmbrellaEncumbranceWork</li>
-        </encumbrances>
+        <hediffs>
+          <li>Bumber_DebuffCombat</li>
+          <li>Bumber_DebuffWork</li>
+        </hediffs>
         <hideable>true</hideable>
       </li>
       <li Class="CompProperties_Art">

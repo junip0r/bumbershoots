@@ -12,11 +12,9 @@ internal static class ApparelUtilityPatch
     [HarmonyPatch(nameof(HasPartsToWear))]
     private static void HasPartsToWear(ref bool __result, Pawn p, ThingDef apparel)
     {
-        if (!__result
-            && ThingDefExt.Umbrellas.Contains(apparel.defName)
-            && p.health.HasUmbrellaProsthetic())
-        {
-            __result = true;
-        }
+        if (__result) return;
+        if (!ThingDefExt.Umbrellas.Contains(apparel.defName)) return;
+        if (!p.health.HasUmbrellaProsthetic()) return;
+        __result = true;
     }
 }

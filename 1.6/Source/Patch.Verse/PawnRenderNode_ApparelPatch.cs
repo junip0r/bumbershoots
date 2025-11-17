@@ -14,7 +14,7 @@ internal static class PawnRenderNode_ApparelPatch
     {
         if (__instance.apparel.UmbrellaComp() is not UmbrellaComp umbrellaComp) return;
         if (!umbrellaComp.umbrellaProps.hideable) return;
-        if (Settings.ShowUmbrellas && umbrellaComp.Activated) return;
+        if (Settings.ShowUmbrellas && umbrellaComp.activated) return;
         __result = [];
     }
 }

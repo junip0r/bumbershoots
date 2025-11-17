@@ -1,7 +1,5 @@
-using Bumbershoots.Ext.RimWorld;
 using Bumbershoots.Ext.Verse;
 using RimWorld;
-using System.Collections.Generic;
 using Verse;
 
 namespace Bumbershoots;
@@ -9,22 +7,12 @@ namespace Bumbershoots;
 public class UmbrellaComp : ThingComp
 {
     internal UmbrellaProps umbrellaProps;
-    internal Pawn pawn;
-    internal PawnComp pawnComp;
-    private bool activated;
-    private bool blockingSunlight;
-    private bool blockingWeather;
-    private bool hasHediffs;
-    private ICollection<string> hediffDefNames;
-    private readonly List<HediffDef> hediffDefs = [];
-    private readonly List<Hediff> hediffs = [];
-
-    public UmbrellaProps UmbrellaProps => umbrellaProps;
-    public Pawn Pawn => Pawn;
-    public PawnComp PawnComp => pawnComp;
-    public bool Activated => activated;
-    public bool BlockingSunlight => activated && blockingSunlight;
-    public bool BlockingWeather => activated && blockingWeather;
+    private Pawn pawn;
+    private PawnComp pawnComp;
+    internal bool activated;
+    internal bool blockingSunlight;
+    internal bool blockingWeather;
+    private UmbrellaHediffs hediffs;
 
     public override void Initialize(CompProperties props)
     {
@@ -35,7 +23,7 @@ public class UmbrellaComp : ThingComp
             return;
         }
         base.Initialize(props);
-        PrepareHediffDefs();
+        hediffs = new(umbrellaProps);
     }
 
     public override void PostExposeData()
@@ -56,27 +44,8 @@ public class UmbrellaComp : ThingComp
 
     private bool ShouldDisable()
     {
-        var defName = umbrellaProps.defName;
-        if (string.IsNullOrWhiteSpace(defName)) return false;
-        return defName != parent.def.defName;
-    }
-
-    private void PrepareHediffDefs()
-    {
-        hasHediffs = umbrellaProps.HasEncumbrances;
-        if (!hasHediffs) return;
-        int count = umbrellaProps.encumbrances.Count;
-        hediffDefNames = count < 4 ? new List<string>(count) : new HashSet<string>();
-        hediffDefs.Capacity = count;
-        hediffs.Capacity = count;
-        for (var i = 0; i < count; i++)
-        {
-            var defName = umbrellaProps.encumbrances[i];
-            if (DefDatabase<HediffDef>.GetNamed(defName) is not HediffDef def) continue;
-            hediffDefNames.Add(defName);
-            hediffDefs.Add(def);
-        }
-        hasHediffs = hediffDefs.Count > 0;
+        if (!umbrellaProps.HasDefName) return false;
+        return umbrellaProps.defName != parent.def.defName;
     }
 
     private void Attach(Pawn pawn)
@@ -90,7 +59,7 @@ public class UmbrellaComp : ThingComp
     private void Detach()
     {
         if (pawn is null) return;
-        if (activated) Deactivate();
+        Deactivate();
         pawnComp.umbrellaComp = null;
         pawn = null;
         pawnComp = null;
@@ -110,10 +79,9 @@ public class UmbrellaComp : ThingComp
         Update(mapComp);
         if (ShouldActivate())
         {
-            if (activated) return;
             Activate();
         }
-        else if (activated)
+        else
         {
             Deactivate();
         }
@@ -144,40 +112,18 @@ public class UmbrellaComp : ThingComp
 
     private void Activate(bool updateGraphics = true)
     {
+        if (activated) return;
         activated = true;
-        for (var i = 0; i < hediffDefs.Count; i++)
-        {
-            if (!IsEncumbranceEnabled(hediffDefs[i].defName)) continue;
-            var hediff = HediffMaker.MakeHediff(hediffDefs[i], pawn);
-            hediff.Severity = 1;
-            hediff.canBeThreateningToPart = false;
-            pawn.health.AddHediff(hediff);
-            hediffs.Add(hediff);
-        }
-        if (updateGraphics && umbrellaProps.hideable) pawn.apparel.UpdateUmbrellaGraphics();
+        hediffs.Activate(pawn);
+        if (updateGraphics) UpdateGraphics();
     }
 
     private void Deactivate(bool updateGraphics = true)
     {
+        if (!activated) return;
         activated = false;
-        if (!hasHediffs) return;
-        if (hediffs.Count == 0)
-        {
-            for (var i = 0; i < pawn.health.hediffSet.hediffs.Count; i++)
-            {
-                var hediff = pawn.health.hediffSet.hediffs[i];
-                if (hediffDefNames.Contains(hediff.def.defName))
-                {
-                    hediffs.Add(hediff);
-                }
-            }
-        }
-        for (var i = 0; i < hediffs.Count; i++)
-        {
-            pawn.health.RemoveHediff(hediffs[i]);
-        }
-        hediffs.Clear();
-        if (updateGraphics && umbrellaProps.hideable) pawn.apparel.UpdateUmbrellaGraphics();
+        hediffs.Deactivate(pawn);
+        if (updateGraphics) UpdateGraphics();
     }
 
     private void Reactivate(bool updateGraphics)
@@ -187,10 +133,10 @@ public class UmbrellaComp : ThingComp
         Activate(updateGraphics);
     }
 
-    private bool IsEncumbranceEnabled(string defName)
+    private void UpdateGraphics()
     {
-        if (defName == DefOf.Bumber_UmbrellaEncumbranceCombat.defName) return Settings.EncumberCombat;
-        if (defName == DefOf.Bumber_UmbrellaEncumbranceWork.defName) return Settings.EncumberWork;
-        return true;
+        if (!umbrellaProps.hideable) return;
+        pawn.apparel.Notify_ApparelChanged();
+        PortraitsCache.SetDirty(pawn);
     }
 }

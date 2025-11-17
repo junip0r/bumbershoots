@@ -3,10 +3,10 @@
 <Defs>
 
     <HediffDef>
-        <defName>Bumber_UmbrellaEncumbranceCombat</defName>
+        <defName>Bumber_DebuffCombat</defName>
         <label>umbrella combat encumbrance</label>
         <labelNoun>umbrella combat encumbrance</labelNoun>
-        <description>worse accuracy and aiming speed while using an umbrella</description>
+        <description>Worse accuracy and aiming speed while using an umbrella to block sunlight or weather.</description>
         <defaultLabelColor>(0.9, 1.0, 0.35)</defaultLabelColor>
         <stages>
             <li>
@@ -22,10 +22,10 @@
     </HediffDef>
 
     <HediffDef>
-        <defName>Bumber_UmbrellaEncumbranceWork</defName>
+        <defName>Bumber_DebuffWork</defName>
         <label>umbrella work encumbrance</label>
         <labelNoun>umbrella work encumbrance</labelNoun>
-        <description>reduced work speed while using an umbrella</description>
+        <description>Reduced work speed while using an umbrella to block sunlight or weather.</description>
         <defaultLabelColor>(0.9, 1.0, 0.35)</defaultLabelColor>
         <stages>
             <li>

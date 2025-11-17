@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
 
-    <!-- Bumber_UmbrellaEncumbranceCombat -->
-    <Bumber_UmbrellaEncumbranceCombat.label>umbrella combat encumbrance</Bumber_UmbrellaEncumbranceCombat.label>
-    <Bumber_UmbrellaEncumbranceCombat.labelNoun>umbrella combat encumbrance</Bumber_UmbrellaEncumbranceCombat.labelNoun>
-    <Bumber_UmbrellaEncumbranceCombat.description>Worse accuracy and aiming speed while using an umbrella to block sunlight or weather.</Bumber_UmbrellaEncumbranceCombat.description>
+    <!-- Bumber_DebuffCombat -->
+    <Bumber_DebuffCombat.label>umbrella combat encumbrance</Bumber_DebuffCombat.label>
+    <Bumber_DebuffCombat.labelNoun>umbrella combat encumbrance</Bumber_DebuffCombat.labelNoun>
+    <Bumber_DebuffCombat.description>Worse accuracy and aiming speed while using an umbrella to block sunlight or weather.</Bumber_DebuffCombat.description>
 
-    <!-- Bumber_UmbrellaEncumbranceWork -->
-    <Bumber_UmbrellaEncumbranceWork.label>umbrella work encumbrance</Bumber_UmbrellaEncumbranceWork.label>
-    <Bumber_UmbrellaEncumbranceWork.labelNoun>umbrella work encumbrance</Bumber_UmbrellaEncumbranceWork.labelNoun>
-    <Bumber_UmbrellaEncumbranceWork.description>Reduced work speed while using an umbrella to block sunlight or weather.</Bumber_UmbrellaEncumbranceWork.description>
+    <!-- Bumber_DebuffWork -->
+    <Bumber_DebuffWork.label>umbrella work encumbrance</Bumber_DebuffWork.label>
+    <Bumber_DebuffWork.labelNoun>umbrella work encumbrance</Bumber_DebuffWork.labelNoun>
+    <Bumber_DebuffWork.description>Reduced work speed while using an umbrella to block sunlight or weather.</Bumber_DebuffWork.description>
 
 </LanguageData>
