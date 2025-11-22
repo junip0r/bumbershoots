@@ -5,7 +5,7 @@ namespace Bumbershoots;
 
 internal class UmbrellaHediffs
 {
-    private readonly ICollection<string> defNames;
+    private readonly List<string> defNames = [];
     private readonly List<HediffDef> defs = [];
     private readonly List<Hediff> hediffs = [];
 
@@ -13,7 +13,6 @@ internal class UmbrellaHediffs
     {
         if (!umbrellaProps.HasHediffs) return;
         int count = umbrellaProps.hediffs.Count;
-        defNames = count < 4 ? new List<string>(count) : new HashSet<string>();
         defs.Capacity = count;
         hediffs.Capacity = count;
         for (var i = 0; i < count; i++)
