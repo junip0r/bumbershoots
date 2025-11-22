@@ -8,16 +8,11 @@ public class PawnComp : ThingComp
     internal MapComp MapComp;
     internal UmbrellaComp UmbrellaComp;
 
-    private bool ShouldDisable()
-    {
-        if (parent is not Pawn p) return true;
-        if (p.IsWildMan()) return true;
-        return false;
-    }
+    private bool ShouldDisable => parent is not Pawn p || p.IsWildMan();
 
     public override void Initialize(CompProperties props)
     {
-        if (ShouldDisable())
+        if (ShouldDisable)
         {
             parent.AllComps.Remove(this);
             return;

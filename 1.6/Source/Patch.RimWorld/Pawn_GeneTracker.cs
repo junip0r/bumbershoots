@@ -10,6 +10,6 @@ internal static class Pawn_GeneTracker_Notify_GenesChanged
     private static void Postfix(Pawn_GeneTracker __instance)
     {
         if (__instance.pawn.UmbrellaComp() is not UmbrellaComp umbrellaComp) return;
-        umbrellaComp.Notify_PawnGenesChanged();
+        umbrellaComp.Notify_GenesChanged();
     }
 }

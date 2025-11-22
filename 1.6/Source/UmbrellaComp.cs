@@ -29,16 +29,13 @@ public class UmbrellaComp : ThingComp
         get => activated && blockingWeather;
     }
 
-    private bool ShouldDisable()
-    {
-        if (!umbrellaProps.HasDefName) return false;
-        return umbrellaProps.defName != parent.def.defName;
-    }
+    private bool ShouldDisable =>
+        umbrellaProps.HasDefName && umbrellaProps.defName != parent.def.defName;
 
     public override void Initialize(CompProperties props)
     {
         umbrellaProps = (UmbrellaProps)props;
-        if (ShouldDisable())
+        if (ShouldDisable)
         {
             parent.AllComps.Remove(this);
             return;
@@ -59,7 +56,7 @@ public class UmbrellaComp : ThingComp
         {
             if (pawn != null)
             {
-                pawnComp ??= pawn.PawnComp();
+                pawnComp = pawn.PawnComp();
                 pawnComp.UmbrellaComp = this;
             }
         }
@@ -77,7 +74,7 @@ public class UmbrellaComp : ThingComp
 
     public override void Notify_Unequipped(Pawn pawn)
     {
-        if (pawn is null) return;
+        if (this.pawn is null) return;
         if (activated) Deactivate();
         if (pawnComp.MapComp != null) Notify_MapUnload();
         pawnComp.UmbrellaComp = null;
@@ -103,7 +100,7 @@ public class UmbrellaComp : ThingComp
         blockingWeather = false;
     }
 
-    internal void Notify_PawnGenesChanged()
+    internal void Notify_GenesChanged()
     {
         pawnDislikesSunlight = pawn.HasSunlightSensitivity();
         Notify_SunlightChanged(pawnComp.MapComp.IsSunlight);
