@@ -1,5 +1,6 @@
 using Bumbershoots.Ext.Verse;
 using RimWorld;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace Bumbershoots;
@@ -9,10 +10,30 @@ public class UmbrellaComp : ThingComp
     internal UmbrellaProps umbrellaProps;
     private Pawn pawn;
     private PawnComp pawnComp;
+    private bool pawnDislikesSunlight;
+    private bool ticking;
     internal bool activated;
-    internal bool blockingSunlight;
-    internal bool blockingWeather;
+    private bool blockingSunlight;
+    private bool blockingWeather;
     private UmbrellaHediffs hediffs;
+
+    internal bool BlockingSunlight
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => activated && blockingSunlight;
+    }
+
+    internal bool BlockingWeather
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => activated && blockingWeather;
+    }
+
+    private bool ShouldDisable()
+    {
+        if (!umbrellaProps.HasDefName) return false;
+        return umbrellaProps.defName != parent.def.defName;
+    }
 
     public override void Initialize(CompProperties props)
     {
@@ -29,108 +50,116 @@ public class UmbrellaComp : ThingComp
     public override void PostExposeData()
     {
         Scribe_References.Look(ref pawn, nameof(pawn));
+        Scribe_Values.Look(ref pawnDislikesSunlight, nameof(pawnDislikesSunlight));
+        Scribe_Values.Look(ref ticking, nameof(ticking));
         Scribe_Values.Look(ref activated, nameof(activated));
         Scribe_Values.Look(ref blockingSunlight, nameof(blockingSunlight));
         Scribe_Values.Look(ref blockingWeather, nameof(blockingWeather));
         if (Scribe.mode == LoadSaveMode.PostLoadInit)
         {
-            if (pawn != null) Reattach();
+            if (pawn != null)
+            {
+                pawnComp ??= pawn.PawnComp();
+                pawnComp.UmbrellaComp = this;
+            }
         }
     }
 
-    public override void Notify_Equipped(Pawn pawn) => Attach(pawn);
-    public override void Notify_Unequipped(Pawn pawn) => Detach();
-    public void Notify_SettingsChanged() => Reactivate(true);
-
-    private bool ShouldDisable()
+    public override void Notify_Equipped(Pawn pawn)
     {
-        if (!umbrellaProps.HasDefName) return false;
-        return umbrellaProps.defName != parent.def.defName;
-    }
-
-    private void Attach(Pawn pawn)
-    {
-        if (pawn.PawnComp() is not PawnComp pawnComp) return;
+        pawnComp = pawn.PawnComp();
+        if (pawnComp is null) return;
+        pawnComp.UmbrellaComp = this;
         this.pawn = pawn;
-        this.pawnComp = pawnComp;
-        pawnComp.umbrellaComp = this;
+        pawnDislikesSunlight = pawn.HasSunlightSensitivity();
+        if (pawnComp.MapComp != null) Notify_MapLoad();
     }
 
-    private void Detach()
+    public override void Notify_Unequipped(Pawn pawn)
     {
         if (pawn is null) return;
-        Deactivate();
-        pawnComp.umbrellaComp = null;
-        pawn = null;
+        if (activated) Deactivate();
+        if (pawnComp.MapComp != null) Notify_MapUnload();
+        pawnComp.UmbrellaComp = null;
         pawnComp = null;
+        this.pawn = null;
     }
 
-    private void Reattach()
+    internal void Notify_MapLoad()
     {
-        pawnComp ??= pawn.PawnComp();
-        pawnComp.umbrellaComp = this;
-        Reactivate(false);
+        ticking = !pawn.Dead && (!umbrellaProps.clothing || Settings.UmbrellaClothing);
+        pawnComp.MapComp.SunlightChanged += Notify_SunlightChanged;
+        pawnComp.MapComp.WeatherChanged += Notify_WeatherChanged;
+        Notify_SunlightChanged(pawnComp.MapComp.IsSunlight);
+        Notify_WeatherChanged(pawnComp.MapComp.CurWeatherLerped);
     }
 
-    public override void CompTick()
+    internal void Notify_MapUnload()
     {
-        if (pawn is null) return;
-        if (pawnComp.mapComp is not MapComp mapComp) return;
-        Update(mapComp);
-        if (ShouldActivate())
-        {
-            Activate();
-        }
-        else
-        {
-            Deactivate();
-        }
-    }
-
-    private void Update(MapComp mapComp)
-    {
-        if (umbrellaProps.clothing && !Settings.UmbrellaClothing) goto Off;
-        var map = mapComp.map;
-        var cell = pawn.Position;
-        if (cell.Roofed(map)) goto Off;
-        blockingSunlight = mapComp.IsUmbrellaSunlight
-            && umbrellaProps.blocksSunlight
-            && pawn.HasSunlightSensitivity()
-            && cell.InSunlight(map);
-        blockingWeather = mapComp.IsUmbrellaWeather
-            && umbrellaProps.blocksWeather.Contains(map.weatherManager.CurWeatherLerped.defName);
-        return;
-    Off:
+        ticking = false;
+        pawnComp.MapComp.SunlightChanged -= Notify_SunlightChanged;
+        pawnComp.MapComp.WeatherChanged -= Notify_WeatherChanged;
         blockingSunlight = false;
         blockingWeather = false;
     }
 
-    private bool ShouldActivate()
+    internal void Notify_PawnGenesChanged()
     {
-        return blockingSunlight || blockingWeather;
+        pawnDislikesSunlight = pawn.HasSunlightSensitivity();
+        Notify_SunlightChanged(pawnComp.MapComp.IsSunlight);
     }
 
-    private void Activate(bool updateGraphics = true)
+    internal void Notify_SunlightChanged(bool isSunlight)
     {
-        if (activated) return;
+        blockingSunlight = pawnDislikesSunlight
+            && isSunlight
+            && umbrellaProps.blocksSunlight;
+    }
+
+    internal void Notify_WeatherChanged(WeatherDef def)
+    {
+        if (def is null) return;
+        blockingWeather = umbrellaProps.blocksWeather != null
+            && umbrellaProps.blocksWeather.Contains(def.defName);
+    }
+
+    public void Notify_SettingsChanged()
+    {
+        var p = pawn;
+        Notify_Unequipped(p);
+        Notify_Equipped(p);
+        Notify_SunlightChanged(pawnComp.MapComp.IsSunlight);
+    }
+
+    public override void CompTick()
+    {
+        if (!ticking) return;
+        if (pawn.Position.Roofed(pawnComp.MapComp.map))
+        {
+            if (activated) Deactivate();
+        }
+        else if (blockingWeather || blockingSunlight)
+        {
+            if (!activated) Activate();
+        }
+        else
+        {
+            if (activated) Deactivate();
+        }
+    }
+
+    private void Activate()
+    {
         activated = true;
         hediffs.Activate(pawn);
-        if (updateGraphics) UpdateGraphics();
+        UpdateGraphics();
     }
 
-    private void Deactivate(bool updateGraphics = true)
+    private void Deactivate()
     {
-        if (!activated) return;
         activated = false;
         hediffs.Deactivate(pawn);
-        if (updateGraphics) UpdateGraphics();
-    }
-
-    private void Reactivate(bool updateGraphics)
-    {
-        if (!activated) return;
-        Deactivate(false);
-        Activate(updateGraphics);
+        UpdateGraphics();
     }
 
     private void UpdateGraphics()

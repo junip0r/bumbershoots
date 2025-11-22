@@ -12,14 +12,13 @@ internal static class MapExt
         return @this.GetComponent<MapComp>();
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal static void Notify_SettingsChanged(this Map @this)
     {
+        @this.MapComp().Notify_SettingsChanged();
         Notify_SettingsChanged(@this.mapPawns.AllPawnsSpawned);
         Notify_SettingsChanged(@this.mapPawns.AllPawnsUnspawned);
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static void Notify_SettingsChanged(IReadOnlyList<Pawn> pawns)
     {
         for (var i = 0; i < pawns.Count; i++)

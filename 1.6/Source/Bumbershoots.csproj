@@ -8,10 +8,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="dep/0Harmony.dll" />
-    <Reference Include="dep/Assembly-CSharp.dll" />
-    <Reference Include="dep/UnityEngine.dll" />
-    <Reference Include="dep/UnityEngine.CoreModule.dll" />
+
+    <PackageReference Include="Krafs.Publicizer" Version="2.3.0">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+
+    <PackageReference Include="Krafs.Rimworld.Ref" Version="1.6.4633" />
+    <PackageReference Include="Lib.Harmony" Version="2.4.2" />
+
   </ItemGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -24,5 +29,9 @@
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Publicize Include="Assembly-CSharp" />
+  </ItemGroup>
 
 </Project>

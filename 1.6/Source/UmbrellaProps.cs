@@ -37,15 +37,13 @@ public class UmbrellaProps : CompProperties
 
     public bool HasHediffs => hediffs != null && hediffs.Count > 0;
 
-    // Set to true if this is clothing, not an umbrella. Players can toggle whether
-    // clothing blocks sunlight and/or weather.
+    // Set to true if this is clothing, not an umbrella. Players can toggle in the
+    // settings whether clothing blocks sunlight and/or weather.
     public bool clothing;
 
     // If true, then the thing will be hidden when not being used to block weather
     // and/or sunlight. This should be true for actual umbrellas, and false for
     // clothing that blocks weather and/or sunlight, like hats or rain coats.
-    //
-    // Defaults to false, so may be omitted for apparel that does not hide.
     public bool hideable;
 
     // Use of inheritance among apparel ThingDefs can break UmbrellaComp.

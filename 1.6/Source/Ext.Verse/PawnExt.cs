@@ -7,16 +7,18 @@ namespace Bumbershoots.Ext.Verse;
 internal static class PawnExt
 {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    internal static PawnComp PawnComp(this Pawn @this) => @this.GetComp<PawnComp>();
+    internal static PawnComp PawnComp(this Pawn @this)
+    {
+        return @this.GetComp<PawnComp>();
+    }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal static UmbrellaComp UmbrellaComp(this Pawn @this)
     {
         if (@this.PawnComp() is not PawnComp pawnComp) return null;
-        return pawnComp.umbrellaComp;
+        return pawnComp.UmbrellaComp;
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal static void Notify_SettingsChanged(this Pawn @this)
     {
         if (@this.AnimalOrWildMan()) return;

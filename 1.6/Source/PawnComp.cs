@@ -5,11 +5,15 @@ namespace Bumbershoots;
 
 public class PawnComp : ThingComp
 {
-    internal MapComp mapComp;
-    internal UmbrellaComp umbrellaComp;
+    internal MapComp MapComp;
+    internal UmbrellaComp UmbrellaComp;
 
-    public MapComp MapComp => mapComp;
-    public UmbrellaComp UmbrellaComp => umbrellaComp;
+    private bool ShouldDisable()
+    {
+        if (parent is not Pawn p) return true;
+        if (p.IsWildMan()) return true;
+        return false;
+    }
 
     public override void Initialize(CompProperties props)
     {
@@ -21,20 +25,15 @@ public class PawnComp : ThingComp
         base.Initialize(props);
     }
 
-    private bool ShouldDisable()
-    {
-        if (parent is not Pawn p) return true;
-        if (p.IsWildMan()) return true;
-        return false;
-    }
-
     public override void PostSpawnSetup(bool respawningAfterLoad)
     {
-        mapComp = (parent as Pawn).MapHeld.MapComp();
+        MapComp = (parent as Pawn).MapHeld.MapComp();
+        UmbrellaComp?.Notify_MapLoad();
     }
 
     public override void PostDeSpawn(Map map, DestroyMode mode = DestroyMode.Vanish)
     {
-        mapComp = null;
+        UmbrellaComp?.Notify_MapUnload();
+        MapComp = null;
     }
 }

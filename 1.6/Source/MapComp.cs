@@ -1,38 +1,50 @@
-using Bumbershoots.Ext.Verse;
-using Bumbershoots.Util;
-using System.Runtime.CompilerServices;
+#pragma warning disable IDE0044
+
+using System;
 using Verse;
 
 namespace Bumbershoots;
 
 public class MapComp(Map map) : MapComponent(map)
 {
-    private readonly Memo<bool> isUmbrellaSunlight = new(delegate
-    {
-        return Settings.UmbrellasBlockSun && map.skyManager.CurSkyGlow > 0.1f;
-    });
+    private static float SkyGlowDarkness = 0.1f;
 
-    private readonly Memo<bool> isUmbrellaWeather = new(delegate
-    {
-        var weather = map.weatherManager.CurWeatherLerped;
-        return weather.rainRate > 0 && !weather.IsSnow();
-    });
-
-    internal bool IsUmbrellaSunlight
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => isUmbrellaSunlight.Value;
-    }
-
-    internal bool IsUmbrellaWeather
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => isUmbrellaWeather.Value;
-    }
+    internal Action<bool> SunlightChanged;
+    internal Action<WeatherDef> WeatherChanged;
+    internal bool IsSunlight;
+    private bool prevIsSunlight;
+    internal WeatherDef CurWeatherLerped;
+    private WeatherDef prevCurWeatherLerped;
 
     public override void MapComponentTick()
     {
-        isUmbrellaSunlight.Clear();
-        isUmbrellaWeather.Clear();
+        if (Settings.UmbrellasBlockSun)
+        {
+            prevIsSunlight = IsSunlight;
+            IsSunlight = map.skyManager.CurSkyGlow > SkyGlowDarkness;
+            if (IsSunlight != prevIsSunlight)
+            {
+                SunlightChanged?.Invoke(IsSunlight);
+            }
+        }
+        prevCurWeatherLerped = CurWeatherLerped;
+        CurWeatherLerped = map.weatherManager.CurWeatherLerped;
+        if (CurWeatherLerped != prevCurWeatherLerped)
+        {
+            WeatherChanged?.Invoke(CurWeatherLerped);
+        }
+    }
+
+    internal void Notify_SettingsChanged()
+    {
+        IsSunlight = Settings.UmbrellasBlockSun && map.skyManager.CurSkyGlow > SkyGlowDarkness;
+    }
+
+    public override void ExposeData()
+    {
+        Scribe_Values.Look(ref IsSunlight, nameof(IsSunlight));
+        Scribe_Values.Look(ref prevIsSunlight, nameof(prevIsSunlight));
+        Scribe_Defs.Look(ref CurWeatherLerped, nameof(CurWeatherLerped));
+        Scribe_Defs.Look(ref prevCurWeatherLerped, nameof(prevCurWeatherLerped));
     }
 }
