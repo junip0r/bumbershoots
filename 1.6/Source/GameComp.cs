@@ -7,24 +7,24 @@ namespace Bumbershoots;
 
 public class GameComp(Game _) : GameComponent()
 {
-    internal static int SettingsHashCode;
+    internal static int settingsHashCode;
     private int prevSettingsHashCode;
 
     public override void StartedNewGame()
     {
-        SettingsHashCode = Settings.HashCode;
-        prevSettingsHashCode = SettingsHashCode;
+        settingsHashCode = Settings.HashCode;
+        prevSettingsHashCode = settingsHashCode;
     }
 
     public override void LoadedGame()
     {
-        SettingsHashCode = Settings.HashCode;
+        settingsHashCode = Settings.HashCode;
     }
 
     public override void GameComponentTick()
     {
-        if (SettingsHashCode == prevSettingsHashCode) return;
-        prevSettingsHashCode = SettingsHashCode;
+        if (settingsHashCode == prevSettingsHashCode) return;
+        prevSettingsHashCode = settingsHashCode;
         var maps = Find.Maps;
         for (var i = 0; i < maps.Count; i++)
         {

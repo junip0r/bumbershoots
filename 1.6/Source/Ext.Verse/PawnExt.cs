@@ -16,14 +16,13 @@ internal static class PawnExt
     internal static UmbrellaComp UmbrellaComp(this Pawn @this)
     {
         if (@this.PawnComp() is not PawnComp pawnComp) return null;
-        return pawnComp.UmbrellaComp;
+        return pawnComp.umbrellaComp;
     }
 
     internal static void Notify_SettingsChanged(this Pawn @this)
     {
-        if (@this.AnimalOrWildMan()) return;
-        if (@this.UmbrellaComp() is not UmbrellaComp umbrellaComp) return;
-        umbrellaComp.Notify_SettingsChanged();
+        if (@this.PawnComp() is not PawnComp pawnComp) return;
+        pawnComp.Notify_SettingsChanged();
     }
 
     internal static bool HasSunlightSensitivity(this Pawn @this)

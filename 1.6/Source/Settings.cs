@@ -58,7 +58,7 @@ public class Settings : ModSettings
         l.End();
         if (Current.ProgramState == ProgramState.Playing)
         {
-            GameComp.SettingsHashCode = HashCode;
+            GameComp.settingsHashCode = HashCode;
         }
     }
 }

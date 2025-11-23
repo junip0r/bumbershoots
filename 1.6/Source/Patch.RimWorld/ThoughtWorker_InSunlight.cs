@@ -13,8 +13,8 @@ internal static class ThoughtWorker_InSunlight_CurrentStateInternal
     private static void Postfix(ref ThoughtState __result, Pawn p)
     {
         if (__result.StageIndex == InactiveIndex) return;
-        if (p.UmbrellaComp() is not UmbrellaComp umbrellaComp) return;
-        if (!umbrellaComp.BlockingSunlight) return;
+        if (p.PawnComp() is not PawnComp pawnComp) return;
+        if (!pawnComp.blockingSunlight) return;
         __result = ThoughtState.Inactive;
     }
 }

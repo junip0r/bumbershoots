@@ -24,6 +24,11 @@ public class UmbrellaProps : CompProperties
     // or other such purpose-made apparel are exceptions.
     public List<string> blocksWeather;
 
+    public bool HasBlocksWeather => blocksWeather != null && blocksWeather.Count > 0;
+
+    public bool BlocksWeather(string defName) =>
+        blocksWeather != null && blocksWeather.Contains(defName);
+
     // List of HediffDef names to apply to a pawn while the thing is being used to block
     // weather and/or sunlight. Clothing items have no hediffs by default. Umbrellas
     // have two debuffs by default, though these can be disabled in the settings:
@@ -71,4 +76,6 @@ public class UmbrellaProps : CompProperties
     public string defName;
 
     public bool HasDefName => !string.IsNullOrWhiteSpace(defName);
+
+    public bool IsForDef(string defName) => !HasDefName || defName == this.defName;
 }

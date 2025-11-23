@@ -7,7 +7,7 @@ namespace Bumbershoots.Ext.RimWorld;
 
 internal static class GeneDefExt
 {
-    internal static readonly Lazy<GeneDef[]> uvSensitivityGeneDefs = new(delegate
+    private static readonly Lazy<GeneDef[]> uvSensitivityGeneDefs = new(delegate
     {
         var mild = DefDatabase<GeneDef>.GetNamedSilentFail("UVSensitivity_Mild");
         var intense = DefDatabase<GeneDef>.GetNamedSilentFail("UVSensitivity_Intense");

@@ -12,8 +12,8 @@ internal static class ConditionalStatAffecter_InSunlight_Applies
     {
         if (!__result) return;
         if (req.Thing is not Pawn p) return;
-        if (p.UmbrellaComp() is not UmbrellaComp umbrellaComp) return;
-        if (!umbrellaComp.BlockingSunlight) return;
+        if (p.PawnComp() is not PawnComp pawnComp) return;
+        if (!pawnComp.blockingSunlight) return;
         __result = false;
     }
 }

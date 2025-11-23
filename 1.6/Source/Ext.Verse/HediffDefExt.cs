@@ -7,7 +7,7 @@ namespace Bumbershoots.Ext.Verse;
 
 internal static class HediffDefExt
 {
-    internal static readonly HashSet<string> UmbrellaProsthetics =
+    private static readonly HashSet<string> UmbrellaProsthetics =
     [
         // FIXME figure out which mods provide these hediffs
 
@@ -24,7 +24,6 @@ internal static class HediffDefExt
         "SimpleProstheticArm",
         "SteelArm",
     ];
-
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal static bool IsUmbrellaProsthetic(this HediffDef @this)

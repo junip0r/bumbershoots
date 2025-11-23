@@ -51,9 +51,13 @@ internal class UmbrellaHediffs
             for (var i = 0; i < pawn.health.hediffSet.hediffs.Count; i++)
             {
                 var hediff = pawn.health.hediffSet.hediffs[i];
-                if (defNames.Contains(hediff.def.defName))
+                for (var j = 0; j < defNames.Count; j++)
                 {
-                    hediffs.Add(hediff);
+                    if (defNames[i] == hediff.def.defName)
+                    {
+                        hediffs.Add(hediff);
+                        break;
+                    }
                 }
             }
         }

@@ -38,8 +38,7 @@ internal class NpsPatch : ModPatch
                 var makeWet = m.weatherManager.CurWeatherLerped.IsRain()
                     && !pos.Roofed(m)
                     && (pawn.PawnComp() is not PawnComp pawnComp
-                        || pawnComp.UmbrellaComp is not UmbrellaComp umbrellaComp
-                        || !umbrellaComp.BlockingWeather);
+                        || !pawnComp.blockingWeather);
                 makeWet = makeWet || GridsUtility.GetTerrain(pos, m).HasTag(TKKN_Wet);
                 if (!makeWet) return false;
                 var h = HediffMaker.MakeHediff(TKKN_Wetness.Value, pawn);

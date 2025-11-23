@@ -8,11 +8,11 @@ namespace Bumbershoots;
 public class Mod : Verse.Mod
 {
     private const string ID = "junip0r.bumbershoots";
-    internal static Settings Settings;
+    internal static Settings settings;
 
     public Mod(ModContentPack pack) : base(pack)
     {
-        Settings = GetSettings<Settings>();
+        settings = GetSettings<Settings>();
         ApplyPatches();
     }
 
@@ -27,6 +27,6 @@ public class Mod : Verse.Mod
 
     public override void DoSettingsWindowContents(Rect rect)
     {
-        Settings.DoWindowContents(rect);
+        settings.DoWindowContents(rect);
     }
 }
