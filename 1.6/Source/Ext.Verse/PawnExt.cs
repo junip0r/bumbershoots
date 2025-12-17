@@ -1,11 +1,14 @@
-using System.Runtime.CompilerServices;
 using Bumbershoots.Ext.RimWorld;
+using Prepatcher;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace Bumbershoots.Ext.Verse;
 
 internal static class PawnExt
 {
+    [PrepatcherField]
+    [InjectComponent]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal static PawnComp PawnComp(this Pawn @this)
     {

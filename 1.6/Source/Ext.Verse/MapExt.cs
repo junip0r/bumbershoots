@@ -1,3 +1,4 @@
+using Prepatcher;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Verse;
@@ -6,6 +7,8 @@ namespace Bumbershoots.Ext.Verse;
 
 internal static class MapExt
 {
+    [PrepatcherField]
+    [InjectComponent]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal static MapComp MapComp(this Map @this)
     {

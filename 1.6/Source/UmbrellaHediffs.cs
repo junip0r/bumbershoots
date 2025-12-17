@@ -5,29 +5,31 @@ namespace Bumbershoots;
 
 internal class UmbrellaHediffs
 {
-    private readonly List<string> defNames = [];
+    private static readonly List<Hediff> hediffs = [];
+
     private readonly List<HediffDef> defs = [];
-    private readonly List<Hediff> hediffs = [];
+    private readonly HashSet<string> defNames = [];
 
     internal UmbrellaHediffs(UmbrellaProps umbrellaProps)
     {
-        if (!umbrellaProps.HasHediffs) return;
+        var hediffs = umbrellaProps.hediffs;
+        if (hediffs is null || hediffs.Count == 0) return;
         int count = umbrellaProps.hediffs.Count;
         defs.Capacity = count;
-        hediffs.Capacity = count;
         for (var i = 0; i < count; i++)
         {
             var defName = umbrellaProps.hediffs[i];
             if (DefDatabase<HediffDef>.GetNamed(defName) is not HediffDef def) continue;
-            defNames.Add(defName);
             defs.Add(def);
+            defNames.Add(defName);
         }
+        hediffs.Capacity = defs.Count;
     }
 
-    private bool IsHediffEnabled(string defName)
+    private bool IsHediffEnabled(HediffDef def)
     {
-        if (defName == DefOf.Bumber_DebuffCombat.defName) return Settings.EncumberCombat;
-        if (defName == DefOf.Bumber_DebuffWork.defName) return Settings.EncumberWork;
+        if (def.defName == DefOf.Bumber_DebuffCombat.defName) return Settings.encumberCombat;
+        if (def.defName == DefOf.Bumber_DebuffWork.defName) return Settings.encumberWork;
         return true;
     }
 
@@ -35,36 +37,29 @@ internal class UmbrellaHediffs
     {
         for (var i = 0; i < defs.Count; i++)
         {
-            if (!IsHediffEnabled(defs[i].defName)) continue;
-            var hediff = HediffMaker.MakeHediff(defs[i], pawn);
-            hediff.Severity = defs[i].stages[0].minSeverity;
+            var def = defs[i];
+            if (!IsHediffEnabled(def)) continue;
+            var hediff = HediffMaker.MakeHediff(def, pawn);
+            hediff.Severity = def.stages[0].minSeverity;
             pawn.health.AddHediff(hediff);
-            hediffs.Add(hediff);
         }
     }
 
     internal void Deactivate(Pawn pawn)
     {
         if (defs.Count == 0) return;
-        if (hediffs.Count == 0)
+        for (var i = 0; i < pawn.health.hediffSet.hediffs.Count; i++)
         {
-            for (var i = 0; i < pawn.health.hediffSet.hediffs.Count; i++)
+            var hediff = pawn.health.hediffSet.hediffs[i];
+            if (defNames.Contains(hediff.def.defName)) hediffs.Add(hediff);
+        }
+        if (hediffs.Count > 0)
+        {
+            for (var i = 0; i < hediffs.Count; i++)
             {
-                var hediff = pawn.health.hediffSet.hediffs[i];
-                for (var j = 0; j < defNames.Count; j++)
-                {
-                    if (defNames[i] == hediff.def.defName)
-                    {
-                        hediffs.Add(hediff);
-                        break;
-                    }
-                }
+                pawn.health.RemoveHediff(hediffs[i]);
             }
+            hediffs.Clear();
         }
-        for (var i = 0; i < hediffs.Count; i++)
-        {
-            pawn.health.RemoveHediff(hediffs[i]);
-        }
-        hediffs.Clear();
     }
 }

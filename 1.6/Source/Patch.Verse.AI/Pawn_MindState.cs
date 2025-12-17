@@ -12,8 +12,8 @@ internal static class Pawn_MindState_CanGainGainThoughtNow
     {
         if (!__result) return;
         if (thought != __instance.pawn.Map.weatherManager.CurWeatherLerped.weatherThought) return;
-        if (__instance.pawn.PawnComp() is not PawnComp pawnComp) return;
-        if (!pawnComp.blockingWeather) return;
+        if (__instance.pawn.UmbrellaComp() is not UmbrellaComp umbrellaComp) return;
+        if (!umbrellaComp.blockingWeather) return;
         __result = false;
     }
 }

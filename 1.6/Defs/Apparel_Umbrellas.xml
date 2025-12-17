@@ -7,6 +7,7 @@
     <thingCategories>
       <li>Apparel</li>
     </thingCategories>
+    <tickerType>Normal</tickerType>
     <stuffCategories>
       <li>Fabric</li>
       <li>Leathery</li>
@@ -18,15 +19,6 @@
         <categories>
           <li>Root</li>
         </categories>
-        <disallowedThingDefs>
-          <li>WoolAlpaca</li>
-          <li>WoolBison</li>
-          <li>WoolMegasloth</li>
-          <li>WoolMuffalo</li>
-          <li>WoolSheep</li>
-          <li MayRequire="Ludeon.RimWorld.Odyssey">WoolMastodon</li>
-          <li MayRequire="Ludeon.RimWorld.Odyssey">WoolMuskox</li>
-        </disallowedThingDefs>
       </defaultIngredientFilter>
     </recipeMaker>
     <apparel>

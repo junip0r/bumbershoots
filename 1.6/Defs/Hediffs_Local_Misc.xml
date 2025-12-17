@@ -11,7 +11,7 @@
         <stages>
             <li>
                 <label>active</label>
-                <becomeVisible>false</becomeVisible>
+                <becomeVisible>true</becomeVisible>
                 <statFactors>
                     <ShootingAccuracyPawn>0.85</ShootingAccuracyPawn>
                     <AimingDelayFactor>1.15</AimingDelayFactor>
@@ -30,7 +30,7 @@
         <stages>
             <li>
                 <label>active</label>
-                <becomeVisible>false</becomeVisible>
+                <becomeVisible>true</becomeVisible>
                 <statFactors>
                     <WorkSpeedGlobal>0.85</WorkSpeedGlobal>
                 </statFactors>

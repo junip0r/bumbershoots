@@ -7,22 +7,22 @@ public class Settings : ModSettings
 {
     public static string Category => "Mod".Translate();
 
-    public static bool ShowUmbrellas = true;
-    public static bool UmbrellasBlockSun = true;
-    public static bool UmbrellaClothing = true;
-    public static bool EncumberWork = true;
-    public static bool EncumberCombat = true;
+    public static bool showUmbrellas = true;
+    public static bool umbrellasBlockSun = true;
+    public static bool umbrellaClothing = true;
+    public static bool encumberWork = true;
+    public static bool encumberCombat = true;
 
     internal static int HashCode
     {
         get
         {
             return (
-                ShowUmbrellas,
-                UmbrellasBlockSun,
-                UmbrellaClothing,
-                EncumberWork,
-                EncumberCombat
+                showUmbrellas,
+                umbrellasBlockSun,
+                umbrellaClothing,
+                encumberWork,
+                encumberCombat
             ).GetHashCode();
         }
     }
@@ -30,11 +30,11 @@ public class Settings : ModSettings
     public override void ExposeData()
     {
         base.ExposeData();
-        Scribe_Values.Look(ref ShowUmbrellas, nameof(ShowUmbrellas), true);
-        Scribe_Values.Look(ref UmbrellasBlockSun, nameof(UmbrellasBlockSun), true);
-        Scribe_Values.Look(ref UmbrellaClothing, nameof(UmbrellaClothing), true);
-        Scribe_Values.Look(ref EncumberWork, nameof(EncumberWork), true);
-        Scribe_Values.Look(ref EncumberCombat, nameof(EncumberCombat), true);
+        Scribe_Values.Look(ref showUmbrellas, nameof(showUmbrellas), true);
+        Scribe_Values.Look(ref umbrellasBlockSun, nameof(umbrellasBlockSun), true);
+        Scribe_Values.Look(ref umbrellaClothing, nameof(umbrellaClothing), true);
+        Scribe_Values.Look(ref encumberWork, nameof(encumberWork), true);
+        Scribe_Values.Look(ref encumberCombat, nameof(encumberCombat), true);
     }
 
     internal void DoWindowContents(Rect rect)
@@ -47,14 +47,14 @@ public class Settings : ModSettings
         rect.width = 500f;
         var l = new Listing_Standard();
         l.Begin(rect);
-        Checkbox(l, nameof(ShowUmbrellas), ref ShowUmbrellas);
+        Checkbox(l, nameof(showUmbrellas), ref showUmbrellas);
         if (ModsConfig.BiotechActive)
         {
-            Checkbox(l, nameof(UmbrellasBlockSun), ref UmbrellasBlockSun);
+            Checkbox(l, nameof(umbrellasBlockSun), ref umbrellasBlockSun);
         }
-        Checkbox(l, nameof(UmbrellaClothing), ref UmbrellaClothing);
-        Checkbox(l, nameof(EncumberWork), ref EncumberWork);
-        Checkbox(l, nameof(EncumberCombat), ref EncumberCombat);
+        Checkbox(l, nameof(umbrellaClothing), ref umbrellaClothing);
+        Checkbox(l, nameof(encumberWork), ref encumberWork);
+        Checkbox(l, nameof(encumberCombat), ref encumberCombat);
         l.End();
         if (Current.ProgramState == ProgramState.Playing)
         {

@@ -1,5 +1,6 @@
 #pragma warning disable IDE0044
 
+using Bumbershoots.Ext.Verse;
 using System;
 using Verse;
 
@@ -9,36 +10,39 @@ public class MapComp(Map map) : MapComponent(map)
 {
     private static float SkyGlowDarkness = 0.1f;
 
-    internal event Action<bool> SunlightChanged;
-    internal event Action<WeatherDef> WeatherChanged;
+    internal event Action SunlightChanged;
+    internal event Action WeatherChanged;
 
     internal bool isSunlight;
-    private bool prevIsSunlight;
+    internal bool isRain;
     internal WeatherDef curWeatherLerped;
+    private bool prevIsSunlight;
     private WeatherDef prevCurWeatherLerped;
 
     public override void MapComponentTick()
     {
-        if (Settings.UmbrellasBlockSun)
+        if (Settings.umbrellasBlockSun)
         {
             prevIsSunlight = isSunlight;
             isSunlight = map.skyManager.CurSkyGlow > SkyGlowDarkness;
             if (isSunlight != prevIsSunlight)
             {
-                SunlightChanged?.Invoke(isSunlight);
+                SunlightChanged?.Invoke();
             }
         }
         prevCurWeatherLerped = curWeatherLerped;
         curWeatherLerped = map.weatherManager.CurWeatherLerped;
         if (curWeatherLerped != prevCurWeatherLerped)
         {
-            WeatherChanged?.Invoke(curWeatherLerped);
+            isRain = curWeatherLerped.IsRain();
+            WeatherChanged?.Invoke();
         }
     }
 
     internal void Notify_SettingsChanged()
     {
-        isSunlight = Settings.UmbrellasBlockSun && map.skyManager.CurSkyGlow > SkyGlowDarkness;
+        isSunlight = Settings.umbrellasBlockSun && map.skyManager.CurSkyGlow > SkyGlowDarkness;
+        SunlightChanged?.Invoke();
     }
 
     public override void ExposeData()
