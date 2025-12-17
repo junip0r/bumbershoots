@@ -10,16 +10,15 @@ public class GameComp(Game _) : GameComponent()
     internal static int settingsHashCode;
     private int prevSettingsHashCode;
 
-    public override void StartedNewGame()
+    private void Init()
     {
         settingsHashCode = Settings.HashCode;
         prevSettingsHashCode = settingsHashCode;
     }
 
-    public override void LoadedGame()
-    {
-        settingsHashCode = Settings.HashCode;
-    }
+    public override void StartedNewGame() => Init();
+
+    public override void LoadedGame() => Init();
 
     public override void GameComponentTick()
     {
@@ -30,10 +29,5 @@ public class GameComp(Game _) : GameComponent()
         {
             maps[i].Notify_SettingsChanged();
         }
-    }
-
-    public override void ExposeData()
-    {
-        Scribe_Values.Look(ref prevSettingsHashCode, nameof(prevSettingsHashCode));
     }
 }
