@@ -7,7 +7,7 @@ namespace Bumbershoots;
 
 public class UmbrellaComp : ThingComp
 {
-    private static readonly List<PawnRenderNodeTagDef> searchRenderNodeTags =
+    private static readonly List<PawnRenderNodeTagDef> renderNodeTags =
     [
         PawnRenderNodeTagDefOf.ApparelHead,
         PawnRenderNodeTagDefOf.ApparelBody,
@@ -37,6 +37,19 @@ public class UmbrellaComp : ThingComp
         umbrellaHediffs = new(umbrellaProps);
     }
 
+    public override void PostExposeData()
+    {
+        if (Scribe.mode == LoadSaveMode.PostLoadInit)
+        {
+            var wearer = apparel.Wearer;
+            if (wearer != null && pawnComp == null)
+            {
+                umbrellaHediffs.Deactivate(wearer);
+                Notify_Equipped(wearer);
+            }
+        }
+    }
+
     public override void CompTick()
     {
         if (!ticking) return;
@@ -49,18 +62,6 @@ public class UmbrellaComp : ThingComp
         else
         {
             if (activated) Deactivate();
-        }
-    }
-
-    public override void PostExposeData()
-    {
-        if (Scribe.mode == LoadSaveMode.PostLoadInit)
-        {
-            var wearer = apparel.Wearer;
-            if (wearer != null && pawnComp == null)
-            {
-                Notify_Equipped(wearer);
-            }
         }
     }
 
@@ -180,14 +181,14 @@ public class UmbrellaComp : ThingComp
     {
         var renderTree = pawnComp.pawn.Drawer.renderer.renderTree;
         if (!renderTree.Resolved) return;
-        for (var i = 0; i < searchRenderNodeTags.Count; i++)
+        for (var i = 0; i < renderNodeTags.Count; i++)
         {
-            var node = renderTree.nodesByTag.GetValueOrDefault(searchRenderNodeTags[i]);
+            var node = renderTree.nodesByTag.GetValueOrDefault(renderNodeTags[i]);
             if (node == null) continue;
             for (var j = 0; j < node.children.Length; j++)
             {
                 var child = node.children[j];
-                if (child.apparel == parent)
+                if (child.apparel == apparel)
                 {
                     child.requestRecache = true;
                     return;
