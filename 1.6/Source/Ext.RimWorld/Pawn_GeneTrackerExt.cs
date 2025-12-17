@@ -1,5 +1,4 @@
 using RimWorld;
-using System;
 using System.Runtime.CompilerServices;
 
 namespace Bumbershoots.Ext.RimWorld;

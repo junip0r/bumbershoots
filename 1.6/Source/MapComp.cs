@@ -2,6 +2,7 @@
 
 using Bumbershoots.Ext.Verse;
 using System;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace Bumbershoots;
@@ -13,25 +14,32 @@ public class MapComp(Map map) : MapComponent(map)
     internal event Action SunlightChanged;
     internal event Action WeatherChanged;
 
-    internal bool isSunlight;
-    internal bool isRain;
+    internal bool? isSunlight;
+    internal bool? prevIsSunlight;
     internal WeatherDef curWeatherLerped;
-    private bool prevIsSunlight;
-    private WeatherDef prevCurWeatherLerped;
+    internal WeatherDef prevCurWeatherLerped;
+    internal bool isRain;
+
+    internal bool Ready
+    {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        get => curWeatherLerped != null;
+    }
+
+    private bool GetIsSunlight() => map.skyManager.CurSkyGlow > SkyGlowDarkness;
+
+    private WeatherDef GetCurWeatherLerped() => map.weatherManager.CurWeatherLerped;
 
     public override void MapComponentTick()
     {
         if (Settings.umbrellasBlockSun)
         {
             prevIsSunlight = isSunlight;
-            isSunlight = map.skyManager.CurSkyGlow > SkyGlowDarkness;
-            if (isSunlight != prevIsSunlight)
-            {
-                SunlightChanged?.Invoke();
-            }
+            isSunlight = GetIsSunlight();
+            if (isSunlight != prevIsSunlight) SunlightChanged?.Invoke();
         }
         prevCurWeatherLerped = curWeatherLerped;
-        curWeatherLerped = map.weatherManager.CurWeatherLerped;
+        curWeatherLerped = GetCurWeatherLerped();
         if (curWeatherLerped != prevCurWeatherLerped)
         {
             isRain = curWeatherLerped.IsRain();
@@ -43,13 +51,5 @@ public class MapComp(Map map) : MapComponent(map)
     {
         isSunlight = Settings.umbrellasBlockSun && map.skyManager.CurSkyGlow > SkyGlowDarkness;
         SunlightChanged?.Invoke();
-    }
-
-    public override void ExposeData()
-    {
-        Scribe_Values.Look(ref isSunlight, nameof(isSunlight));
-        Scribe_Values.Look(ref prevIsSunlight, nameof(prevIsSunlight));
-        Scribe_Defs.Look(ref curWeatherLerped, nameof(curWeatherLerped));
-        Scribe_Defs.Look(ref prevCurWeatherLerped, nameof(prevCurWeatherLerped));
     }
 }

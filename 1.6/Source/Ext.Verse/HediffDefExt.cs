@@ -9,7 +9,7 @@ internal static class HediffDefExt
 {
     private static readonly HashSet<string> UmbrellaProsthetics =
     [
-        // FIXME figure out which mods provide these hediffs
+        // FIXME figure out where these hediffs come from
 
         "AdvancedBionicArm",
         "AdvancedPowerArm",

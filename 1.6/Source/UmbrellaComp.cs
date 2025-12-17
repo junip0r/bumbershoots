@@ -128,14 +128,16 @@ public class UmbrellaComp : ThingComp
 
     internal void Notify_SunlightChanged()
     {
+        if (!pawnComp.mapComp.Ready) return;
         canBlockSunlight = umbrellaProps.blocksSunlight
-            && pawnComp.mapComp.isSunlight
+            && pawnComp.mapComp.isSunlight == true
             && pawnComp.hasSunlightSensitivity;
         Notify_StateChanged();
     }
 
     internal void Notify_WeatherChanged()
     {
+        if (!pawnComp.mapComp.Ready) return;
         var curWeatherLerped = pawnComp.mapComp.curWeatherLerped;
         canBlockWeather = umbrellaProps.BlocksWeather(curWeatherLerped);
         Notify_StateChanged();
