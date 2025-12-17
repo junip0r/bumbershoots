@@ -14,7 +14,7 @@ internal static class ThoughtWorker_InSunlight_CurrentStateInternal
     {
         if (__result.StageIndex == InactiveIndex) return;
         if (p.UmbrellaComp() is not UmbrellaComp umbrellaComp) return;
-        if (!umbrellaComp.blockingSunlight) return;
+        if (!umbrellaComp.BlockingSunlight) return;
         __result = ThoughtState.Inactive;
     }
 }

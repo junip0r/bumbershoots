@@ -20,15 +20,16 @@ public class MapComp(Map map) : MapComponent(map)
     internal WeatherDef prevCurWeatherLerped;
     internal bool isRain;
 
-    internal bool Ready
-    {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => curWeatherLerped != null;
-    }
-
     private bool GetIsSunlight() => map.skyManager.CurSkyGlow > SkyGlowDarkness;
 
     private WeatherDef GetCurWeatherLerped() => map.weatherManager.CurWeatherLerped;
+
+    public override void ExposeData()
+    {
+        Scribe_Values.Look(ref isSunlight, nameof(isSunlight));
+        Scribe_Defs.Look(ref curWeatherLerped, nameof(curWeatherLerped));
+        Scribe_Values.Look(ref isRain, nameof(isRain));
+    }
 
     public override void MapComponentTick()
     {

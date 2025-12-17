@@ -19,10 +19,11 @@ public class UmbrellaComp : ThingComp
     internal UmbrellaHediffs umbrellaHediffs;
     internal bool canBlockSunlight;
     internal bool canBlockWeather;
-    internal bool blockingSunlight;
-    internal bool blockingWeather;
     internal bool activated;
     internal bool ticking;
+
+    internal bool BlockingSunlight => activated && canBlockSunlight;
+    internal bool BlockingWeather => activated && canBlockWeather;
 
     public override void Initialize(CompProperties props)
     {
@@ -39,29 +40,26 @@ public class UmbrellaComp : ThingComp
 
     public override void PostExposeData()
     {
+        Scribe_Values.Look(ref canBlockSunlight, nameof(canBlockSunlight));
+        Scribe_Values.Look(ref canBlockWeather, nameof(canBlockWeather));
+        Scribe_Values.Look(ref activated, nameof(activated));
+
         if (Scribe.mode == LoadSaveMode.PostLoadInit)
         {
-            var wearer = apparel.Wearer;
-            if (wearer != null && pawnComp == null)
-            {
-                umbrellaHediffs.Deactivate(wearer);
-                Notify_Equipped(wearer);
-            }
+            if (apparel.Wearer is Pawn pawn) Notify_Equipped(pawn);
         }
     }
 
     public override void CompTick()
     {
         if (!ticking) return;
-        var activate = (canBlockSunlight || canBlockWeather)
-            && !pawnComp.pawn.Position.Roofed(pawnComp.mapComp.map);
-        if (activate)
+        if (pawnComp.pawn.Position.Roofed(pawnComp.mapComp.map))
         {
-            if (!activated) Activate();
+            if (activated) Deactivate();
         }
         else
         {
-            if (activated) Deactivate();
+            if (!activated) Activate();
         }
     }
 
@@ -129,7 +127,6 @@ public class UmbrellaComp : ThingComp
 
     internal void Notify_SunlightChanged()
     {
-        if (!pawnComp.mapComp.Ready) return;
         canBlockSunlight = umbrellaProps.blocksSunlight
             && pawnComp.mapComp.isSunlight == true
             && pawnComp.hasSunlightSensitivity;
@@ -138,7 +135,6 @@ public class UmbrellaComp : ThingComp
 
     internal void Notify_WeatherChanged()
     {
-        if (!pawnComp.mapComp.Ready) return;
         var curWeatherLerped = pawnComp.mapComp.curWeatherLerped;
         canBlockWeather = umbrellaProps.BlocksWeather(curWeatherLerped);
         Notify_StateChanged();
@@ -155,8 +151,6 @@ public class UmbrellaComp : ThingComp
     private void Activate()
     {
         activated = true;
-        blockingSunlight = canBlockSunlight;
-        blockingWeather = canBlockWeather;
         umbrellaHediffs.Activate(pawnComp.pawn);
         DirtyGraphics();
     }
@@ -164,8 +158,6 @@ public class UmbrellaComp : ThingComp
     private void Deactivate()
     {
         activated = false;
-        blockingSunlight = false;
-        blockingWeather = false;
         umbrellaHediffs.Deactivate(pawnComp.pawn);
         DirtyGraphics();
     }
@@ -184,7 +176,7 @@ public class UmbrellaComp : ThingComp
         for (var i = 0; i < renderNodeTags.Count; i++)
         {
             var node = renderTree.nodesByTag.GetValueOrDefault(renderNodeTags[i]);
-            if (node == null) continue;
+            if (node?.children == null) continue;
             for (var j = 0; j < node.children.Length; j++)
             {
                 var child = node.children[j];
