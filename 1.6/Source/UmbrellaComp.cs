@@ -28,7 +28,7 @@ public class UmbrellaComp : ThingComp
     public override void Initialize(CompProperties props)
     {
         umbrellaProps = (UmbrellaProps)props;
-        if (parent is not Apparel a || !umbrellaProps.IsForDef(parent.def.defName))
+        if (parent is not Apparel a || !umbrellaProps.IsForDef(a.def.defName))
         {
             parent.comps.Remove(this);
             return;
@@ -62,8 +62,10 @@ public class UmbrellaComp : ThingComp
 
     private void Notify_StateChanged()
     {
-        ticking = (canBlockWeather || canBlockSunlight) && !pawnComp.pawn.health.Dead;
-        if (!ticking && activated && !pawnComp.pawn.health.Dead) Deactivate();
+        ticking = (canBlockWeather || canBlockSunlight)
+            && !pawnComp.isWildMan
+            && !pawnComp.dead;
+        if (!ticking && activated && !pawnComp.dead) Deactivate();
     }
 
     private void Notify_LoadSave()
@@ -93,18 +95,14 @@ public class UmbrellaComp : ThingComp
 
     internal void Notify_PawnSpawned()
     {
-        Log.W($"UmbrellaComp.Notfy_PawnSpawned({pawnComp.pawn})");
-        pawnComp.mapComp.SunlightChanged += Notify_SunlightChanged;
-        pawnComp.mapComp.WeatherChanged += Notify_WeatherChanged;
+        ConnectMapComp();
         Notify_SunlightChanged();
         Notify_WeatherChanged();
     }
 
     internal void Notify_PawnDeSpawned()
     {
-        Log.W($"UmbrellaComp.Notfy_PawnDeSpawned({pawnComp.pawn})");
-        pawnComp.mapComp.SunlightChanged -= Notify_SunlightChanged;
-        pawnComp.mapComp.WeatherChanged -= Notify_WeatherChanged;
+        DisconnectMapComp();
         canBlockSunlight = false;
         canBlockWeather = false;
         Notify_StateChanged();
@@ -112,14 +110,12 @@ public class UmbrellaComp : ThingComp
 
     internal void Notify_PawnKilled()
     {
-        Log.W($"UmbrellaComp.Notfy_PawnKilled({pawnComp.pawn})");
         Notify_StateChanged();
     }
 
     internal void Notify_PawnResurrected()
     {
-        Log.W($"UmbrellaComp.Notfy_PawnResurrected({pawnComp.pawn})");
-        Notify_StateChanged();
+        // Notify_PawnSpawned() will be called first on resurrection
         CompTick();
     }
 
@@ -150,6 +146,19 @@ public class UmbrellaComp : ThingComp
         Notify_Unequipped(pawn);
         Notify_Equipped(pawn);
         CompTick();
+    }
+
+    private void ConnectMapComp()
+    {
+        DisconnectMapComp();
+        pawnComp.mapComp.SunlightChanged += Notify_SunlightChanged;
+        pawnComp.mapComp.WeatherChanged += Notify_WeatherChanged;
+    }
+
+    private void DisconnectMapComp()
+    {
+        pawnComp.mapComp.SunlightChanged -= Notify_SunlightChanged;
+        pawnComp.mapComp.WeatherChanged -= Notify_WeatherChanged;
     }
 
     private void Activate()

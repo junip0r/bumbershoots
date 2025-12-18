@@ -10,6 +10,7 @@ public class PawnComp : ThingComp
     internal UmbrellaComp umbrellaComp;
     internal bool isWildMan;
     internal bool hasSunlightSensitivity;
+    internal bool dead;
 
     public override void Initialize(CompProperties props)
     {
@@ -26,6 +27,7 @@ public class PawnComp : ThingComp
     {
         isWildMan = pawn.IsWildMan();
         hasSunlightSensitivity = pawn.HasSunlightSensitivity();
+        dead = pawn.health.Dead;
         mapComp = pawn.Map.MapComp();
         umbrellaComp?.Notify_PawnSpawned();
     }
@@ -38,11 +40,13 @@ public class PawnComp : ThingComp
 
     public override void Notify_Killed(Map prevMap, DamageInfo? dinfo = null)
     {
+        dead = true;
         umbrellaComp?.Notify_PawnKilled();
     }
 
     internal void Notify_Resurrected()
     {
+        dead = false;
         umbrellaComp?.Notify_PawnResurrected();
     }
 
