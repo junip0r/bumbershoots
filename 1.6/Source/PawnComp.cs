@@ -34,20 +34,9 @@ public class PawnComp : ThingComp
 
     public override void PostDeSpawn(Map map, DestroyMode mode = DestroyMode.Vanish)
     {
+        dead = pawn.health.Dead;
         umbrellaComp?.Notify_PawnDeSpawned();
         mapComp = null;
-    }
-
-    public override void Notify_Killed(Map prevMap, DamageInfo? dinfo = null)
-    {
-        dead = true;
-        umbrellaComp?.Notify_PawnKilled();
-    }
-
-    internal void Notify_Resurrected()
-    {
-        dead = false;
-        umbrellaComp?.Notify_PawnResurrected();
     }
 
     internal void Notify_GenesChanged()

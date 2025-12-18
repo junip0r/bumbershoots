@@ -62,9 +62,7 @@ public class UmbrellaComp : ThingComp
 
     private void Notify_StateChanged()
     {
-        ticking = (canBlockWeather || canBlockSunlight)
-            && !pawnComp.isWildMan
-            && !pawnComp.dead;
+        ticking = (canBlockWeather || canBlockSunlight) && !pawnComp.isWildMan;
         if (!ticking && activated && !pawnComp.dead) Deactivate();
     }
 
@@ -95,28 +93,20 @@ public class UmbrellaComp : ThingComp
 
     internal void Notify_PawnSpawned()
     {
+        Log.W($"UmbrellaComp.Notify_PawnSpawned({pawnComp.pawn})");
         ConnectMapComp();
         Notify_SunlightChanged();
         Notify_WeatherChanged();
+        CompTick();
     }
 
     internal void Notify_PawnDeSpawned()
     {
+        Log.W($"UmbrellaComp.Notify_PawnDeSpawned({pawnComp.pawn}) dead={pawnComp.dead}");
         DisconnectMapComp();
         canBlockSunlight = false;
         canBlockWeather = false;
         Notify_StateChanged();
-    }
-
-    internal void Notify_PawnKilled()
-    {
-        Notify_StateChanged();
-    }
-
-    internal void Notify_PawnResurrected()
-    {
-        // Notify_PawnSpawned() will be called first on resurrection
-        CompTick();
     }
 
     internal void Notify_PawnGenesChanged()
