@@ -3,29 +3,29 @@
 
     <Mod>Bumbershoots</Mod>
 
-    <ShowUmbrellas>Show umbrellas: </ShowUmbrellas>
-    <ShowUmbrellasHelp>☔ ENABLED: Umbrella graphics will be displayed when a pawn is actively using an umbrella to block weather or sunlight.
+    <showUmbrellas>Show umbrellas: </showUmbrellas>
+    <showUmbrellasHelp>☔ ENABLED: Umbrella graphics will be displayed when a pawn is actively using an umbrella to block weather or sunlight.
 ○ DISABLED: Umbrella graphics will never be displayed, but umbrellas will still block weather and sunlight.
-↻ DEFAULT: enabled</ShowUmbrellasHelp>
+↻ DEFAULT: enabled</showUmbrellasHelp>
 
-    <UmbrellasBlockSun>Umbrellas block sunlight: </UmbrellasBlockSun>
-    <UmbrellasBlockSunHelp>☔ ENABLED: Umbrellas will block sunlight for pawns with sunlight sensitivity.
+    <umbrellasBlockSun>Umbrellas block sunlight: </umbrellasBlockSun>
+    <umbrellasBlockSunHelp>☔ ENABLED: Umbrellas will block sunlight for pawns with sunlight sensitivity.
 ○ DISABLED: Umbrellas will not block sunlight.
-↻ DEFAULT: enabled</UmbrellasBlockSunHelp>
+↻ DEFAULT: enabled</umbrellasBlockSunHelp>
 
-    <UmbrellaClothing>Clothing can block weather: </UmbrellaClothing>
-    <UmbrellaClothingHelp>☔ ENABLED: Activates support for weather-blocking clothing. By default, only the Cowboy Hat is supported, which blocks light rain only, and does not encumber. Mods may add additional weather-blocking clothing.
+    <umbrellaClothing>Clothing can block weather: </umbrellaClothing>
+    <umbrellaClothingHelp>☔ ENABLED: Activates support for weather-blocking clothing. By default, only the Cowboy Hat is supported, which blocks light rain only, and does not encumber. Mods may add additional weather-blocking clothing.
 ○ DISABLED: Deactivates support for weather-blocking clothing.
-↻ DEFAULT: enabled</UmbrellaClothingHelp>
+↻ DEFAULT: enabled</umbrellaClothingHelp>
 
-    <EncumberWork>Reduce work speed while using an umbrella: </EncumberWork>
-    <EncumberWorkHelp>☔ ENABLED: Pawn work speed -15% when using an umbrella. Applies only when an umbrella is actively deployed against weather or sunlight.
-○ DISBALED: Pawns will not receive a work speed debuff.
-↻ DEFAULT: enabled</EncumberWorkHelp>
-
-    <EncumberCombat>Worse accuracy and aiming speed when using an umbrella: </EncumberCombat>
-    <EncumberCombatHelp>☔ ENABLED: Pawn shoot accuracy -15% and aim delay +15% when using an umbrella. Applies only when an umbrella is actively deployed against weather or sunlight.
+    <encumberCombat>Worse accuracy and aiming speed when using an umbrella: </encumberCombat>
+    <encumberCombatHelp>☔ ENABLED: Pawn shoot accuracy -10% and aim delay +10% when using an umbrella. Applies only when an umbrella is actively deployed against weather or sunlight.
 ○ DISABLED: Pawns will not receive accuracy or aim delay debuffs.
-↻ DEFAULT: enabled</EncumberCombatHelp>
+↻ DEFAULT: enabled</encumberCombatHelp>
+
+    <encumberWork>Reduce work speed while using an umbrella: </encumberWork>
+    <encumberWorkHelp>☔ ENABLED: Pawn work speed -10% when using an umbrella. Applies only when an umbrella is actively deployed against weather or sunlight.
+○ DISBALED: Pawns will not receive a work speed debuff.
+↻ DEFAULT: enabled</encumberWorkHelp>
 
 </LanguageData>

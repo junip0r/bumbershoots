@@ -84,8 +84,8 @@
           <li>FoggyRain</li>
         </blocksWeather>
         <hediffs>
-          <li>Bumber_DebuffCombat</li>
-          <li>Bumber_DebuffWork</li>
+          <li>Bumber_CombatDebuff</li>
+          <li>Bumber_WorkDebuff</li>
         </hediffs>
         <hideable>true</hideable>
       </li>
@@ -135,8 +135,8 @@
           <li>RainyThunderstorm</li>
         </blocksWeather>
         <hediffs>
-          <li>Bumber_DebuffCombat</li>
-          <li>Bumber_DebuffWork</li>
+          <li>Bumber_CombatDebuff</li>
+          <li>Bumber_WorkDebuff</li>
         </hediffs>
         <hideable>true</hideable>
       </li>
@@ -191,8 +191,8 @@
           <li MayRequire="Ludeon.RimWorld.Odyssey">TorrentialRain</li>
         </blocksWeather>
         <hediffs>
-          <li>Bumber_DebuffCombat</li>
-          <li>Bumber_DebuffWork</li>
+          <li>Bumber_CombatDebuff</li>
+          <li>Bumber_WorkDebuff</li>
         </hediffs>
         <hideable>true</hideable>
       </li>
@@ -251,8 +251,8 @@
           <li MayRequire="Ludeon.RimWorld.Odyssey">TorrentialRain</li>
         </blocksWeather>
         <hediffs>
-          <li>Bumber_DebuffCombat</li>
-          <li>Bumber_DebuffWork</li>
+          <li>Bumber_CombatDebuff</li>
+          <li>Bumber_WorkDebuff</li>
         </hediffs>
         <hideable>true</hideable>
       </li>

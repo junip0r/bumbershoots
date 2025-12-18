@@ -3,38 +3,48 @@
 <Defs>
 
     <HediffDef>
-        <defName>Bumber_DebuffCombat</defName>
-        <label>umbrella combat encumbrance</label>
-        <labelNoun>umbrella combat encumbrance</labelNoun>
+        <defName>Bumber_CombatDebuff</defName>
+        <label>combat encumbrance</label>
+        <labelNoun>combat encumbrance</labelNoun>
         <description>Worse accuracy and aiming speed while using an umbrella to block sunlight or weather.</description>
         <defaultLabelColor>(0.9, 1.0, 0.35)</defaultLabelColor>
         <stages>
             <li>
+                <label>inactive</label>
+                <becomeVisible>true</becomeVisible>
+                <minSeverity>1</minSeverity>
+            </li>
+            <li>
                 <label>active</label>
                 <becomeVisible>true</becomeVisible>
                 <statFactors>
-                    <ShootingAccuracyPawn>0.85</ShootingAccuracyPawn>
-                    <AimingDelayFactor>1.15</AimingDelayFactor>
+                    <ShootingAccuracyPawn>0.90</ShootingAccuracyPawn>
+                    <AimingDelayFactor>1.10</AimingDelayFactor>
                 </statFactors>
-                <minSeverity>1</minSeverity>
+                <minSeverity>2</minSeverity>
             </li>
         </stages>
     </HediffDef>
 
     <HediffDef>
-        <defName>Bumber_DebuffWork</defName>
-        <label>umbrella work encumbrance</label>
-        <labelNoun>umbrella work encumbrance</labelNoun>
+        <defName>Bumber_WorkDebuff</defName>
+        <label>work encumbrance</label>
+        <labelNoun>work encumbrance</labelNoun>
         <description>Reduced work speed while using an umbrella to block sunlight or weather.</description>
         <defaultLabelColor>(0.9, 1.0, 0.35)</defaultLabelColor>
         <stages>
             <li>
+                <label>inactive</label>
+                <becomeVisible>true</becomeVisible>
+                <minSeverity>1</minSeverity>
+            </li>
+            <li>
                 <label>active</label>
                 <becomeVisible>true</becomeVisible>
                 <statFactors>
-                    <WorkSpeedGlobal>0.85</WorkSpeedGlobal>
+                    <WorkSpeedGlobal>0.90</WorkSpeedGlobal>
                 </statFactors>
-                <minSeverity>1</minSeverity>
+                <minSeverity>2</minSeverity>
             </li>
         </stages>
     </HediffDef>

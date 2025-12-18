@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LanguageData>
 
-    <!-- Bumber_DebuffCombat -->
-    <Bumber_DebuffCombat.label>umbrella combat encumbrance</Bumber_DebuffCombat.label>
-    <Bumber_DebuffCombat.labelNoun>umbrella combat encumbrance</Bumber_DebuffCombat.labelNoun>
-    <Bumber_DebuffCombat.description>Worse accuracy and aiming speed while using an umbrella to block sunlight or weather.</Bumber_DebuffCombat.description>
+    <!-- Bumber_CombatDebuff -->
+    <Bumber_CombatDebuff.label>encumbered combat</Bumber_CombatDebuff.label>
+    <Bumber_CombatDebuff.labelNoun>combat encumbrance</Bumber_CombatDebuff.labelNoun>
+    <Bumber_CombatDebuff.description>Worse accuracy and aiming speed while using an umbrella to block sunlight or weather.</Bumber_CombatDebuff.description>
 
-    <!-- Bumber_DebuffWork -->
-    <Bumber_DebuffWork.label>umbrella work encumbrance</Bumber_DebuffWork.label>
-    <Bumber_DebuffWork.labelNoun>umbrella work encumbrance</Bumber_DebuffWork.labelNoun>
-    <Bumber_DebuffWork.description>Reduced work speed while using an umbrella to block sunlight or weather.</Bumber_DebuffWork.description>
+    <!-- Bumber_WorkDebuff -->
+    <Bumber_WorkDebuff.label>encumbered work</Bumber_WorkDebuff.label>
+    <Bumber_WorkDebuff.labelNoun>work encumbrance</Bumber_WorkDebuff.labelNoun>
+    <Bumber_WorkDebuff.description>Reduced work speed while using an umbrella to block sunlight or weather.</Bumber_WorkDebuff.description>
 
 </LanguageData>

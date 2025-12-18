@@ -2,7 +2,6 @@
 
 using Bumbershoots.Ext.Verse;
 using System;
-using System.Runtime.CompilerServices;
 using Verse;
 
 namespace Bumbershoots;
@@ -50,7 +49,10 @@ public class MapComp(Map map) : MapComponent(map)
 
     internal void Notify_SettingsChanged()
     {
-        isSunlight = Settings.umbrellasBlockSun && map.skyManager.CurSkyGlow > SkyGlowDarkness;
-        SunlightChanged?.Invoke();
+        if (Settings.umbrellasBlockSun)
+        {
+            isSunlight = GetIsSunlight();
+            SunlightChanged?.Invoke();
+        }
     }
 }

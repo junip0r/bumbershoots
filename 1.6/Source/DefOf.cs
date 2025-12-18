@@ -10,6 +10,6 @@ public static class DefOf
     public static ThingDef Bumber_GolfUmbrella;
     public static ThingDef Bumber_FashionUmbrella;
 
-    public static HediffDef Bumber_DebuffCombat;
-    public static HediffDef Bumber_DebuffWork;
+    public static HediffDef Bumber_CombatDebuff;
+    public static HediffDef Bumber_WorkDebuff;
 }

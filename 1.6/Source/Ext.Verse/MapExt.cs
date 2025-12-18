@@ -22,12 +22,9 @@ internal static class MapExt
         Notify_SettingsChanged(@this.mapPawns.AllPawnsUnspawned);
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static void Notify_SettingsChanged(IReadOnlyList<Pawn> pawns)
     {
         for (var i = 0; i < pawns.Count; i++)
-        {
             pawns[i].Notify_SettingsChanged();
-        }
     }
 }

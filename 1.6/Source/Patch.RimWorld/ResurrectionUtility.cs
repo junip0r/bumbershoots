@@ -10,7 +10,8 @@ internal static class ResurrectionUtility_TryResurrect
 {
     private static void Postfix(bool __result, Pawn pawn)
     {
-        if (!__result || pawn.PawnComp() is not PawnComp pawnComp) return;
+        if (!__result) return;
+        if (pawn.PawnComp() is not PawnComp pawnComp) return;
         pawnComp.Notify_Resurrected();
     }
 }

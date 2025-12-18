@@ -1,35 +1,33 @@
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using Verse;
 
 namespace Bumbershoots.Ext.RimWorld;
 
 internal static class GeneDefExt
 {
-    private static readonly List<string> uvSensitivityGeneDefNames =
+    private static readonly List<string> uvSensitivityDefNames =
     [
         "UVSensitivity_Mild",
         "UVSensitivity_Intense",
     ];
 
-    private static GeneDef[] uvSensitivityGeneDefs = null;
+    private static GeneDef[] uvSensitivityDefs = null;
 
-    internal static GeneDef[] UVSensitivityGeneDefs
+    internal static GeneDef[] UVSensitivityDefs
     {
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
         {
-            if (uvSensitivityGeneDefs is null)
+            if (uvSensitivityDefs is null)
             {
-                List<GeneDef> genes = new(uvSensitivityGeneDefNames.Count);
-                for (var i = 0; i < uvSensitivityGeneDefNames.Count; i++)
+                List<GeneDef> genes = new(uvSensitivityDefNames.Count);
+                for (var i = 0; i < uvSensitivityDefNames.Count; i++)
                 {
-                    var def = DefDatabase<GeneDef>.GetNamedSilentFail(uvSensitivityGeneDefNames[i]);
+                    var def = DefDatabase<GeneDef>.GetNamedSilentFail(uvSensitivityDefNames[i]);
                     if (def != null) genes.Add(def);
                 }
-                uvSensitivityGeneDefs = [.. genes];
+                uvSensitivityDefs = [.. genes];
             }
-            return uvSensitivityGeneDefs;
+            return uvSensitivityDefs;
         }
     }
 }

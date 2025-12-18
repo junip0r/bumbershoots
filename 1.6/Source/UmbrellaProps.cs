@@ -30,8 +30,8 @@ public class UmbrellaProps : CompProperties
     // weather and/or sunlight. Clothing items have no hediffs by default. Umbrellas
     // have two debuffs by default, though these can be disabled in the settings:
     //
-    // - Bumber_DebuffCombat
-    // - Bumber_DebuffWork
+    // - Bumber_CombatDebuff
+    // - Bumber_WorkDebuff
     //
     // When instantiating Hediffs from these HediffDefs, the Severity will be set to
     // the minSeverity of the 0th stage.
@@ -65,12 +65,17 @@ public class UmbrellaProps : CompProperties
     // safe to omit this property.
     public string defName;
 
-    public bool BlocksWeather(WeatherDef def) =>
-        (!clothing || Settings.umbrellaClothing)
-            && blocksWeather != null
-            && blocksWeather.Contains(def.defName);
-
     public bool BlocksSunlight => Settings.umbrellasBlockSun && blocksSunlight;
 
-    public bool IsForDef(string defName) => string.IsNullOrWhiteSpace(this.defName) || defName == this.defName;
+    public bool BlocksWeather(WeatherDef def)
+    {
+        return (!clothing || Settings.umbrellaClothing)
+            && blocksWeather != null
+            && blocksWeather.Contains(def.defName);
+    }
+
+    public bool IsForDef(string defName)
+    {
+        return string.IsNullOrWhiteSpace(this.defName) || defName == this.defName;
+    }
 }

@@ -28,13 +28,13 @@ public class UmbrellaComp : ThingComp
     public override void Initialize(CompProperties props)
     {
         umbrellaProps = (UmbrellaProps)props;
-        if (!umbrellaProps.IsForDef(parent.def.defName))
+        if (parent is not Apparel a || !umbrellaProps.IsForDef(parent.def.defName))
         {
             parent.comps.Remove(this);
             return;
         }
         base.Initialize(props);
-        apparel = (Apparel)parent;
+        apparel = a;
         umbrellaHediffs = new(umbrellaProps);
     }
 
@@ -44,10 +44,7 @@ public class UmbrellaComp : ThingComp
         Scribe_Values.Look(ref canBlockWeather, nameof(canBlockWeather));
         Scribe_Values.Look(ref activated, nameof(activated));
 
-        if (Scribe.mode == LoadSaveMode.PostLoadInit)
-        {
-            if (apparel.Wearer is Pawn pawn) Notify_Equipped(pawn);
-        }
+        if (Scribe.mode == LoadSaveMode.PostLoadInit) Notify_LoadSave();
     }
 
     public override void CompTick()
@@ -65,38 +62,38 @@ public class UmbrellaComp : ThingComp
 
     private void Notify_StateChanged()
     {
-        ticking = pawnComp != null
-            && !pawnComp.isWildMan
-            && pawnComp.mapComp != null
-            && pawnComp.pawn.Spawned
-            && !pawnComp.pawn.health.Dead
-            && (canBlockWeather || canBlockSunlight);
+        ticking = (canBlockWeather || canBlockSunlight) && !pawnComp.pawn.health.Dead;
         if (!ticking && activated && !pawnComp.pawn.health.Dead) Deactivate();
+    }
+
+    private void Notify_LoadSave()
+    {
+        pawnComp = apparel.Wearer?.PawnComp();
+        if (pawnComp == null) return;
+        pawnComp.Notify_UmbrellaEquipped(this);
+        umbrellaHediffs.Load(pawnComp.pawn);
+        if (pawnComp.mapComp != null) Notify_PawnSpawned();
     }
 
     public override void Notify_Equipped(Pawn pawn)
     {
-        if (pawn.PawnComp() is not PawnComp pawnComp) return;
-        this.pawnComp = pawnComp;
+        pawnComp = apparel.Wearer?.PawnComp();
+        if (pawnComp == null) return;
         pawnComp.Notify_UmbrellaEquipped(this);
-        if (pawnComp.mapComp != null)
-        {
-            Notify_PawnSpawned();
-        }
+        umbrellaHediffs.Add(pawn);
+        if (pawnComp.mapComp != null) Notify_PawnSpawned();
     }
 
     public override void Notify_Unequipped(Pawn pawn)
     {
-        if (pawnComp.mapComp != null)
-        {
-            Notify_PawnDeSpawned();
-        }
+        if (pawnComp.mapComp != null) Notify_PawnDeSpawned();
         pawnComp.Notify_UmbrellaUnequipped();
         pawnComp = null;
     }
 
     internal void Notify_PawnSpawned()
     {
+        Log.W($"UmbrellaComp.Notfy_PawnSpawned({pawnComp.pawn})");
         pawnComp.mapComp.SunlightChanged += Notify_SunlightChanged;
         pawnComp.mapComp.WeatherChanged += Notify_WeatherChanged;
         Notify_SunlightChanged();
@@ -105,23 +102,30 @@ public class UmbrellaComp : ThingComp
 
     internal void Notify_PawnDeSpawned()
     {
+        Log.W($"UmbrellaComp.Notfy_PawnDeSpawned({pawnComp.pawn})");
         pawnComp.mapComp.SunlightChanged -= Notify_SunlightChanged;
         pawnComp.mapComp.WeatherChanged -= Notify_WeatherChanged;
+        canBlockSunlight = false;
+        canBlockWeather = false;
         Notify_StateChanged();
     }
 
     internal void Notify_PawnKilled()
     {
-        Notify_PawnDeSpawned();
+        Log.W($"UmbrellaComp.Notfy_PawnKilled({pawnComp.pawn})");
+        Notify_StateChanged();
     }
 
     internal void Notify_PawnResurrected()
     {
-        Notify_PawnSpawned();
+        Log.W($"UmbrellaComp.Notfy_PawnResurrected({pawnComp.pawn})");
+        Notify_StateChanged();
+        CompTick();
     }
 
     internal void Notify_PawnGenesChanged()
     {
+        if (pawnComp.mapComp == null) return;
         Notify_SunlightChanged();
     }
 
@@ -142,23 +146,23 @@ public class UmbrellaComp : ThingComp
 
     internal void Notify_SettingsChanged()
     {
-        if (activated) Deactivate();
-        Notify_SunlightChanged();
-        Notify_WeatherChanged();
+        var pawn = pawnComp.pawn;
+        Notify_Unequipped(pawn);
+        Notify_Equipped(pawn);
         CompTick();
     }
 
     private void Activate()
     {
         activated = true;
-        umbrellaHediffs.Activate(pawnComp.pawn);
+        umbrellaHediffs.Activate();
         DirtyGraphics();
     }
 
     private void Deactivate()
     {
         activated = false;
-        umbrellaHediffs.Deactivate(pawnComp.pawn);
+        umbrellaHediffs.Deactivate();
         DirtyGraphics();
     }
 

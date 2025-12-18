@@ -11,12 +11,8 @@ internal static class PawnRenderNode_Apparel_GraphicsFor
     private static void Postfix(ref IEnumerable<Graphic> __result, PawnRenderNode_Apparel __instance)
     {
         if (__instance.apparel.UmbrellaComp() is not UmbrellaComp umbrellaComp) return;
-        if (umbrellaComp.umbrellaProps.clothing) return;
-        if (Settings.showUmbrellas)
-        {
-            if (!umbrellaComp.umbrellaProps.hideable) return;
-            if (umbrellaComp.activated) return;
-        }
+        if (!umbrellaComp.umbrellaProps.hideable) return;
+        if (Settings.showUmbrellas && umbrellaComp.activated) return;
         __result = [];
     }
 }

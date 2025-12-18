@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using Verse;
 
 namespace Bumbershoots.Ext.Verse;
@@ -25,7 +23,6 @@ internal static class HediffDefExt
         "SteelArm",
     ];
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     internal static bool IsUmbrellaProsthetic(this HediffDef @this)
     {
         return UmbrellaProsthetics.Contains(@this.defName);
