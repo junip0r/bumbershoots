@@ -7,7 +7,7 @@ namespace Bumbershoots;
 
 public class GameComp(Game _) : GameComponent()
 {
-    internal static int settingsHashCode;
+    public static int settingsHashCode;
     private static int prevSettingsHashCode;
 
     public override void StartedNewGame()

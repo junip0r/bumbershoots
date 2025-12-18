@@ -3,11 +3,11 @@ using Verse;
 
 namespace Bumbershoots;
 
-internal class UmbrellaHediffs
+public class UmbrellaHediffs
 {
-    internal readonly List<HediffDef> defs = [];
-    internal readonly HashSet<string> defNames = [];
-    internal readonly List<Hediff> hediffs = [];
+    public readonly List<HediffDef> defs = [];
+    public readonly HashSet<string> defNames = [];
+    public readonly List<Hediff> hediffs = [];
 
     private int Stage
     {
@@ -18,7 +18,7 @@ internal class UmbrellaHediffs
         }
     }
 
-    internal UmbrellaHediffs(UmbrellaProps umbrellaProps)
+    public UmbrellaHediffs(UmbrellaProps umbrellaProps)
     {
         var allDefNames = umbrellaProps.hediffs;
         if (allDefNames is null) return;
@@ -42,7 +42,7 @@ internal class UmbrellaHediffs
         return true;
     }
 
-    internal void Add(Pawn pawn)
+    public void Add(Pawn pawn)
     {
         if (hediffs.Count > 0) return;
         for (var i = 0; i < defs.Count; i++)
@@ -56,14 +56,14 @@ internal class UmbrellaHediffs
         }
     }
 
-    internal void Remove(Pawn pawn)
+    public void Remove(Pawn pawn)
     {
         for (var i = 0; i < hediffs.Count; i++)
             pawn.health.RemoveHediff(hediffs[i]);
         hediffs.Clear();
     }
 
-    internal void Load(Pawn pawn)
+    public void Load(Pawn pawn)
     {
         for (var i = 0; i < pawn.health.hediffSet.hediffs.Count; i++)
         {
@@ -73,12 +73,12 @@ internal class UmbrellaHediffs
         Add(pawn);
     }
 
-    internal void Activate()
+    public void Activate()
     {
         Stage = 1;
     }
 
-    internal void Deactivate()
+    public void Deactivate()
     {
         Stage = 0;
     }

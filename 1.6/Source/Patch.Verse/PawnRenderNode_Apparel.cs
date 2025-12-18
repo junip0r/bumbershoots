@@ -6,7 +6,7 @@ using Verse;
 namespace Bumbershoots.Patch.Verse;
 
 [HarmonyPatch(typeof(PawnRenderNode_Apparel), nameof(PawnRenderNode_Apparel.GraphicsFor))]
-internal static class PawnRenderNode_Apparel_GraphicsFor
+public static class PawnRenderNode_Apparel_GraphicsFor
 {
     private static void Postfix(ref IEnumerable<Graphic> __result, PawnRenderNode_Apparel __instance)
     {

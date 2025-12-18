@@ -5,17 +5,17 @@ using Verse;
 
 namespace Bumbershoots.Ext.Verse;
 
-internal static class MapExt
+public static class MapExt
 {
     [PrepatcherField]
     [InjectComponent]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    internal static MapComp MapComp(this Map @this)
+    public static MapComp MapComp(this Map @this)
     {
         return @this.GetComponent<MapComp>();
     }
 
-    internal static void Notify_SettingsChanged(this Map @this)
+    public static void Notify_SettingsChanged(this Map @this)
     {
         @this.MapComp().Notify_SettingsChanged();
         Notify_SettingsChanged(@this.mapPawns.AllPawnsSpawned);

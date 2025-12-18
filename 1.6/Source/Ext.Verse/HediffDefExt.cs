@@ -3,7 +3,7 @@ using Verse;
 
 namespace Bumbershoots.Ext.Verse;
 
-internal static class HediffDefExt
+public static class HediffDefExt
 {
     private static readonly HashSet<string> UmbrellaProsthetics =
     [
@@ -23,7 +23,7 @@ internal static class HediffDefExt
         "SteelArm",
     ];
 
-    internal static bool IsUmbrellaProsthetic(this HediffDef @this)
+    public static bool IsUmbrellaProsthetic(this HediffDef @this)
     {
         return UmbrellaProsthetics.Contains(@this.defName);
     }

@@ -13,7 +13,7 @@ public class Settings : ModSettings
     public static bool encumberCombat = true;
     public static bool encumberWork = true;
 
-    internal static int HashCode =>
+    public static int HashCode =>
         (
             showUmbrellas,
             umbrellasBlockSun,
@@ -33,7 +33,7 @@ public class Settings : ModSettings
     }
 
 
-    internal void DoWindowContents(Rect rect)
+    public void DoWindowContents(Rect rect)
     {
         static void Checkbox(Listing_Standard l, string name, ref bool value)
         {

@@ -10,14 +10,14 @@ public class MapComp(Map map) : MapComponent(map)
 {
     private static float SkyGlowDarkness = 0.1f;
 
-    internal event Action SunlightChanged;
-    internal event Action WeatherChanged;
+    public event Action SunlightChanged;
+    public event Action WeatherChanged;
 
-    internal bool? isSunlight;
-    internal bool? prevIsSunlight;
-    internal WeatherDef curWeatherLerped;
-    internal WeatherDef prevCurWeatherLerped;
-    internal bool isRain;
+    public bool? isSunlight;
+    public bool? prevIsSunlight;
+    public WeatherDef curWeatherLerped;
+    public WeatherDef prevCurWeatherLerped;
+    public bool isRain;
 
     private bool GetIsSunlight() => map.skyManager.CurSkyGlow > SkyGlowDarkness;
 
@@ -47,7 +47,7 @@ public class MapComp(Map map) : MapComponent(map)
         }
     }
 
-    internal void Notify_SettingsChanged()
+    public void Notify_SettingsChanged()
     {
         if (Settings.umbrellasBlockSun)
         {

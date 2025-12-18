@@ -3,7 +3,7 @@ using Verse;
 
 namespace Bumbershoots.Ext.RimWorld;
 
-internal static class GeneDefExt
+public static class GeneDefExt
 {
     private static readonly List<string> uvSensitivityDefNames =
     [
@@ -13,7 +13,7 @@ internal static class GeneDefExt
 
     private static GeneDef[] uvSensitivityDefs = null;
 
-    internal static GeneDef[] UVSensitivityDefs
+    public static GeneDef[] UVSensitivityDefs
     {
         get
         {

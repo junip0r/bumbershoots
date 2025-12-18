@@ -6,7 +6,7 @@ using Verse;
 namespace Bumbershoots.Patch.RimWorld;
 
 [HarmonyPatch(typeof(ThoughtWorker_InSunlight), nameof(ThoughtWorker_InSunlight.CurrentStateInternal))]
-internal static class ThoughtWorker_InSunlight_CurrentStateInternal
+public static class ThoughtWorker_InSunlight_CurrentStateInternal
 {
     private const int InactiveIndex = -99999;
 

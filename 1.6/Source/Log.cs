@@ -2,7 +2,7 @@ using System.Runtime.CompilerServices;
 
 namespace Bumbershoots;
 
-internal static class Log
+public static class Log
 {
     // Format
 
@@ -15,7 +15,7 @@ internal static class Log
     // Info
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    internal static void I(string msg)
+    public static void I(string msg)
     {
         Verse.Log.Message(Format(msg));
     }
@@ -23,7 +23,7 @@ internal static class Log
     // Warning
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    internal static void W(string msg)
+    public static void W(string msg)
     {
         Verse.Log.Warning(Format(msg));
     }
@@ -31,7 +31,7 @@ internal static class Log
     // Error
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    internal static void E(string msg)
+    public static void E(string msg)
     {
         Verse.Log.Error(Format(msg));
     }

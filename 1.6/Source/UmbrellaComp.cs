@@ -13,17 +13,17 @@ public class UmbrellaComp : ThingComp
         PawnRenderNodeTagDefOf.ApparelBody,
     ];
 
-    internal Apparel apparel;
-    internal PawnComp pawnComp;
-    internal UmbrellaProps umbrellaProps;
-    internal UmbrellaHediffs umbrellaHediffs;
-    internal bool canBlockSunlight;
-    internal bool canBlockWeather;
-    internal bool activated;
-    internal bool ticking;
+    public Apparel apparel;
+    public PawnComp pawnComp;
+    public UmbrellaProps umbrellaProps;
+    public UmbrellaHediffs umbrellaHediffs;
+    public bool canBlockSunlight;
+    public bool canBlockWeather;
+    public bool activated;
+    public bool ticking;
 
-    internal bool BlockingSunlight => activated && canBlockSunlight;
-    internal bool BlockingWeather => activated && canBlockWeather;
+    public bool BlockingSunlight => activated && canBlockSunlight;
+    public bool BlockingWeather => activated && canBlockWeather;
 
     public override void Initialize(CompProperties props)
     {
@@ -91,7 +91,7 @@ public class UmbrellaComp : ThingComp
         pawnComp = null;
     }
 
-    internal void Notify_PawnSpawned()
+    public void Notify_PawnSpawned()
     {
         Log.W($"UmbrellaComp.Notify_PawnSpawned({pawnComp.pawn})");
         ConnectMapComp();
@@ -100,7 +100,7 @@ public class UmbrellaComp : ThingComp
         CompTick();
     }
 
-    internal void Notify_PawnDeSpawned()
+    public void Notify_PawnDeSpawned()
     {
         Log.W($"UmbrellaComp.Notify_PawnDeSpawned({pawnComp.pawn}) dead={pawnComp.dead}");
         DisconnectMapComp();
@@ -109,13 +109,13 @@ public class UmbrellaComp : ThingComp
         Notify_StateChanged();
     }
 
-    internal void Notify_PawnGenesChanged()
+    public void Notify_PawnGenesChanged()
     {
         if (pawnComp.mapComp == null) return;
         Notify_SunlightChanged();
     }
 
-    internal void Notify_SunlightChanged()
+    public void Notify_SunlightChanged()
     {
         canBlockSunlight = umbrellaProps.blocksSunlight
             && pawnComp.mapComp.isSunlight == true
@@ -123,14 +123,14 @@ public class UmbrellaComp : ThingComp
         Notify_StateChanged();
     }
 
-    internal void Notify_WeatherChanged()
+    public void Notify_WeatherChanged()
     {
         var curWeatherLerped = pawnComp.mapComp.curWeatherLerped;
         canBlockWeather = umbrellaProps.BlocksWeather(curWeatherLerped);
         Notify_StateChanged();
     }
 
-    internal void Notify_SettingsChanged()
+    public void Notify_SettingsChanged()
     {
         var pawn = pawnComp.pawn;
         Notify_Unequipped(pawn);

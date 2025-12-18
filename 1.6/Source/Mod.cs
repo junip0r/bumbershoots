@@ -7,7 +7,7 @@ namespace Bumbershoots;
 public class Mod : Verse.Mod
 {
     private const string ID = "junip0r.bumbershoots";
-    internal static Settings settings;
+    public static Settings settings;
 
     public Mod(ModContentPack pack) : base(pack)
     {

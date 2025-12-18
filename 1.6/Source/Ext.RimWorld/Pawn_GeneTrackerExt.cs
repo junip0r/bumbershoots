@@ -2,9 +2,9 @@ using RimWorld;
 
 namespace Bumbershoots.Ext.RimWorld;
 
-internal static class Pawn_GeneTrackerExt
+public static class Pawn_GeneTrackerExt
 {
-    internal static bool HasUVSensitivity(this Pawn_GeneTracker @this)
+    public static bool HasUVSensitivity(this Pawn_GeneTracker @this)
     {
         var uvGeneDefs = GeneDefExt.UVSensitivityDefs;
         if (uvGeneDefs.Length == 0) return false;

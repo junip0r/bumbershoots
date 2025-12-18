@@ -3,9 +3,9 @@ using Verse;
 
 namespace Bumbershoots.Ext.Verse;
 
-internal static class ThingDefExt
+public static class ThingDefExt
 {
-    internal static readonly HashSet<string> Umbrellas =
+    public static readonly HashSet<string> Umbrellas =
     [
         "Bumber_Parasol",
         "Bumber_Umbrella",
@@ -13,7 +13,7 @@ internal static class ThingDefExt
         "Bumber_FashionUmbrella",
     ];
 
-    internal static bool IsUmbrella(this ThingDef @this)
+    public static bool IsUmbrella(this ThingDef @this)
     {
         return Umbrellas.Contains(@this.defName);
     }

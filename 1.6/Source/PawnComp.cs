@@ -5,12 +5,12 @@ namespace Bumbershoots;
 
 public class PawnComp : ThingComp
 {
-    internal Pawn pawn;
-    internal MapComp mapComp;
-    internal UmbrellaComp umbrellaComp;
-    internal bool isWildMan;
-    internal bool hasSunlightSensitivity;
-    internal bool dead;
+    public Pawn pawn;
+    public MapComp mapComp;
+    public UmbrellaComp umbrellaComp;
+    public bool isWildMan;
+    public bool hasSunlightSensitivity;
+    public bool dead;
 
     public override void Initialize(CompProperties props)
     {
@@ -39,23 +39,23 @@ public class PawnComp : ThingComp
         mapComp = null;
     }
 
-    internal void Notify_GenesChanged()
+    public void Notify_GenesChanged()
     {
         hasSunlightSensitivity = pawn.HasSunlightSensitivity();
         umbrellaComp?.Notify_PawnGenesChanged();
     }
 
-    internal void Notify_UmbrellaEquipped(UmbrellaComp umbrellaComp)
+    public void Notify_UmbrellaEquipped(UmbrellaComp umbrellaComp)
     {
         this.umbrellaComp = umbrellaComp;
     }
 
-    internal void Notify_UmbrellaUnequipped()
+    public void Notify_UmbrellaUnequipped()
     {
         umbrellaComp = null;
     }
 
-    internal void Notify_SettingsChanged()
+    public void Notify_SettingsChanged()
     {
         umbrellaComp?.Notify_SettingsChanged();
     }

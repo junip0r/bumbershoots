@@ -6,7 +6,7 @@ using Verse.AI;
 namespace Bumbershoots.Patch.Verse.AI;
 
 [HarmonyPatch(typeof(Pawn_MindState), nameof(Pawn_MindState.CanGainGainThoughtNow))]
-internal static class Pawn_MindState_CanGainGainThoughtNow
+public static class Pawn_MindState_CanGainGainThoughtNow
 {
     private static void Postfix(ref bool __result, Pawn_MindState __instance, ThoughtDef thought)
     {
