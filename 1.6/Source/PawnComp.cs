@@ -8,24 +8,24 @@ public class PawnComp : ThingComp
     public Pawn pawn;
     public MapComp mapComp;
     public UmbrellaComp umbrellaComp;
-    public bool isWildMan;
     public bool hasSunlightSensitivity;
     public bool dead;
 
+    public bool ShouldDisable => pawn is null || pawn.IsWildMan();
+
     public override void Initialize(CompProperties props)
     {
-        if (parent is not Pawn p)
+        pawn = parent as Pawn;
+        if (ShouldDisable)
         {
             parent.comps.Remove(this);
             return;
         }
         base.Initialize(props);
-        pawn = p;
     }
 
     public override void PostSpawnSetup(bool respawningAfterLoad)
     {
-        isWildMan = pawn.IsWildMan();
         hasSunlightSensitivity = pawn.HasSunlightSensitivity();
         dead = pawn.health.Dead;
         mapComp = pawn.Map.MapComp();
