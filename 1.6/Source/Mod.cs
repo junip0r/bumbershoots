@@ -6,7 +6,7 @@ namespace Bumbershoots;
 
 public class Mod : Verse.Mod
 {
-    private const string ID = "junip0r.bumbershoots";
+    public const string ID = "junip0r.bumbershoots";
     public static Settings settings;
 
     public Mod(ModContentPack pack) : base(pack)
@@ -15,7 +15,7 @@ public class Mod : Verse.Mod
         ApplyPatches();
     }
 
-    private void ApplyPatches()
+    public void ApplyPatches()
     {
         var harmony = new Harmony(ID);
         harmony.PatchAll();

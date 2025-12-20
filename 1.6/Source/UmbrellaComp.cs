@@ -7,16 +7,16 @@ namespace Bumbershoots;
 
 public class UmbrellaComp : ThingComp
 {
-    private static readonly List<PawnRenderNodeTagDef> renderNodeTags =
+    public static readonly List<PawnRenderNodeTagDef> renderNodeTags =
     [
         PawnRenderNodeTagDefOf.ApparelHead,
         PawnRenderNodeTagDefOf.ApparelBody,
     ];
 
     public Apparel apparel;
-    public PawnComp pawnComp;
     public UmbrellaProps umbrellaProps;
     public UmbrellaHediffs umbrellaHediffs;
+    public PawnComp pawnComp;
     public bool canBlockSunlight;
     public bool canBlockWeather;
     public bool activated;
@@ -26,7 +26,7 @@ public class UmbrellaComp : ThingComp
     public bool BlockingWeather => activated && canBlockWeather;
 
     public bool ShouldDisable =>
-        apparel is null || !umbrellaProps.IsForDef(apparel.def.defName);
+        apparel == null || !umbrellaProps.IsForDef(apparel.def.defName);
 
     public override void Initialize(CompProperties props)
     {
@@ -64,7 +64,7 @@ public class UmbrellaComp : ThingComp
         }
     }
 
-    private void Notify_StateChanged()
+    public void Notify_StateChanged()
     {
         ticking = canBlockWeather || canBlockSunlight;
         if (!ticking && activated && !pawnComp.dead) Deactivate();
@@ -72,7 +72,7 @@ public class UmbrellaComp : ThingComp
 
     public override void Notify_Equipped(Pawn pawn)
     {
-        pawnComp = apparel.Wearer?.PawnComp();
+        pawnComp = pawn?.PawnComp();
         if (pawnComp == null) return;
         pawnComp.Notify_UmbrellaEquipped(this);
         if (Scribe.mode == LoadSaveMode.PostLoadInit)
@@ -114,7 +114,7 @@ public class UmbrellaComp : ThingComp
     public void Notify_SunlightChanged()
     {
         canBlockSunlight = umbrellaProps.blocksSunlight
-            && pawnComp.mapComp.isSunlight == true
+            && pawnComp.mapComp.curIsSunlight == true
             && pawnComp.hasSunlightSensitivity;
         Notify_StateChanged();
     }
@@ -131,52 +131,53 @@ public class UmbrellaComp : ThingComp
         var pawn = pawnComp.pawn;
         Notify_Unequipped(pawn);
         Notify_Equipped(pawn);
-        CompTick();
     }
 
-    private void ConnectMapComp()
+    public void ConnectMapComp()
     {
         DisconnectMapComp();
         pawnComp.mapComp.SunlightChanged += Notify_SunlightChanged;
         pawnComp.mapComp.WeatherChanged += Notify_WeatherChanged;
     }
 
-    private void DisconnectMapComp()
+    public void DisconnectMapComp()
     {
         pawnComp.mapComp.SunlightChanged -= Notify_SunlightChanged;
         pawnComp.mapComp.WeatherChanged -= Notify_WeatherChanged;
     }
 
-    private void Activate()
+    public void Activate()
     {
         activated = true;
         umbrellaHediffs.Activate();
         DirtyGraphics();
     }
 
-    private void Deactivate()
+    public void Deactivate()
     {
         activated = false;
         umbrellaHediffs.Deactivate();
         DirtyGraphics();
     }
 
-    private void DirtyGraphics()
+    public void DirtyGraphics()
     {
         if (!pawnComp.pawn.Spawned) return;
-        DirtyApparelGraphics();
+        DirtyUmbrellaGraphics();
         DirtyPortraitGraphics();
     }
 
-    private void DirtyApparelGraphics()
+    public void DirtyUmbrellaGraphics()
     {
         var renderTree = pawnComp.pawn.Drawer.renderer.renderTree;
         if (!renderTree.Resolved) return;
-        for (var i = 0; i < renderNodeTags.Count; i++)
+        var count = renderNodeTags.Count;
+        for (var i = 0; i < count; i++)
         {
             var node = renderTree.nodesByTag.GetValueOrDefault(renderNodeTags[i]);
             if (node?.children == null) continue;
-            for (var j = 0; j < node.children.Length; j++)
+            var length = node.children.Length;
+            for (var j = 0; j < length; j++)
             {
                 var child = node.children[j];
                 if (child.apparel == apparel)
@@ -188,7 +189,7 @@ public class UmbrellaComp : ThingComp
         }
     }
 
-    private void DirtyPortraitGraphics()
+    public void DirtyPortraitGraphics()
     {
         PortraitsCache.SetDirty(pawnComp.pawn);
     }

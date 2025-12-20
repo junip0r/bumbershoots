@@ -9,19 +9,23 @@ public class UmbrellaHediffs
     public readonly HashSet<string> defNames = [];
     public readonly List<Hediff> hediffs = [];
 
-    private int Stage
+    public int Stage
     {
         set
         {
-            for (var i = 0; i < hediffs.Count; i++)
+            var count = hediffs.Count;
+            for (var i = 0; i < count; i++)
                 hediffs[i].Severity = hediffs[i].def.stages[value].minSeverity;
         }
     }
 
+    public void Activate() => Stage = 1;
+    public void Deactivate() => Stage = 0;
+
     public UmbrellaHediffs(UmbrellaProps umbrellaProps)
     {
         var allDefNames = umbrellaProps.hediffs;
-        if (allDefNames is null) return;
+        if (allDefNames == null) return;
         var count = allDefNames.Count;
         if (count == 0) return;
         defs.Capacity = count;
@@ -35,17 +39,18 @@ public class UmbrellaHediffs
         }
     }
 
-    private static bool IsHediffEnabled(HediffDef def)
+    public static bool IsHediffEnabled(HediffDef def)
     {
-        if (def.defName == DefOf.Bumber_CombatDebuff.defName) return Settings.encumberCombat;
-        if (def.defName == DefOf.Bumber_WorkDebuff.defName) return Settings.encumberWork;
+        if (def == DefOf.Bumber_CombatDebuff) return Settings.encumberCombat;
+        if (def == DefOf.Bumber_WorkDebuff) return Settings.encumberWork;
         return true;
     }
 
     public void Add(Pawn pawn)
     {
         if (hediffs.Count > 0) return;
-        for (var i = 0; i < defs.Count; i++)
+        var count = defs.Count;
+        for (var i = 0; i < count; i++)
         {
             var def = defs[i];
             if (!IsHediffEnabled(def)) continue;
@@ -58,28 +63,20 @@ public class UmbrellaHediffs
 
     public void Remove(Pawn pawn)
     {
-        for (var i = 0; i < hediffs.Count; i++)
+        var count = hediffs.Count;
+        for (var i = 0; i < count; i++)
             pawn.health.RemoveHediff(hediffs[i]);
         hediffs.Clear();
     }
 
     public void Load(Pawn pawn)
     {
-        for (var i = 0; i < pawn.health.hediffSet.hediffs.Count; i++)
+        var count = pawn.health.hediffSet.hediffs.Count;
+        for (var i = 0; i < count; i++)
         {
             var hediff = pawn.health.hediffSet.hediffs[i];
             if (defNames.Contains(hediff.def.defName)) hediffs.Add(hediff);
         }
         Add(pawn);
-    }
-
-    public void Activate()
-    {
-        Stage = 1;
-    }
-
-    public void Deactivate()
-    {
-        Stage = 0;
     }
 }

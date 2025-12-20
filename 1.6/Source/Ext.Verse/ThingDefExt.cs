@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace Bumbershoots.Ext.Verse;
@@ -13,6 +14,7 @@ public static class ThingDefExt
         "Bumber_FashionUmbrella",
     ];
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool IsUmbrella(this ThingDef @this)
     {
         return Umbrellas.Contains(@this.defName);

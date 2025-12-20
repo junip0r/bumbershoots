@@ -5,7 +5,7 @@ namespace Bumbershoots.Ext.Verse;
 
 public static class WeatherDefExt
 {
-    private static readonly HashSet<string> SnowWeatherDefNames = [];
+    public static readonly HashSet<string> SnowWeatherDefNames = [];
 
     public static bool IsSnow(this WeatherDef @this)
     {

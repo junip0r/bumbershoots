@@ -11,7 +11,7 @@ public class PawnComp : ThingComp
     public bool hasSunlightSensitivity;
     public bool dead;
 
-    public bool ShouldDisable => pawn is null || pawn.IsWildMan();
+    public bool ShouldDisable => pawn == null || pawn.IsWildMan();
 
     public override void Initialize(CompProperties props)
     {
@@ -39,12 +39,6 @@ public class PawnComp : ThingComp
         mapComp = null;
     }
 
-    public void Notify_GenesChanged()
-    {
-        hasSunlightSensitivity = pawn.HasSunlightSensitivity();
-        umbrellaComp?.Notify_PawnGenesChanged();
-    }
-
     public void Notify_UmbrellaEquipped(UmbrellaComp umbrellaComp)
     {
         this.umbrellaComp = umbrellaComp;
@@ -53,6 +47,12 @@ public class PawnComp : ThingComp
     public void Notify_UmbrellaUnequipped()
     {
         umbrellaComp = null;
+    }
+
+    public void Notify_GenesChanged()
+    {
+        hasSunlightSensitivity = pawn.HasSunlightSensitivity();
+        umbrellaComp?.Notify_PawnGenesChanged();
     }
 
     public void Notify_SettingsChanged()

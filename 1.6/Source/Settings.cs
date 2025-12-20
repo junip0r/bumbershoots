@@ -24,14 +24,12 @@ public class Settings : ModSettings
 
     public override void ExposeData()
     {
-        base.ExposeData();
         Scribe_Values.Look(ref showUmbrellas, nameof(showUmbrellas), true);
         Scribe_Values.Look(ref umbrellasBlockSun, nameof(umbrellasBlockSun), true);
         Scribe_Values.Look(ref umbrellaClothing, nameof(umbrellaClothing), true);
         Scribe_Values.Look(ref encumberCombat, nameof(encumberCombat), true);
         Scribe_Values.Look(ref encumberWork, nameof(encumberWork), true);
     }
-
 
     public void DoWindowContents(Rect rect)
     {

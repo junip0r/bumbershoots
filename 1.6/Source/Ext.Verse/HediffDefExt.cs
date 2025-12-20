@@ -1,11 +1,12 @@
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using Verse;
 
 namespace Bumbershoots.Ext.Verse;
 
 public static class HediffDefExt
 {
-    private static readonly HashSet<string> UmbrellaProsthetics =
+    public static readonly HashSet<string> UmbrellaProsthetics =
     [
         // FIXME figure out where these hediffs come from
 
@@ -23,6 +24,7 @@ public static class HediffDefExt
         "SteelArm",
     ];
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool IsUmbrellaProsthetic(this HediffDef @this)
     {
         return UmbrellaProsthetics.Contains(@this.defName);

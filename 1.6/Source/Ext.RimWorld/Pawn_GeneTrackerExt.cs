@@ -9,10 +9,14 @@ public static class Pawn_GeneTrackerExt
         var uvGeneDefs = GeneDefExt.UVSensitivityDefs;
         if (uvGeneDefs.Length == 0) return false;
         var genes = @this.GenesListForReading;
-        for (var i = 0; i < genes.Count; i++)
-            for (var j = 0; j < uvGeneDefs.Length; j++)
+        var count = genes.Count;
+        for (var i = 0; i < count; i++)
+        {
+            var length = uvGeneDefs.Length;
+            for (var j = 0; j < length; j++)
                 if (genes[i].def == uvGeneDefs[j] && genes[i].Active)
                     return true;
+        }
         return false;
     }
 }

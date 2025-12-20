@@ -8,7 +8,7 @@ namespace Bumbershoots.Patch.Verse.AI;
 [HarmonyPatch(typeof(Pawn_MindState), nameof(Pawn_MindState.CanGainGainThoughtNow))]
 public static class Pawn_MindState_CanGainGainThoughtNow
 {
-    private static void Postfix(ref bool __result, Pawn_MindState __instance, ThoughtDef thought)
+    public static void Postfix(ref bool __result, Pawn_MindState __instance, ThoughtDef thought)
     {
         if (!__result) return;
         if (thought != __instance.pawn.Map.weatherManager.CurWeatherLerped.weatherThought) return;

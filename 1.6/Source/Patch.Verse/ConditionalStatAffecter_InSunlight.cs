@@ -8,7 +8,7 @@ namespace Bumbershoots.Patch.Verse;
 [HarmonyPatch(typeof(ConditionalStatAffecter_InSunlight), nameof(ConditionalStatAffecter_InSunlight.Applies))]
 public static class ConditionalStatAffecter_InSunlight_Applies
 {
-    private static void Postfix(ref bool __result, StatRequest req)
+    public static void Postfix(ref bool __result, StatRequest req)
     {
         if (!__result) return;
         if (req.Thing is not Pawn p) return;

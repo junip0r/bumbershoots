@@ -7,7 +7,7 @@ public static class Log
     // Format
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string Format(string msg)
+    public static string Format(string msg)
     {
         return $"[☔] {msg}";
     }

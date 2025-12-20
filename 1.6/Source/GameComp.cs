@@ -8,7 +8,7 @@ namespace Bumbershoots;
 public class GameComp(Game _) : GameComponent()
 {
     public static int settingsHashCode;
-    private static int prevSettingsHashCode;
+    public static int prevSettingsHashCode;
 
     public override void StartedNewGame()
     {
@@ -26,7 +26,8 @@ public class GameComp(Game _) : GameComponent()
         if (settingsHashCode == prevSettingsHashCode) return;
         prevSettingsHashCode = settingsHashCode;
         var maps = Find.Maps;
-        for (var i = 0; i < maps.Count; i++)
+        var count = maps.Count;
+        for (var i = 0; i < count; i++)
             maps[i].Notify_SettingsChanged();
     }
 

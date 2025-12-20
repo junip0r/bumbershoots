@@ -8,24 +8,24 @@ namespace Bumbershoots;
 
 public class MapComp(Map map) : MapComponent(map)
 {
-    private static float SkyGlowDarkness = 0.1f;
+    public static float SkyGlowDarkness = 0.1f;
 
     public event Action SunlightChanged;
     public event Action WeatherChanged;
 
-    public bool? isSunlight;
+    public bool? curIsSunlight;
     public bool? prevIsSunlight;
     public WeatherDef curWeatherLerped;
-    public WeatherDef prevCurWeatherLerped;
+    public WeatherDef prevWeatherLerped;
     public bool isRain;
 
-    private bool GetIsSunlight() => map.skyManager.CurSkyGlow > SkyGlowDarkness;
+    public bool GetIsSunlight() => map.skyManager.CurSkyGlow > SkyGlowDarkness;
 
-    private WeatherDef GetCurWeatherLerped() => map.weatherManager.CurWeatherLerped;
+    public WeatherDef GetCurWeatherLerped() => map.weatherManager.CurWeatherLerped;
 
     public override void ExposeData()
     {
-        Scribe_Values.Look(ref isSunlight, nameof(isSunlight));
+        Scribe_Values.Look(ref curIsSunlight, nameof(curIsSunlight));
         Scribe_Defs.Look(ref curWeatherLerped, nameof(curWeatherLerped));
         Scribe_Values.Look(ref isRain, nameof(isRain));
     }
@@ -34,13 +34,13 @@ public class MapComp(Map map) : MapComponent(map)
     {
         if (Settings.umbrellasBlockSun)
         {
-            prevIsSunlight = isSunlight;
-            isSunlight = GetIsSunlight();
-            if (isSunlight != prevIsSunlight) SunlightChanged?.Invoke();
+            prevIsSunlight = curIsSunlight;
+            curIsSunlight = GetIsSunlight();
+            if (curIsSunlight != prevIsSunlight) SunlightChanged?.Invoke();
         }
-        prevCurWeatherLerped = curWeatherLerped;
+        prevWeatherLerped = curWeatherLerped;
         curWeatherLerped = GetCurWeatherLerped();
-        if (curWeatherLerped != prevCurWeatherLerped)
+        if (curWeatherLerped != prevWeatherLerped)
         {
             isRain = curWeatherLerped.IsRain();
             WeatherChanged?.Invoke();
@@ -51,7 +51,7 @@ public class MapComp(Map map) : MapComponent(map)
     {
         if (Settings.umbrellasBlockSun)
         {
-            isSunlight = GetIsSunlight();
+            curIsSunlight = GetIsSunlight();
             SunlightChanged?.Invoke();
         }
     }

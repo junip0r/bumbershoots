@@ -22,14 +22,14 @@ public static class PawnExt
         return pawnComp.umbrellaComp;
     }
 
+    public static bool HasSunlightSensitivity(this Pawn @this)
+    {
+        return @this.genes.HasUVSensitivity();
+    }
+
     public static void Notify_SettingsChanged(this Pawn @this)
     {
         if (@this.PawnComp() is not PawnComp pawnComp) return;
         pawnComp.Notify_SettingsChanged();
-    }
-
-    public static bool HasSunlightSensitivity(this Pawn @this)
-    {
-        return @this.genes.HasUVSensitivity();
     }
 }

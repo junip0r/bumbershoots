@@ -18,13 +18,14 @@ public static class MapExt
     public static void Notify_SettingsChanged(this Map @this)
     {
         @this.MapComp().Notify_SettingsChanged();
-        Notify_SettingsChanged(@this.mapPawns.AllPawnsSpawned);
+        Notify_SettingsChanged(@this.mapPawns.pawnsSpawned);
         Notify_SettingsChanged(@this.mapPawns.AllPawnsUnspawned);
     }
 
-    private static void Notify_SettingsChanged(IReadOnlyList<Pawn> pawns)
+    public static void Notify_SettingsChanged(List<Pawn> pawns)
     {
-        for (var i = 0; i < pawns.Count; i++)
+        var count = pawns.Count;
+        for (var i = 0; i < count; i++)
             pawns[i].Notify_SettingsChanged();
     }
 }
